@@ -1,0 +1,71 @@
+{
+  "name": "Elven Lost Soul",
+  "size": "Medium",
+  "type": "Undead (Elf)",
+  "alignment": "typically Chaotic Neutral",
+  "source": "Homebrew",
+  "ac": 12,
+  "hp": 44,
+  "hitDice": "8d8 + 8",
+  "initiative": "+2",
+  "speed": "0 ft., Fly 40 ft. (hover)",
+  "cr": "2 (450 XP; PB +2)",
+  "abilities": {
+    "str": { "score": 6, "save": null },
+    "dex": { "score": 14, "save": null },
+    "con": { "score": 12, "save": null },
+    "int": { "score": 12, "save": null },
+    "wis": { "score": 14, "save": 4 },
+    "cha": { "score": 16, "save": 5 }
+  },
+  "skills": "Insight +4, Performance +5, Perception +4",
+  "resistances": "Acid, Cold, Fire, Lightning, Thunder; Bludgeoning, Piercing, and Slashing from nonmagical attacks",
+  "immunities": "Necrotic, Poison",
+  "vulnerabilities": "",
+  "conditionImmunities": "Charmed, Exhaustion, Grappled, Paralyzed, Petrified, Poisoned, Prone, Restrained",
+  "senses": "Darkvision 60 ft., Passive Perception 14",
+  "languages": "Common, Elvish, Sylvan",
+  "traits": [
+    {
+      "name": "Incorporeal Movement",
+      "description": "The lost soul can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+    },
+    {
+      "name": "Fey Ancestry",
+      "description": "The lost soul retains fragments of its fey nature. It has advantage on saving throws against being charmed, and magic can't put it to sleep."
+    },
+    {
+      "name": "Lingering Joy",
+      "description": "The lost soul emanates a faint aura of warmth and nostalgia. Each creature of the lost soul's choice that starts its turn within 10 feet of it must succeed on a DC 13 Wisdom saving throw or become charmed until the start of its next turn. While charmed in this way, the creature is filled with bittersweet happiness and has disadvantage on attack rolls against the lost soul. A creature that succeeds on this save is immune to this lost soul's Lingering Joy for 24 hours."
+    },
+    {
+      "name": "Undead Nature",
+      "description": "The lost soul doesn't require air, food, drink, or sleep."
+    }
+  ],
+  "actions": [
+    {
+      "name": "Sorrowful Touch",
+      "description": "*Melee Spell Attack*: +5 to hit, reach 5 ft., one target. *Hit*: 10 (2d6 + 3) psychic damage. A creature hit by this attack feels a wave of profound melancholy but takes no visible wound."
+    },
+    {
+      "name": "Echoes of the Feywild (Recharge 5–6)",
+      "description": "*Wisdom Saving Throw*: DC 13, each creature within 20 feet that can hear the lost soul. *Failure*: 9 (2d8) psychic damage and the target has the Frightened condition until the end of its next turn as it is overwhelmed by visions of the Feywild forever lost. *Success*: Half damage and the creature is not frightened."
+    }
+  ],
+  "bonusActions": [
+    {
+      "name": "Fey Step (Recharge 4–6)",
+      "description": "The lost soul teleports, along with any equipment it is wearing or carrying, up to 30 feet to an unoccupied space it can see. When it reappears, flowers briefly bloom and wilt at its feet."
+    }
+  ],
+  "reactions": [],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "An Elven Lost Soul is the lingering spirit of a Feywild elf who perished while carrying an unresolved sorrow — an unrequited love, a broken oath to the Seelie Court, or the destruction of a sacred grove. Unlike most undead, these spirits are not inherently malevolent. They drift through the world trailing faint music and the scent of wildflowers, their translucent forms still bearing the ethereal beauty of their former lives.\n\nThey laugh, they dance, they hum half-remembered songs — but beneath the joy lies a grief so deep it can wound the living. Those who linger too long near a Lost Soul may find themselves weeping without knowing why, or paralyzed by a longing for something they cannot name.\n\nMost Lost Souls haunt places of natural beauty — moonlit clearings, ancient elven ruins, or the banks of rivers where the boundary between the Material Plane and the Feywild grows thin. They are not hostile by nature, but their sorrow is a weapon they cannot fully control, and they may lash out when reminded of what they have lost.",
+  "habitat": "Forest, Feywild Crossings, Ruins",
+  "treasure": "Individual"
+}

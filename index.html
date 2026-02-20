@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#2c2418">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DnD Toolkit">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<title>D&D 5e Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --parchment:#f5f0e1;--parchment-dark:#e8dcc8;--parchment-shadow:#d4c5a9;
+  --ink:#1a1410;--ink-faded:#6b5d4d;
+  --accent-red:#8b1a1a;--accent-gold:#b8860b;--accent-gold-light:#d4a940;
+  --border-dark:#2c2418;--stat-bg:#2c2418;--stat-text:#f5f0e1;
+  --sb-red:#922610;--sb-rule:#e69a28;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--stat-bg);font-family:'Alegreya',Georgia,serif;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+
+.hero{text-align:center;padding:40px 20px 20px}
+.hero h1{font-family:'Cinzel',serif;font-size:32px;font-weight:900;color:var(--accent-gold-light);letter-spacing:2px;margin-bottom:4px}
+.hero p{font-family:'Alegreya',serif;font-size:15px;color:var(--stat-text);opacity:0.6;font-style:italic}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;padding:20px;max-width:960px;width:100%}
+
+.card{
+  background:var(--parchment);border:2px solid var(--parchment-shadow);border-radius:10px;
+  padding:28px 24px;text-decoration:none;color:var(--ink);
+  transition:all 0.2s;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,0.3);border-color:var(--accent-gold)}
+.card:active{transform:translateY(0)}
+
+.card-icon{font-size:40px;margin-bottom:12px}
+.card-title{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--sb-red);margin-bottom:6px}
+.card-desc{font-size:14px;color:var(--ink-faded);line-height:1.5;flex:1}
+.card-arrow{font-family:'Cinzel',serif;font-size:13px;color:var(--accent-gold);margin-top:12px;font-weight:700;letter-spacing:1px}
+
+/* Library section */
+.library{max-width:960px;width:100%;padding:0 20px 40px}
+.lib-title{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--accent-gold-light);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;padding-left:4px}
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.lib-item{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;
+  padding:10px 14px;display:flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--stat-text);
+}
+.lib-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.lib-dot.monster{background:#6e1b1b}
+.lib-dot.player{background:#1b4d6e}
+.lib-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lib-meta{font-size:11px;color:rgba(255,255,255,0.4);font-family:'Alegreya SC',serif}
+
+.lib-empty{color:rgba(255,255,255,0.3);font-style:italic;font-size:13px;padding:8px 4px}
+
+/* Footer */
+.footer{padding:20px;text-align:center;font-size:11px;color:rgba(255,255,255,0.2);font-family:'Alegreya SC',serif;letter-spacing:1px}
+
+@media(max-width:600px){
+  .hero h1{font-size:24px}
+  .cards{grid-template-columns:1fr;padding:12px}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>⚔ D&D 5e Toolkit</h1>
+  <p>Combat Tracker · Monster Creator · Character Creator</p>
+</div>
+
+<div class="cards">
+  <a class="card" href="tools/combat-tracker.html">
+    <div class="card-icon">⚔</div>
+    <div class="card-title">Combat Tracker</div>
+    <div class="card-desc">Track initiative, HP, conditions, concentration, and death saves. Load monsters and players from your library. Preview stat blocks and character sheets side-by-side.</div>
+    <div class="card-arrow">Open →</div>
+  </a>
+
+  <a class="card" href="tools/monster-creator.html">
+    <div class="card-icon">🐉</div>
+    <div class="card-title">Monster Creator</div>
+    <div class="card-desc">Build monster stat blocks with live preview in aidedd 2024 style. Export as JSON, Markdown, or self-contained HTML. Load and edit existing creatures.</div>
+    <div class="card-arrow">Open →</div>
+  </a>
+
+  <a class="card" href="tools/character-creator.html">
+    <div class="card-icon">🛡</div>
+    <div class="card-title">Character Creator</div>
+    <div class="card-desc">Create and edit full D&D 5e 2024 player characters. Abilities, skills, attacks, spellcasting, features, equipment, and personality. Export as JSON.</div>
+    <div class="card-arrow">Open →</div>
+  </a>
+</div>
+
+<div class="library">
+  <div class="lib-title">📚 Your Library</div>
+  <div id="monsterLib"><div class="lib-empty">Loading monsters...</div></div>
+  <div style="height:12px"></div>
+  <div id="playerLib"><div class="lib-empty">Loading players...</div></div>
+</div>
+
+<div class="footer">D&D 5e Toolkit · Add JSONs to data/ and update data/index.json</div>
+
+<script>
+// Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW registration failed:', err));
+}
+
+// Load library from index.json
+async function loadLibrary() {
+  try {
+    const resp = await fetch('./data/index.json');
+    const idx = await resp.json();
+
+    // Monsters
+    const mEl = document.getElementById('monsterLib');
+    if (idx.monsters && idx.monsters.length > 0) {
+      const items = await Promise.all(idx.monsters.map(async file => {
+        try {
+          const r = await fetch(`./data/monsters/${file}`);
+          const d = await r.json();
+          return { name: d.name || file, cr: d.cr || '', file };
+        } catch(e) { return { name: file, cr: '', file }; }
+      }));
+      mEl.innerHTML = `<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:6px;font-family:'Alegreya SC',serif;">Monsters (${items.length})</div><div class="lib-grid">${items.map(m =>
+        `<div class="lib-item"><div class="lib-dot monster"></div><div class="lib-name">${esc(m.name)}</div><div class="lib-meta">${m.cr ? 'CR ' + esc(m.cr.split('(')[0].trim()) : ''}</div></div>`
+      ).join('')}</div>`;
+    } else {
+      mEl.innerHTML = `<div class="lib-empty">No monsters in library</div>`;
+    }
+
+    // Players
+    const pEl = document.getElementById('playerLib');
+    if (idx.players && idx.players.length > 0) {
+      const items = await Promise.all(idx.players.map(async file => {
+        try {
+          const r = await fetch(`./data/players/${file}`);
+          const d = await r.json();
+          const name = d.basic?.name || d.name || file;
+          const meta = d.basic ? `Lv${d.basic.level} ${d.basic.class||''}` : '';
+          return { name, meta, file };
+        } catch(e) { return { name: file, meta: '', file }; }
+      }));
+      pEl.innerHTML = `<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:6px;font-family:'Alegreya SC',serif;">Players (${items.length})</div><div class="lib-grid">${items.map(p =>
+        `<div class="lib-item"><div class="lib-dot player"></div><div class="lib-name">${esc(p.name)}</div><div class="lib-meta">${esc(p.meta)}</div></div>`
+      ).join('')}</div>`;
+    } else {
+      pEl.innerHTML = `<div class="lib-empty">No players in library</div>`;
+    }
+  } catch(e) {
+    document.getElementById('monsterLib').innerHTML = `<div class="lib-empty">Could not load library (data/index.json)</div>`;
+    document.getElementById('playerLib').innerHTML = '';
+  }
+}
+
+function esc(s) { if(!s)return''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+loadLibrary();
+</script>
+</body>
+</html>

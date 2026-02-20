@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2c2418">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="../icon-192.png">
+<link rel="manifest" href="../manifest.json">
+<title>Monster Creator — D&D 5e Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --parchment: #f5f0e1;
+  --parchment-dark: #e8dcc8;
+  --parchment-shadow: #d4c5a9;
+  --ink: #1a1410;
+  --ink-light: #3d3427;
+  --ink-faded: #6b5d4d;
+  --accent-red: #8b1a1a;
+  --accent-gold: #b8860b;
+  --accent-gold-light: #d4a940;
+  --border-dark: #2c2418;
+  --border-mid: #5c4a32;
+  --stat-bg: #2c2418;
+  --stat-text: #f5f0e1;
+  --field-bg: rgba(255,255,255,0.5);
+  --field-focus: rgba(184,134,11,0.15);
+  --success: #2d5a27;
+  --danger: #8b1a1a;
+  /* Stat block theme - matching aidedd style */
+  --sb-bg: #fdf1dc;
+  --sb-border: #e69a28;
+  --sb-red: #922610;
+  --sb-text: #333;
+  --sb-rule: #e69a28;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #2c2418;
+  font-family: 'Alegreya', Georgia, serif;
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ─── LAYOUT: SIDE BY SIDE ─── */
+.app-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+@media (max-width: 1100px) {
+  .app-layout { grid-template-columns: 1fr; }
+}
+
+/* ─── EDITOR PANEL ─── */
+.editor-panel {
+  background: var(--parchment);
+  overflow-y: auto;
+  max-height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.editor-header {
+  background: var(--stat-bg);
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.editor-header h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--accent-gold-light);
+  letter-spacing: 1px;
+}
+
+.editor-actions { display: flex; gap: 6px; }
+
+.editor-body { padding: 16px 20px 40px; }
+
+/* ─── PREVIEW PANEL ─── */
+.preview-panel {
+  background: #3a3028;
+  overflow-y: auto;
+  max-height: 100vh;
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preview-label {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  color: #8a7e6a;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+/* ─── BUTTONS ─── */
+.btn {
+  padding: 6px 14px;
+  border: 1.5px solid var(--border-mid);
+  border-radius: 4px;
+  font-family: 'Alegreya SC', serif;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--parchment-dark);
+  color: var(--ink);
+}
+.btn:hover { background: var(--parchment-shadow); }
+.btn-primary { background: var(--accent-gold); color: white; border-color: var(--accent-gold); }
+.btn-primary:hover { background: var(--accent-gold-light); }
+.btn-danger { background: var(--danger); color: white; border-color: var(--danger); }
+.btn-danger:hover { opacity: 0.85; }
+.btn-success { background: var(--success); color: white; border-color: var(--success); }
+.btn-success:hover { opacity: 0.85; }
+.btn-sm { padding: 3px 9px; font-size: 10px; }
+
+/* ─── FORM ELEMENTS ─── */
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent-red);
+  border-bottom: 2px solid var(--accent-red);
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.section-title:first-child { margin-top: 0; }
+.section-title.gold { color: var(--accent-gold); border-color: var(--accent-gold); }
+
+.form-row {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.form-row.cols-6 { grid-template-columns: repeat(6, 1fr); }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.form-group label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--ink-faded);
+  margin-bottom: 3px;
+}
+.form-group input, .form-group select, .form-group textarea {
+  padding: 6px 8px;
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 4px;
+  font-family: 'Alegreya', serif;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--field-bg);
+  transition: border-color 0.15s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  background: var(--field-focus);
+}
+.form-group input[type="number"] {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  text-align: center;
+}
+.form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+  line-height: 1.5;
+}
+
+/* ─── ABILITY TABLE EDITOR ─── */
+.ability-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.ab-edit-cell {
+  text-align: center;
+  background: var(--stat-bg);
+  border-radius: 6px;
+  padding: 8px 4px 6px;
+}
+.ab-edit-cell .ab-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--stat-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.ab-edit-cell input {
+  width: 44px;
+  padding: 4px 2px;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 700;
+  border: 1px solid var(--border-mid);
+  border-radius: 3px;
+  background: var(--parchment);
+}
+.ab-edit-cell .ab-mod {
+  font-size: 11px;
+  color: var(--accent-gold-light);
+  margin-top: 2px;
+  font-family: 'Cinzel', serif;
+}
+
+/* ─── LIST ITEM CARD ─── */
+.list-card {
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 5px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  background: rgba(255,255,255,0.3);
+}
+.list-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.list-card-header .lc-title {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  flex: 1;
+}
+.list-card-body { display: none; margin-top: 8px; }
+.list-card-body.open { display: block; }
+.lc-toggle {
+  font-size: 10px;
+  color: var(--accent-gold);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.lc-toggle.collapsed { transform: rotate(-90deg); }
+
+/* ═══════════════════════════════════════ */
+/* STAT BLOCK PREVIEW (aidedd-style)      */
+/* ═══════════════════════════════════════ */
+.stat-block {
+  background: var(--sb-bg);
+  border-top: 4px solid var(--sb-border);
+  border-bottom: 4px solid var(--sb-border);
+  padding: 0;
+  width: 100%;
+  max-width: 520px;
+  font-family: 'Alegreya', Georgia, serif;
+  color: var(--sb-text);
+  position: relative;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+
+/* Tapered rule SVG dividers */
+.tapered-rule {
+  display: block;
+  width: 100%;
+  height: 6px;
+  margin: 6px 0;
+}
+.tapered-rule svg {
+  width: 100%;
+  height: 6px;
+}
+
+.sb-content { padding: 12px 16px; }
+
+.sb-name {
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--sb-red);
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+
+.sb-meta {
+  font-style: italic;
+  font-size: 13px;
+  color: var(--sb-text);
+  margin-bottom: 2px;
+}
+
+/* Top stats (AC, HP, Speed, Init) */
+.sb-topstats {
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.sb-topstats .sb-label {
+  font-weight: 700;
+  color: var(--sb-red);
+}
+
+/* Ability table - aidedd 2024 style */
+.sb-abilities {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  margin: 4px 0;
+  font-size: 13px;
+  table-layout: fixed;
+}
+.sb-abilities th {
+  font-family: 'Alegreya SC', serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #666;
+  padding: 1px 2px;
+  font-weight: 400;
+}
+.sb-abilities th.ab-header-spacer {
+  width: 8px;
+}
+.sb-abilities td {
+  padding: 3px 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.sb-abilities .ab-name-cell {
+  font-family: 'Alegreya SC', serif;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: white;
+  background: var(--sb-red);
+  padding: 3px 6px;
+}
+.sb-abilities .ab-score-cell {
+  font-weight: 700;
+  color: var(--sb-text);
+  font-size: 14px;
+}
+.sb-abilities .ab-mod-cell {
+  color: var(--sb-text);
+}
+.sb-abilities .ab-save-cell {
+  color: var(--sb-text);
+}
+.sb-abilities .ab-spacer {
+  width: 8px;
+  border: none;
+}
+
+/* Properties (skills, immunities, etc.) */
+.sb-props {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.sb-props .sb-label {
+  font-weight: 700;
+  color: var(--sb-red);
+}
+
+/* Section headers (Traits, Actions, etc.) */
+.sb-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--sb-red);
+  border-bottom: 2px solid var(--sb-rule);
+  padding-bottom: 2px;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+/* Individual trait/action entries */
+.sb-entry {
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin-bottom: 6px;
+}
+.sb-entry .entry-name {
+  font-weight: 700;
+  font-style: italic;
+}
+.sb-entry .entry-text {
+  /* normal weight */
+}
+
+/* Description block */
+.sb-description {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #555;
+  font-style: italic;
+  margin-top: 10px;
+  padding-top: 6px;
+  border-top: 1px solid var(--sb-rule);
+}
+
+.sb-habitat {
+  font-size: 12.5px;
+  margin-top: 6px;
+}
+.sb-habitat .sb-label {
+  font-weight: 700;
+  color: var(--sb-red);
+}
+
+/* Export modal */
+.export-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+.export-modal-overlay.show { display: flex; }
+.export-modal {
+  background: var(--parchment);
+  border: 2px solid var(--border-dark);
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+.export-modal h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  color: var(--accent-red);
+  margin-bottom: 16px;
+}
+.export-btn-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.export-preview {
+  background: var(--field-bg);
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 4px;
+  padding: 12px;
+  font-family: monospace;
+  font-size: 11px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 400px;
+  overflow-y: auto;
+  color: var(--ink);
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  background: var(--stat-bg);
+  color: var(--accent-gold-light);
+  font-family: 'Alegreya SC', serif;
+  font-size: 13px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  z-index: 200;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .editor-panel, .preview-panel { max-height: none; position: static; }
+  .preview-panel { padding: 20px 16px; }
+}
+@media (max-width: 600px) {
+  .ability-edit-grid { grid-template-columns: repeat(3, 1fr); }
+  .form-row.cols-3, .form-row.cols-4 { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-layout">
+
+<!-- ════════════════════════════════ -->
+<!-- EDITOR PANEL                    -->
+<!-- ════════════════════════════════ -->
+<div class="editor-panel">
+  <div class="editor-header">
+    <div style="display:flex;align-items:center;gap:8px">
+      <a href="../index.html" style="text-decoration:none;color:var(--stat-text);font-family:'Alegreya SC',serif;font-size:11px;opacity:0.6">← Hub</a>
+      <h1>🐉 Monster Creator</h1>
+    </div>
+    <div class="editor-actions">
+      <button class="btn" onclick="showMonsterLib()">📚 Library</button>
+      <label class="btn">📂 Load <input type="file" accept=".json" id="fileInput" style="display:none;"></label>
+      <button class="btn btn-primary" onclick="showExportModal()">💾 Export</button>
+    </div>
+  </div>
+
+  <div class="editor-body">
+
+    <!-- BASIC INFO -->
+    <div class="section-title">Basic Information</div>
+    <div class="form-row cols-2">
+      <div class="form-group"><label>Monster Name</label><input type="text" id="m_name" oninput="update()" placeholder="e.g. Ancient Gold Dragon"></div>
+      <div class="form-group"><label>Size</label>
+        <select id="m_size" onchange="update()">
+          <option>Tiny</option><option>Small</option><option>Medium</option><option>Large</option><option>Huge</option><option selected>Gargantuan</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row cols-3">
+      <div class="form-group"><label>Creature Type</label><input type="text" id="m_type" oninput="update()" placeholder="e.g. Dragon (Metallic)"></div>
+      <div class="form-group"><label>Alignment</label><input type="text" id="m_alignment" oninput="update()" placeholder="e.g. Lawful Good"></div>
+      <div class="form-group"><label>Source</label><input type="text" id="m_source" oninput="update()" placeholder="e.g. Monster Manual 2024"></div>
+    </div>
+
+    <!-- CORE STATS -->
+    <div class="section-title">Core Statistics</div>
+    <div class="form-row cols-4">
+      <div class="form-group"><label>Armor Class</label><input type="number" id="m_ac" value="10" oninput="update()"></div>
+      <div class="form-group"><label>Hit Points</label><input type="number" id="m_hp" value="10" oninput="update()"></div>
+      <div class="form-group"><label>Hit Dice Formula</label><input type="text" id="m_hd" placeholder="e.g. 28d20 + 252" oninput="update()"></div>
+      <div class="form-group"><label>Initiative Bonus</label><input type="text" id="m_init" placeholder="e.g. +16 (26)" oninput="update()"></div>
+    </div>
+    <div class="form-row cols-2">
+      <div class="form-group"><label>Speed</label><input type="text" id="m_speed" placeholder="e.g. 40 ft., Fly 80 ft., Swim 40 ft." oninput="update()"></div>
+      <div class="form-group"><label>CR (full text)</label><input type="text" id="m_cr" placeholder="e.g. 24 (XP 62 000; PB +7)" oninput="update()"></div>
+    </div>
+
+    <!-- ABILITY SCORES -->
+    <div class="section-title">Ability Scores & Saves</div>
+    <div class="ability-edit-grid" id="abilityGrid"></div>
+
+    <!-- PROPERTIES -->
+    <div class="section-title gold">Properties</div>
+    <div class="form-group" style="margin-bottom:8px;"><label>Skills</label><input type="text" id="m_skills" placeholder="e.g. Insight +10, Perception +17" oninput="update()"></div>
+    <div class="form-row cols-2">
+      <div class="form-group"><label>Damage Resistances</label><input type="text" id="m_resistances" placeholder="e.g. Cold, Lightning" oninput="update()"></div>
+      <div class="form-group"><label>Damage Immunities</label><input type="text" id="m_immunities" placeholder="e.g. Fire" oninput="update()"></div>
+    </div>
+    <div class="form-row cols-2">
+      <div class="form-group"><label>Damage Vulnerabilities</label><input type="text" id="m_vulnerabilities" placeholder="e.g. Radiant" oninput="update()"></div>
+      <div class="form-group"><label>Condition Immunities</label><input type="text" id="m_condImmunities" placeholder="e.g. Charmed, Frightened" oninput="update()"></div>
+    </div>
+    <div class="form-row cols-2">
+      <div class="form-group"><label>Senses</label><input type="text" id="m_senses" placeholder="e.g. Blindsight 60 ft., Darkvision 120 ft." oninput="update()"></div>
+      <div class="form-group"><label>Languages</label><input type="text" id="m_languages" placeholder="e.g. Common, Draconic" oninput="update()"></div>
+    </div>
+
+    <!-- TRAITS -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;">
+      <div class="section-title" style="margin:0;">Traits</div>
+      <button class="btn btn-primary btn-sm" onclick="addEntry('traits')">+ Add Trait</button>
+    </div>
+    <div id="traitsList" style="margin-top:8px;"></div>
+
+    <!-- ACTIONS -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;">
+      <div class="section-title" style="margin:0;">Actions</div>
+      <button class="btn btn-primary btn-sm" onclick="addEntry('actions')">+ Add Action</button>
+    </div>
+    <div id="actionsList" style="margin-top:8px;"></div>
+
+    <!-- BONUS ACTIONS -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;">
+      <div class="section-title gold" style="margin:0;">Bonus Actions</div>
+      <button class="btn btn-primary btn-sm" onclick="addEntry('bonusActions')">+ Add</button>
+    </div>
+    <div id="bonusActionsList" style="margin-top:8px;"></div>
+
+    <!-- REACTIONS -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;">
+      <div class="section-title gold" style="margin:0;">Reactions</div>
+      <button class="btn btn-primary btn-sm" onclick="addEntry('reactions')">+ Add</button>
+    </div>
+    <div id="reactionsList" style="margin-top:8px;"></div>
+
+    <!-- LEGENDARY ACTIONS -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;">
+      <div class="section-title" style="margin:0;">Legendary Actions</div>
+      <button class="btn btn-primary btn-sm" onclick="addEntry('legendaryActions')">+ Add</button>
+    </div>
+    <div class="form-group" style="margin-top:8px;margin-bottom:8px;">
+      <label>Legendary Actions Preamble</label>
+      <textarea id="m_legendaryPreamble" oninput="update()" style="min-height:40px;" placeholder="e.g. Legendary Action Uses: 3. Immediately after another creature's turn..."></textarea>
+    </div>
+    <div id="legendaryActionsList"></div>
+
+    <!-- MYTHIC ACTIONS -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;">
+      <div class="section-title gold" style="margin:0;">Mythic Actions</div>
+      <button class="btn btn-primary btn-sm" onclick="addEntry('mythicActions')">+ Add</button>
+    </div>
+    <div class="form-group" style="margin-top:8px;margin-bottom:8px;">
+      <label>Mythic Actions Preamble</label>
+      <textarea id="m_mythicPreamble" oninput="update()" style="min-height:40px;" placeholder="Optional preamble..."></textarea>
+    </div>
+    <div id="mythicActionsList"></div>
+
+    <!-- LAIR ACTIONS -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;">
+      <div class="section-title gold" style="margin:0;">Lair Actions</div>
+      <button class="btn btn-primary btn-sm" onclick="addEntry('lairActions')">+ Add</button>
+    </div>
+    <div id="lairActionsList" style="margin-top:8px;"></div>
+
+    <!-- DESCRIPTION -->
+    <div class="section-title" style="margin-top:20px;">Description & Habitat</div>
+    <div class="form-group"><label>Description / Lore</label><textarea id="m_description" oninput="update()" style="min-height:80px;" placeholder="Lore description..."></textarea></div>
+    <div class="form-row cols-2">
+      <div class="form-group"><label>Habitat</label><input type="text" id="m_habitat" placeholder="e.g. Forest, Grassland" oninput="update()"></div>
+      <div class="form-group"><label>Treasure</label><input type="text" id="m_treasure" placeholder="e.g. Arcana" oninput="update()"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- PREVIEW PANEL                   -->
+<!-- ════════════════════════════════ -->
+<div class="preview-panel">
+  <div class="preview-label">Live Preview</div>
+  <div class="stat-block">
+    <div class="sb-content" id="statBlockPreview"></div>
+  </div>
+</div>
+
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="export-modal-overlay" id="exportModal">
+  <div class="export-modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2>Export Stat Block</h2>
+      <button class="btn btn-sm" onclick="hideExportModal()">✕ Close</button>
+    </div>
+    <div class="export-btn-row">
+      <button class="btn btn-primary" onclick="doExport('json')">Download JSON</button>
+      <button class="btn btn-success" onclick="doExport('md')">Download Markdown</button>
+      <button class="btn" onclick="doExport('html')">Download HTML</button>
+    </div>
+    <div class="export-btn-row">
+      <button class="btn btn-sm" onclick="showExportPreview('json')">Preview JSON</button>
+      <button class="btn btn-sm" onclick="showExportPreview('md')">Preview Markdown</button>
+      <button class="btn btn-sm" onclick="showExportPreview('html')">Preview HTML</button>
+    </div>
+    <pre class="export-preview" id="exportPreview" style="display:none;"></pre>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA MODEL
+// ═══════════════════════════════════════════
+const AB_KEYS = ['str','dex','con','int','wis','cha'];
+const AB_FULL = {str:'Str',dex:'Dex',con:'Con',int:'Int',wis:'Wis',cha:'Cha'};
+
+let monster = createBlank();
+
+function createBlank() {
+  return {
+    name: '', size: 'Gargantuan', type: '', alignment: '', source: '',
+    ac: 10, hp: 10, hitDice: '', initiative: '',
+    speed: '', cr: '',
+    abilities: { str:{score:10,save:null}, dex:{score:10,save:null}, con:{score:10,save:null},
+                 int:{score:10,save:null}, wis:{score:10,save:null}, cha:{score:10,save:null} },
+    skills: '', resistances: '', immunities: '', vulnerabilities: '', conditionImmunities: '',
+    senses: '', languages: '',
+    traits: [], actions: [], bonusActions: [], reactions: [],
+    legendaryPreamble: '', legendaryActions: [],
+    mythicPreamble: '', mythicActions: [],
+    lairActions: [],
+    description: '', habitat: '', treasure: ''
+  };
+}
+
+function mod(score) { return Math.floor((score - 10) / 2); }
+function modStr(v) { return v >= 0 ? `+${v}` : `${v}`; }
+function esc(s) { if(!s) return ''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+function init() {
+  renderAbilityGrid();
+  renderAllLists();
+  update();
+}
+
+function renderAbilityGrid() {
+  const grid = document.getElementById('abilityGrid');
+  grid.innerHTML = AB_KEYS.map(ab => {
+    const a = monster.abilities[ab];
+    const hasSave = a.save !== null && a.save !== undefined && a.save !== '';
+    return `<div class="ab-edit-cell">
+      <div class="ab-label">${AB_FULL[ab]}</div>
+      <input type="number" min="1" max="30" value="${a.score}" id="abs_${ab}" oninput="monster.abilities['${ab}'].score=parseInt(this.value)||10; updateAbMod('${ab}'); update();">
+      <div class="ab-mod" id="abm_${ab}">${modStr(mod(a.score))}</div>
+      <div style="margin-top:4px;">
+        <label style="font-size:8px;color:var(--stat-text);opacity:0.6;font-family:'Alegreya SC',serif;">SAVE</label>
+        <input type="text" value="${hasSave ? a.save : ''}" id="absv_${ab}" style="width:40px;padding:2px;text-align:center;font-size:12px;border:1px solid var(--border-mid);border-radius:2px;background:var(--parchment);"
+               placeholder="—" oninput="monster.abilities['${ab}'].save=this.value?parseInt(this.value):null; update();">
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateAbMod(ab) {
+  document.getElementById(`abm_${ab}`).textContent = modStr(mod(monster.abilities[ab].score));
+}
+
+// ═══════════════════════════════════════════
+// ENTRY LISTS (traits, actions, etc.)
+// ═══════════════════════════════════════════
+const listConfigs = {
+  traits: 'traitsList',
+  actions: 'actionsList',
+  bonusActions: 'bonusActionsList',
+  reactions: 'reactionsList',
+  legendaryActions: 'legendaryActionsList',
+  mythicActions: 'mythicActionsList',
+  lairActions: 'lairActionsList'
+};
+
+function renderAllLists() {
+  Object.keys(listConfigs).forEach(key => renderEntryList(key));
+}
+
+function renderEntryList(key) {
+  const el = document.getElementById(listConfigs[key]);
+  const arr = monster[key];
+  if (!arr.length) {
+    el.innerHTML = `<div style="font-size:12px;color:var(--ink-faded);font-style:italic;padding:4px 0;">None yet.</div>`;
+    return;
+  }
+  el.innerHTML = arr.map((entry, i) => `
+    <div class="list-card">
+      <div class="list-card-header" onclick="toggleCard(this)">
+        <span class="lc-toggle">▼</span>
+        <span class="lc-title">${entry.name || 'Unnamed'}</span>
+        <button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); removeEntry('${key}',${i})">✕</button>
+      </div>
+      <div class="list-card-body open">
+        <div class="form-group" style="margin-bottom:6px;">
+          <label>Name (with tags, e.g. "Fire Breath (Recharge 5-6)")</label>
+          <input type="text" value="${esc(entry.name)}" oninput="monster['${key}'][${i}].name=this.value; updateCardTitle(this); update();">
+        </div>
+        <div class="form-group">
+          <label>Description (use *text* for italic, **text** for bold)</label>
+          <textarea oninput="monster['${key}'][${i}].description=this.value; update();">${esc(entry.description)}</textarea>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addEntry(key) {
+  monster[key].push({ name: '', description: '' });
+  renderEntryList(key);
+  update();
+}
+
+function removeEntry(key, i) {
+  monster[key].splice(i, 1);
+  renderEntryList(key);
+  update();
+}
+
+function toggleCard(headerEl) {
+  const body = headerEl.nextElementSibling;
+  const toggle = headerEl.querySelector('.lc-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('collapsed');
+}
+
+function updateCardTitle(input) {
+  const card = input.closest('.list-card');
+  card.querySelector('.lc-title').textContent = input.value || 'Unnamed';
+}
+
+// ═══════════════════════════════════════════
+// COLLECT FROM FORM
+// ═══════════════════════════════════════════
+function collectFromForm() {
+  monster.name = document.getElementById('m_name').value;
+  monster.size = document.getElementById('m_size').value;
+  monster.type = document.getElementById('m_type').value;
+  monster.alignment = document.getElementById('m_alignment').value;
+  monster.source = document.getElementById('m_source').value;
+  monster.ac = parseInt(document.getElementById('m_ac').value) || 0;
+  monster.hp = parseInt(document.getElementById('m_hp').value) || 0;
+  monster.hitDice = document.getElementById('m_hd').value;
+  monster.initiative = document.getElementById('m_init').value;
+  monster.speed = document.getElementById('m_speed').value;
+  monster.cr = document.getElementById('m_cr').value;
+  monster.skills = document.getElementById('m_skills').value;
+  monster.resistances = document.getElementById('m_resistances').value;
+  monster.immunities = document.getElementById('m_immunities').value;
+  monster.vulnerabilities = document.getElementById('m_vulnerabilities').value;
+  monster.conditionImmunities = document.getElementById('m_condImmunities').value;
+  monster.senses = document.getElementById('m_senses').value;
+  monster.languages = document.getElementById('m_languages').value;
+  monster.legendaryPreamble = document.getElementById('m_legendaryPreamble').value;
+  monster.mythicPreamble = document.getElementById('m_mythicPreamble').value;
+  monster.description = document.getElementById('m_description').value;
+  monster.habitat = document.getElementById('m_habitat').value;
+  monster.treasure = document.getElementById('m_treasure').value;
+}
+
+function populateForm() {
+  document.getElementById('m_name').value = monster.name;
+  document.getElementById('m_size').value = monster.size;
+  document.getElementById('m_type').value = monster.type;
+  document.getElementById('m_alignment').value = monster.alignment;
+  document.getElementById('m_source').value = monster.source;
+  document.getElementById('m_ac').value = monster.ac;
+  document.getElementById('m_hp').value = monster.hp;
+  document.getElementById('m_hd').value = monster.hitDice;
+  document.getElementById('m_init').value = monster.initiative;
+  document.getElementById('m_speed').value = monster.speed;
+  document.getElementById('m_cr').value = monster.cr;
+  document.getElementById('m_skills').value = monster.skills;
+  document.getElementById('m_resistances').value = monster.resistances;
+  document.getElementById('m_immunities').value = monster.immunities;
+  document.getElementById('m_vulnerabilities').value = monster.vulnerabilities;
+  document.getElementById('m_condImmunities').value = monster.conditionImmunities;
+  document.getElementById('m_senses').value = monster.senses;
+  document.getElementById('m_languages').value = monster.languages;
+  document.getElementById('m_legendaryPreamble').value = monster.legendaryPreamble;
+  document.getElementById('m_mythicPreamble').value = monster.mythicPreamble;
+  document.getElementById('m_description').value = monster.description;
+  document.getElementById('m_habitat').value = monster.habitat;
+  document.getElementById('m_treasure').value = monster.treasure;
+  AB_KEYS.forEach(ab => {
+    document.getElementById(`abs_${ab}`).value = monster.abilities[ab].score;
+    document.getElementById(`absv_${ab}`).value = monster.abilities[ab].save !== null ? monster.abilities[ab].save : '';
+    updateAbMod(ab);
+  });
+}
+
+// ═══════════════════════════════════════════
+// LIVE PREVIEW
+// ═══════════════════════════════════════════
+function update() {
+  collectFromForm();
+  const m = monster;
+  const el = document.getElementById('statBlockPreview');
+
+  const taperedRule = `<div class="tapered-rule"><svg viewBox="0 0 400 6"><polygon points="0,3 400,0 400,6" fill="${getComputedStyle(document.documentElement).getPropertyValue('--sb-rule').trim()}"/></svg></div>`;
+
+  let html = '';
+
+  // Name & Meta
+  html += `<div class="sb-name">${esc(m.name) || 'Monster Name'}</div>`;
+  html += `<div class="sb-meta">${esc(m.size)} ${esc(m.type)}${m.alignment ? ', ' + esc(m.alignment) : ''}</div>`;
+
+  html += taperedRule;
+
+  // Top stats
+  html += `<div class="sb-topstats">`;
+  if (m.initiative) html += `<div><span class="sb-label">Initiative</span> ${esc(m.initiative)}</div>`;
+  html += `<div><span class="sb-label">AC</span> ${m.ac}</div>`;
+  html += `<div><span class="sb-label">HP</span> ${m.hp}${m.hitDice ? ' (' + esc(m.hitDice) + ')' : ''}</div>`;
+  if (m.speed) html += `<div><span class="sb-label">Speed</span> ${esc(m.speed)}</div>`;
+  html += `</div>`;
+
+  html += taperedRule;
+
+  // Ability table - aidedd 2024 layout
+  function abRow(keys) {
+    let hdr = '', row = '';
+    keys.forEach((ab, idx) => {
+      if (idx > 0) { hdr += `<th class="ab-header-spacer"></th>`; row += `<td class="ab-spacer"></td>`; }
+      hdr += `<th></th><th></th><th>Mod</th><th>Save</th>`;
+      const a = m.abilities[ab];
+      const sv = a.save !== null && a.save !== undefined && a.save !== '' ? modStr(a.save) : modStr(mod(a.score));
+      row += `<td class="ab-name-cell">${AB_FULL[ab]}</td><td class="ab-score-cell">${a.score}</td><td class="ab-mod-cell">${modStr(mod(a.score))}</td><td class="ab-save-cell">${sv}</td>`;
+    });
+    return `<tr>${hdr}</tr><tr>${row}</tr>`;
+  }
+  html += `<table class="sb-abilities">`;
+  html += abRow(['str','dex','con']);
+  html += abRow(['int','wis','cha']);
+  html += `</table>`;
+
+  html += taperedRule;
+
+  // Properties
+  html += `<div class="sb-props">`;
+  if (m.skills) html += `<div><span class="sb-label">Skills</span> ${esc(m.skills)}</div>`;
+  if (m.resistances) html += `<div><span class="sb-label">Resistances</span> ${esc(m.resistances)}</div>`;
+  if (m.immunities) html += `<div><span class="sb-label">Immunities</span> ${esc(m.immunities)}</div>`;
+  if (m.vulnerabilities) html += `<div><span class="sb-label">Vulnerabilities</span> ${esc(m.vulnerabilities)}</div>`;
+  if (m.conditionImmunities) html += `<div><span class="sb-label">Condition Immunities</span> ${esc(m.conditionImmunities)}</div>`;
+  if (m.senses) html += `<div><span class="sb-label">Senses</span> ${esc(m.senses)}</div>`;
+  if (m.languages) html += `<div><span class="sb-label">Languages</span> ${esc(m.languages)}</div>`;
+  if (m.cr) html += `<div><span class="sb-label">CR</span> ${esc(m.cr)}</div>`;
+  html += `</div>`;
+
+  // Traits
+  if (m.traits.length) {
+    html += taperedRule;
+    html += `<div class="sb-section-title">Traits</div>`;
+    m.traits.forEach(t => { html += renderEntry(t); });
+  }
+
+  // Actions
+  if (m.actions.length) {
+    html += `<div class="sb-section-title">Actions</div>`;
+    m.actions.forEach(t => { html += renderEntry(t); });
+  }
+
+  // Bonus Actions
+  if (m.bonusActions.length) {
+    html += `<div class="sb-section-title">Bonus Actions</div>`;
+    m.bonusActions.forEach(t => { html += renderEntry(t); });
+  }
+
+  // Reactions
+  if (m.reactions.length) {
+    html += `<div class="sb-section-title">Reactions</div>`;
+    m.reactions.forEach(t => { html += renderEntry(t); });
+  }
+
+  // Legendary Actions
+  if (m.legendaryActions.length) {
+    html += `<div class="sb-section-title">Legendary Actions</div>`;
+    if (m.legendaryPreamble) html += `<div class="sb-entry" style="font-size:12.5px;margin-bottom:8px;">${formatText(m.legendaryPreamble)}</div>`;
+    m.legendaryActions.forEach(t => { html += renderEntry(t); });
+  }
+
+  // Mythic Actions
+  if (m.mythicActions.length) {
+    html += `<div class="sb-section-title">Mythic Actions</div>`;
+    if (m.mythicPreamble) html += `<div class="sb-entry" style="font-size:12.5px;margin-bottom:8px;">${formatText(m.mythicPreamble)}</div>`;
+    m.mythicActions.forEach(t => { html += renderEntry(t); });
+  }
+
+  // Lair Actions
+  if (m.lairActions.length) {
+    html += `<div class="sb-section-title">Lair Actions</div>`;
+    m.lairActions.forEach(t => { html += renderEntry(t); });
+  }
+
+  // Description
+  if (m.description) {
+    html += `<div class="sb-description">${formatText(m.description)}</div>`;
+  }
+  if (m.habitat || m.treasure) {
+    html += `<div class="sb-habitat">`;
+    if (m.habitat) html += `<span class="sb-label">Habitat</span>: ${esc(m.habitat)}`;
+    if (m.habitat && m.treasure) html += ` · `;
+    if (m.treasure) html += `<span class="sb-label">Treasure</span>: ${esc(m.treasure)}`;
+    html += `</div>`;
+  }
+  if (m.source) {
+    html += `<div style="font-size:11px;color:#888;margin-top:6px;font-style:italic;">${esc(m.source)}</div>`;
+  }
+
+  el.innerHTML = html;
+}
+
+function renderEntry(entry) {
+  if (!entry.name && !entry.description) return '';
+  return `<div class="sb-entry"><span class="entry-name">${esc(entry.name)}.</span> <span class="entry-text">${formatText(entry.description)}</span></div>`;
+}
+
+function formatText(text) {
+  if (!text) return '';
+  let s = esc(text);
+  // **bold** → <b>
+  s = s.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  // *italic* → <i>
+  s = s.replace(/\*(.+?)\*/g, '<i>$1</i>');
+  // newlines
+  s = s.replace(/\n/g, '<br>');
+  return s;
+}
+
+// ═══════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════
+function showExportModal() {
+  collectFromForm();
+  document.getElementById('exportModal').classList.add('show');
+  document.getElementById('exportPreview').style.display = 'none';
+}
+function hideExportModal() { document.getElementById('exportModal').classList.remove('show'); }
+
+function showExportPreview(format) {
+  const pre = document.getElementById('exportPreview');
+  pre.style.display = 'block';
+  if (format === 'json') pre.textContent = generateJSON();
+  else if (format === 'md') pre.textContent = generateMarkdown();
+  else pre.textContent = generateHTML();
+}
+
+function doExport(format) {
+  collectFromForm();
+  let content, ext, mime;
+  if (format === 'json') { content = generateJSON(); ext = 'json'; mime = 'application/json'; }
+  else if (format === 'md') { content = generateMarkdown(); ext = 'md'; mime = 'text/markdown'; }
+  else { content = generateHTML(); ext = 'html'; mime = 'text/html'; }
+
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safeName = (monster.name || 'monster').replace(/[^a-zA-Z0-9_'-]/g, '_');
+  a.href = url;
+  a.download = `${safeName}.${ext}`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast(`Exported ${safeName}.${ext}`);
+}
+
+// ─── JSON ───
+function generateJSON() {
+  return JSON.stringify(monster, null, 2);
+}
+
+// ─── MARKDOWN ───
+function generateMarkdown() {
+  const m = monster;
+  let md = '';
+  md += `# ${m.name || 'Monster'}\n\n`;
+  md += `*${m.size} ${m.type}${m.alignment ? ', ' + m.alignment : ''}*\n\n`;
+  md += `---\n\n`;
+  if (m.initiative) md += `**Initiative** ${m.initiative}\n\n`;
+  md += `**AC** ${m.ac}\n\n`;
+  md += `**HP** ${m.hp}${m.hitDice ? ' (' + m.hitDice + ')' : ''}\n\n`;
+  if (m.speed) md += `**Speed** ${m.speed}\n\n`;
+  md += `---\n\n`;
+
+  // Abilities table
+  md += `| | Score | Mod | Save | | Score | Mod | Save |\n`;
+  md += `|---|---|---|---|---|---|---|---|\n`;
+  const r1 = ['str','dex','con'];
+  const r2 = ['int','wis','cha'];
+  for (let i = 0; i < 3; i++) {
+    const a1 = m.abilities[r1[i]];
+    const a2 = m.abilities[r2[i]];
+    const sv1 = a1.save !== null && a1.save !== undefined && a1.save !== '' ? modStr(a1.save) : modStr(mod(a1.score));
+    const sv2 = a2.save !== null && a2.save !== undefined && a2.save !== '' ? modStr(a2.save) : modStr(mod(a2.score));
+    md += `| **${AB_FULL[r1[i]]}** | ${a1.score} | ${modStr(mod(a1.score))} | ${sv1} | **${AB_FULL[r2[i]]}** | ${a2.score} | ${modStr(mod(a2.score))} | ${sv2} |\n`;
+  }
+  md += `\n---\n\n`;
+
+  if (m.skills) md += `**Skills** ${m.skills}\n\n`;
+  if (m.resistances) md += `**Resistances** ${m.resistances}\n\n`;
+  if (m.immunities) md += `**Immunities** ${m.immunities}\n\n`;
+  if (m.vulnerabilities) md += `**Vulnerabilities** ${m.vulnerabilities}\n\n`;
+  if (m.conditionImmunities) md += `**Condition Immunities** ${m.conditionImmunities}\n\n`;
+  if (m.senses) md += `**Senses** ${m.senses}\n\n`;
+  if (m.languages) md += `**Languages** ${m.languages}\n\n`;
+  if (m.cr) md += `**CR** ${m.cr}\n\n`;
+
+  function addSection(title, entries, preamble) {
+    if (!entries.length) return;
+    md += `---\n\n### ${title}\n\n`;
+    if (preamble) md += `${preamble}\n\n`;
+    entries.forEach(e => {
+      md += `***${e.name}.*** ${e.description}\n\n`;
+    });
+  }
+
+  addSection('Traits', m.traits);
+  addSection('Actions', m.actions);
+  addSection('Bonus Actions', m.bonusActions);
+  addSection('Reactions', m.reactions);
+  addSection('Legendary Actions', m.legendaryActions, m.legendaryPreamble);
+  addSection('Mythic Actions', m.mythicActions, m.mythicPreamble);
+  addSection('Lair Actions', m.lairActions);
+
+  if (m.description) md += `---\n\n${m.description}\n\n`;
+  if (m.habitat) md += `**Habitat**: ${m.habitat}\n\n`;
+  if (m.treasure) md += `**Treasure**: ${m.treasure}\n\n`;
+  if (m.source) md += `*${m.source}*\n`;
+
+  return md;
+}
+
+// ─── HTML (self-contained stat block) ───
+function generateHTML() {
+  const m = monster;
+  const taperedSVG = `<svg viewBox="0 0 400 6" style="width:100%;height:6px;display:block;margin:6px 0;"><polygon points="0,3 400,0 400,6" fill="#e69a28"/></svg>`;
+
+  let body = '';
+  body += `<div class="sb-name">${he(m.name || 'Monster')}</div>\n`;
+  body += `<div class="sb-meta">${he(m.size)} ${he(m.type)}${m.alignment?', '+he(m.alignment):''}</div>\n`;
+  body += taperedSVG + '\n';
+
+  body += `<div class="sb-topstats">\n`;
+  if (m.initiative) body += `  <div><span class="sb-label">Initiative</span> ${he(m.initiative)}</div>\n`;
+  body += `  <div><span class="sb-label">AC</span> ${m.ac}</div>\n`;
+  body += `  <div><span class="sb-label">HP</span> ${m.hp}${m.hitDice?' ('+he(m.hitDice)+')':''}</div>\n`;
+  if (m.speed) body += `  <div><span class="sb-label">Speed</span> ${he(m.speed)}</div>\n`;
+  body += `</div>\n`;
+  body += taperedSVG + '\n';
+
+  // Ability table
+  // Ability table - aidedd 2024 layout
+  function expAbRow(keys) {
+    let hdr = '', row = '';
+    keys.forEach((ab, idx) => {
+      if (idx > 0) { hdr += `<th class="ab-header-spacer"></th>`; row += `<td class="ab-spacer"></td>`; }
+      hdr += `<th></th><th></th><th>Mod</th><th>Save</th>`;
+      const a = m.abilities[ab];
+      const sv = a.save!==null&&a.save!==undefined&&a.save!=='' ? modStr(a.save) : modStr(mod(a.score));
+      row += `<td class="ab-name-cell">${AB_FULL[ab]}</td><td class="ab-score-cell">${a.score}</td><td class="ab-mod-cell">${modStr(mod(a.score))}</td><td class="ab-save-cell">${sv}</td>`;
+    });
+    return `  <tr>${hdr}</tr>\n  <tr>${row}</tr>\n`;
+  }
+  body += `<table class="sb-abilities">\n`;
+  body += expAbRow(['str','dex','con']);
+  body += expAbRow(['int','wis','cha']);
+  body += `</table>\n`;
+  body += taperedSVG + '\n';
+
+  // Properties
+  body += `<div class="sb-props">\n`;
+  if (m.skills) body += `  <div><span class="sb-label">Skills</span> ${he(m.skills)}</div>\n`;
+  if (m.resistances) body += `  <div><span class="sb-label">Resistances</span> ${he(m.resistances)}</div>\n`;
+  if (m.immunities) body += `  <div><span class="sb-label">Immunities</span> ${he(m.immunities)}</div>\n`;
+  if (m.vulnerabilities) body += `  <div><span class="sb-label">Vulnerabilities</span> ${he(m.vulnerabilities)}</div>\n`;
+  if (m.conditionImmunities) body += `  <div><span class="sb-label">Condition Immunities</span> ${he(m.conditionImmunities)}</div>\n`;
+  if (m.senses) body += `  <div><span class="sb-label">Senses</span> ${he(m.senses)}</div>\n`;
+  if (m.languages) body += `  <div><span class="sb-label">Languages</span> ${he(m.languages)}</div>\n`;
+  if (m.cr) body += `  <div><span class="sb-label">CR</span> ${he(m.cr)}</div>\n`;
+  body += `</div>\n`;
+
+  function addSec(title, entries, preamble) {
+    if (!entries.length) return;
+    body += taperedSVG + '\n';
+    body += `<div class="sb-section-title">${title}</div>\n`;
+    if (preamble) body += `<div class="sb-entry" style="font-size:12.5px;margin-bottom:8px;">${fmtHtml(preamble)}</div>\n`;
+    entries.forEach(e => {
+      body += `<div class="sb-entry"><span class="entry-name">${he(e.name)}.</span> ${fmtHtml(e.description)}</div>\n`;
+    });
+  }
+
+  addSec('Traits', m.traits);
+  addSec('Actions', m.actions);
+  addSec('Bonus Actions', m.bonusActions);
+  addSec('Reactions', m.reactions);
+  addSec('Legendary Actions', m.legendaryActions, m.legendaryPreamble);
+  addSec('Mythic Actions', m.mythicActions, m.mythicPreamble);
+  addSec('Lair Actions', m.lairActions);
+
+  if (m.description) body += `<div class="sb-description">${fmtHtml(m.description)}</div>\n`;
+  if (m.habitat || m.treasure) {
+    body += `<div class="sb-habitat">`;
+    if (m.habitat) body += `<span class="sb-label">Habitat</span>: ${he(m.habitat)}`;
+    if (m.habitat && m.treasure) body += ` &middot; `;
+    if (m.treasure) body += `<span class="sb-label">Treasure</span>: ${he(m.treasure)}`;
+    body += `</div>\n`;
+  }
+  if (m.source) body += `<div style="font-size:11px;color:#888;margin-top:6px;font-style:italic;">${he(m.source)}</div>\n`;
+
+  // Full HTML document
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${he(m.name || 'Monster')} — Stat Block</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { background: #f4f0e5; display: flex; justify-content: center; padding: 40px 20px; font-family: 'Alegreya', Georgia, serif; margin: 0; }
+.stat-block { background: #fdf1dc; border-top: 4px solid #e69a28; border-bottom: 4px solid #e69a28; max-width: 520px; width: 100%; padding: 12px 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.15); color: #333; }
+.sb-name { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; color: #922610; line-height: 1.1; margin-bottom: 2px; }
+.sb-meta { font-style: italic; font-size: 13px; margin-bottom: 2px; }
+.sb-topstats { font-size: 13.5px; line-height: 1.6; }
+.sb-label { font-weight: 700; color: #922610; }
+.sb-abilities { width: 100%; border-collapse: collapse; text-align: center; margin: 4px 0; font-size: 13px; table-layout: fixed; }
+.sb-abilities th { font-family: 'Alegreya SC', serif; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: #666; padding: 1px 2px; font-weight: 400; }
+.sb-abilities th.ab-header-spacer { width: 8px; }
+.sb-abilities td { padding: 3px 4px; font-size: 13px; font-weight: 600; }
+.sb-abilities .ab-name-cell { font-family: 'Alegreya SC', serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: white; background: #922610; padding: 3px 6px; }
+.sb-abilities .ab-score-cell { font-weight: 700; font-size: 14px; }
+.sb-abilities .ab-mod-cell { }
+.sb-abilities .ab-save-cell { }
+.sb-abilities .ab-spacer { width: 8px; border: none; }
+.sb-props { font-size: 13px; line-height: 1.6; }
+.sb-section-title { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700; color: #922610; border-bottom: 2px solid #e69a28; padding-bottom: 2px; margin-top: 10px; margin-bottom: 6px; }
+.sb-entry { font-size: 13.5px; line-height: 1.55; margin-bottom: 6px; }
+.sb-entry .entry-name { font-weight: 700; font-style: italic; }
+.sb-description { font-size: 13px; line-height: 1.5; color: #555; font-style: italic; margin-top: 10px; padding-top: 6px; border-top: 1px solid #e69a28; }
+.sb-habitat { font-size: 12.5px; margin-top: 6px; }
+.sb-habitat .sb-label { font-weight: 700; color: #922610; }
+</style>
+</head>
+<body>
+<div class="stat-block">
+${body}
+</div>
+</body>
+</html>`;
+}
+
+function he(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function fmtHtml(text) {
+  if (!text) return '';
+  let s = he(text);
+  s = s.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  s = s.replace(/\*(.+?)\*/g, '<i>$1</i>');
+  s = s.replace(/\n/g, '<br>');
+  return s;
+}
+
+// ═══════════════════════════════════════════
+// LOAD JSON
+// ═══════════════════════════════════════════
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const data = JSON.parse(ev.target.result);
+      const blank = createBlank();
+      // Deep merge
+      Object.keys(blank).forEach(k => {
+        if (data[k] !== undefined) {
+          if (typeof blank[k] === 'object' && !Array.isArray(blank[k]) && blank[k] !== null) {
+            monster[k] = { ...blank[k], ...data[k] };
+          } else {
+            monster[k] = data[k];
+          }
+        } else {
+          monster[k] = blank[k];
+        }
+      });
+      renderAbilityGrid();
+      renderAllLists();
+      populateForm();
+      update();
+      showToast(`Loaded ${data.name || 'monster'}`);
+    } catch (err) { alert('Error parsing JSON: ' + err.message); }
+  };
+  reader.readAsText(file);
+  this.value = '';
+});
+
+// ═══════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ═══════════════════════════════════════════
+// LIBRARY LOADING
+// ═══════════════════════════════════════════
+async function showMonsterLib(){
+  const el=document.createElement('div');
+  el.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center;';
+  el.onclick=e=>{if(e.target===el)el.remove()};
+  const box=document.createElement('div');
+  box.style.cssText='background:var(--parchment);border:2px solid var(--border-dark);border-radius:8px;padding:20px;max-width:400px;width:90%;max-height:70vh;overflow-y:auto;';
+  box.innerHTML='<div style="font-family:Cinzel,serif;font-size:16px;font-weight:700;color:var(--accent-red);margin-bottom:12px;">📚 Load from Library</div><div id="_libItems" style="color:var(--ink-faded);font-style:italic;">Loading...</div>';
+  el.appendChild(box);document.body.appendChild(el);
+  try{
+    const r=await fetch('../data/index.json');const idx=await r.json();
+    const items=document.getElementById('_libItems');
+    if(!idx.monsters?.length){items.textContent='No monsters in library';return;}
+    let h='';
+    for(const f of idx.monsters){
+      try{const mr=await fetch(`../data/monsters/${f}`);const d=await mr.json();
+        h+=`<div style="padding:8px;border:1px solid var(--parchment-shadow);border-radius:4px;margin-bottom:4px;cursor:pointer;background:var(--field-bg)" onclick="libLoadMonster('../data/monsters/${f}');this.closest('[style*=fixed]').remove()">
+          <span style="font-weight:700">${d.name||f}</span> <span style="font-size:12px;color:var(--ink-faded)">${d.cr?'CR '+d.cr.split('(')[0].trim():''}</span>
+        </div>`;}catch(e){}
+    }
+    items.innerHTML=h||'No monsters found';
+  }catch(e){document.getElementById('_libItems').textContent='Could not load data/index.json';}
+}
+
+async function libLoadMonster(url){
+  try{const r=await fetch(url);const data=await r.json();
+    const blank=createBlank();
+    Object.keys(blank).forEach(k=>{if(data[k]!==undefined){if(typeof blank[k]==='object'&&!Array.isArray(blank[k])&&blank[k]!==null)monster[k]={...blank[k],...data[k]};else monster[k]=data[k];}else monster[k]=blank[k];});
+    renderAbilityGrid();renderAllLists();populateForm();update();
+    showToast(`Loaded ${data.name||'monster'}`);
+  }catch(e){showToast('Error loading file');}
+}
+
+// ═══════════════════════════════════════════
+// START
+// ═══════════════════════════════════════════
+init();
+</script>
+</body>
+</html>

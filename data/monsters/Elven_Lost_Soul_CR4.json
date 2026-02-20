@@ -1,0 +1,88 @@
+{
+  "name": "Elven Lost Soul (Greater)",
+  "size": "Medium",
+  "type": "Undead (Elf)",
+  "alignment": "typically Chaotic Neutral",
+  "source": "Homebrew",
+  "ac": 13,
+  "hp": 82,
+  "hitDice": "15d8 + 15",
+  "initiative": "+3",
+  "speed": "0 ft., Fly 40 ft. (hover)",
+  "cr": "4 (1100 XP; PB +2)",
+  "abilities": {
+    "str": { "score": 6, "save": null },
+    "dex": { "score": 16, "save": null },
+    "con": { "score": 12, "save": null },
+    "int": { "score": 14, "save": null },
+    "wis": { "score": 16, "save": 5 },
+    "cha": { "score": 18, "save": 6 }
+  },
+  "skills": "Insight +5, Performance +6, Perception +5, Persuasion +6",
+  "resistances": "Acid, Cold, Fire, Lightning, Thunder; Bludgeoning, Piercing, and Slashing from nonmagical attacks",
+  "immunities": "Necrotic, Poison",
+  "vulnerabilities": "",
+  "conditionImmunities": "Charmed, Exhaustion, Grappled, Paralyzed, Petrified, Poisoned, Prone, Restrained",
+  "senses": "Darkvision 60 ft., Passive Perception 15",
+  "languages": "Common, Elvish, Sylvan",
+  "traits": [
+    {
+      "name": "Incorporeal Movement",
+      "description": "The lost soul can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+    },
+    {
+      "name": "Fey Ancestry",
+      "description": "The lost soul retains fragments of its fey nature. It has advantage on saving throws against being charmed, and magic can't put it to sleep."
+    },
+    {
+      "name": "Lingering Joy",
+      "description": "The lost soul emanates a powerful aura of warmth and nostalgia. Each creature of the lost soul's choice that starts its turn within 15 feet of it must succeed on a DC 14 Wisdom saving throw or become charmed until the start of its next turn. While charmed in this way, the creature is filled with bittersweet happiness and has disadvantage on attack rolls against the lost soul. A creature that succeeds on this save is immune to this lost soul's Lingering Joy for 24 hours."
+    },
+    {
+      "name": "Between Worlds",
+      "description": "The lost soul exists on the threshold between the Material Plane and the Feywild. It can see 60 feet into the Feywild when on the Material Plane, and vice versa. As a bonus action, it can become visible or invisible to creatures on the opposite plane."
+    },
+    {
+      "name": "Undead Nature",
+      "description": "The lost soul doesn't require air, food, drink, or sleep."
+    }
+  ],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "The lost soul makes two Sorrowful Touch attacks."
+    },
+    {
+      "name": "Sorrowful Touch",
+      "description": "*Melee Spell Attack*: +6 to hit, reach 5 ft., one target. *Hit*: 11 (2d6 + 4) psychic damage. A creature reduced to 0 hit points by this attack doesn't die but falls unconscious and is stable. The creature is trapped in a vivid dream of the lost soul's happiest memories, and must be woken by another creature using an action."
+    },
+    {
+      "name": "Echoes of the Feywild (Recharge 5–6)",
+      "description": "*Wisdom Saving Throw*: DC 14, each creature within 30 feet that can hear the lost soul. The lost soul unleashes a haunting melody that warps the air with fleeting visions of the Feywild — sunlit glades that crumble to ash, laughter that turns to weeping. *Failure*: 14 (4d6) psychic damage and the target has the Frightened condition until the end of its next turn. *Success*: Half damage and the creature is not frightened."
+    },
+    {
+      "name": "Spellcasting",
+      "description": "The lost soul casts one of the following spells, requiring no material components and using Charisma as the spellcasting ability (spell save DC 14):\n\nAt will: *dancing lights, minor illusion, thaumaturgy*\n1/day each: *calm emotions, enthrall, faerie fire*"
+    }
+  ],
+  "bonusActions": [
+    {
+      "name": "Fey Step (Recharge 4–6)",
+      "description": "The lost soul teleports, along with any equipment it is wearing or carrying, up to 30 feet to an unoccupied space it can see. When it reappears, flowers briefly bloom and wilt around it, and creatures within 5 feet must succeed on a DC 14 Wisdom saving throw or be moved to tears, becoming incapacitated until the end of their next turn."
+    }
+  ],
+  "reactions": [
+    {
+      "name": "Mournful Rebuke",
+      "description": "When a creature within 30 feet that the lost soul can see deals damage to it, the lost soul can force the attacker to make a DC 14 Charisma saving throw. On a failure, the attacker takes 7 (2d6) psychic damage and must use its reaction, if available, to move up to half its speed directly away from the lost soul. On a success, the creature takes half damage and doesn't move."
+    }
+  ],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "A Greater Elven Lost Soul is the spirit of a Feywild elf of considerable power — a fey knight, an archdruid's consort, or a bard whose songs once shaped the seasons. Their deaths were not quiet. They fell to betrayal, to curses, or to the slow withering of a bond with the Feywild itself, severed by some catastrophe they could not prevent.\n\nThese spirits are far more aware than their lesser kin. They remember who they were. They remember their names, their loves, their oaths. And they remember the moment everything was taken from them. This makes them simultaneously more dangerous and more capable of reason. A Greater Lost Soul might bargain, might aid a party it sees as kindred spirits, or might become a tragic antagonist who genuinely believes it is protecting the world from a sorrow only it can perceive.\n\nTheir presence warps the environment more intensely than lesser Lost Souls. Trees bloom out of season in their wake, only to shed their petals moments later. Music drifts from nowhere. The air tastes like honey and salt. Those who spend too long in their company begin to forget their own sorrows, replacing them with the lost soul's — a gentle possession of the heart, not the body.\n\nGreater Lost Souls are sometimes found at the heart of corrupted Feywild crossings, maintaining a bridge between planes that should have closed long ago. They may be encountered as guardians of forgotten elven tombs, protectors of sleeping fey lords, or simply as wanderers — dancing alone in the moonlight, waiting for someone to remember the words to a song that ended centuries ago.",
+  "habitat": "Forest, Feywild Crossings, Ruins, Elven Tombs",
+  "treasure": "Individual, Arcana"
+}

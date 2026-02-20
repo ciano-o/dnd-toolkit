@@ -1,0 +1,22 @@
+{
+  "name": "D&D 5e Toolkit",
+  "short_name": "DnD Toolkit",
+  "description": "Combat Tracker, Monster Creator, and Character Creator for D&D 5e",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#1e1a14",
+  "theme_color": "#2c2418",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

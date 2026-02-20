@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2c2418">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="../icon-192.png">
+<link rel="manifest" href="../manifest.json">
+<title>Character Creator — D&D 5e Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --parchment: #f5f0e1;
+  --parchment-dark: #e8dcc8;
+  --parchment-shadow: #d4c5a9;
+  --ink: #1a1410;
+  --ink-light: #3d3427;
+  --ink-faded: #6b5d4d;
+  --accent-red: #8b1a1a;
+  --accent-gold: #b8860b;
+  --accent-gold-light: #d4a940;
+  --border-dark: #2c2418;
+  --border-mid: #5c4a32;
+  --section-bg: rgba(255,255,255,0.25);
+  --stat-bg: #2c2418;
+  --stat-text: #f5f0e1;
+  --hp-green: #2d5a27;
+  --hp-red: #8b1a1a;
+  --field-bg: rgba(255,255,255,0.5);
+  --field-focus: rgba(184,134,11,0.15);
+  --proficient: #b8860b;
+  --danger: #8b1a1a;
+  --success: #2d5a27;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #2c2418;
+  font-family: 'Alegreya', Georgia, serif;
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ─── MAIN CONTAINER ─── */
+.creator-container {
+  width: 100%;
+  max-width: 1100px;
+  background: var(--parchment);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(139,109,63,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 20%, rgba(139,109,63,0.04) 0%, transparent 60%);
+  border: 3px solid var(--border-dark);
+  box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 80px rgba(139,109,63,0.08);
+  position: relative;
+}
+
+.creator-container::before {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px solid var(--border-mid);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── TITLE BAR ─── */
+.title-bar {
+  background: var(--stat-bg);
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.title-bar h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--accent-gold-light);
+  letter-spacing: 2px;
+}
+
+.title-bar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ─── BUTTONS ─── */
+.btn {
+  padding: 7px 16px;
+  border: 1.5px solid var(--border-mid);
+  border-radius: 4px;
+  font-family: 'Alegreya SC', serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--parchment-dark);
+  color: var(--ink);
+  letter-spacing: 0.5px;
+}
+
+.btn:hover { background: var(--parchment-shadow); }
+
+.btn-primary {
+  background: var(--accent-gold);
+  color: white;
+  border-color: var(--accent-gold);
+}
+
+.btn-primary:hover { background: var(--accent-gold-light); }
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+
+.btn-danger:hover { opacity: 0.85; }
+
+.btn-success {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+
+.btn-success:hover { opacity: 0.85; }
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+.btn-icon {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+/* ─── TAB NAVIGATION ─── */
+.tab-nav {
+  display: flex;
+  border-bottom: 2px solid var(--border-dark);
+  background: var(--parchment-dark);
+  overflow-x: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-btn {
+  padding: 10px 18px;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--ink-faded);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tab-btn:hover { color: var(--ink); background: rgba(255,255,255,0.3); }
+
+.tab-btn.active {
+  color: var(--accent-red);
+  border-bottom-color: var(--accent-red);
+  background: rgba(255,255,255,0.3);
+}
+
+/* ─── TAB PANELS ─── */
+.tab-panel {
+  display: none;
+  padding: 20px 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-panel.active { display: block; }
+
+/* ─── FORM ELEMENTS ─── */
+.form-row {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.form-row.cols-5 { grid-template-columns: 1fr 1fr 1fr 1fr 1fr; }
+.form-row.cols-6 { grid-template-columns: repeat(6, 1fr); }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--ink-faded);
+  margin-bottom: 4px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 7px 10px;
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 4px;
+  font-family: 'Alegreya', serif;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--field-bg);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  background: var(--field-focus);
+}
+
+.form-group input[type="number"] {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  text-align: center;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+.form-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-gold);
+  cursor: pointer;
+}
+
+/* ─── SECTION HEADERS ─── */
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent-red);
+  border-bottom: 2px solid var(--accent-red);
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+  margin-top: 20px;
+}
+
+.section-title:first-child { margin-top: 0; }
+
+.section-title.gold {
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+}
+
+.section-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+  margin-top: 14px;
+}
+
+/* ─── ABILITY SCORE EDITOR ─── */
+.ability-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.ability-edit-card {
+  background: var(--stat-bg);
+  border: 2px solid var(--border-dark);
+  border-radius: 8px;
+  text-align: center;
+  padding: 10px 6px 8px;
+}
+
+.ability-edit-card .ab-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--stat-text);
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+.ability-edit-card input {
+  width: 52px;
+  padding: 6px 4px;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 900;
+  border: 1.5px solid var(--border-mid);
+  border-radius: 4px;
+  background: var(--parchment);
+  color: var(--ink);
+}
+
+.ability-edit-card input:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  background: var(--field-focus);
+}
+
+.ability-edit-card .ab-mod {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-gold-light);
+  margin-top: 4px;
+}
+
+/* ─── SKILLS GRID ─── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 20px;
+}
+
+.skill-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.skill-edit-row label {
+  font-size: 13px;
+  color: var(--ink-light);
+  cursor: pointer;
+  flex: 1;
+}
+
+.skill-edit-row .skill-ab {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+}
+
+/* ─── LIST ITEM CARDS (attacks, spells, features, resources) ─── */
+.list-item-card {
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  background: rgba(255,255,255,0.3);
+  position: relative;
+}
+
+.list-item-card:hover {
+  border-color: var(--border-mid);
+}
+
+.list-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.list-item-header .item-title {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  flex: 1;
+  cursor: pointer;
+}
+
+.list-item-body {
+  display: none;
+}
+
+.list-item-body.open { display: block; }
+
+.collapse-toggle {
+  font-size: 10px;
+  color: var(--accent-gold);
+  cursor: pointer;
+  transition: transform 0.2s;
+  user-select: none;
+  display: inline-block;
+}
+
+.collapse-toggle.collapsed { transform: rotate(-90deg); }
+
+/* ─── SPELL SLOT EDITOR ─── */
+.spell-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 8px;
+}
+
+.slot-edit-cell {
+  text-align: center;
+}
+
+.slot-edit-cell .slot-label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+  margin-bottom: 4px;
+}
+
+.slot-edit-cell input {
+  width: 44px;
+  padding: 5px 2px;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 700;
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 4px;
+  background: var(--field-bg);
+}
+
+/* ─── SPELL LEVEL TAB ─── */
+.spell-level-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.spell-level-tab {
+  padding: 5px 12px;
+  font-family: 'Alegreya SC', serif;
+  font-size: 11px;
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink-faded);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.spell-level-tab:hover { background: rgba(255,255,255,0.4); }
+
+.spell-level-tab.active {
+  background: var(--accent-gold);
+  color: white;
+  border-color: var(--accent-gold);
+}
+
+.spell-level-tab .spell-count {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+/* ─── EMPTY STATE ─── */
+.empty-state {
+  text-align: center;
+  padding: 24px;
+  color: var(--ink-faded);
+  font-style: italic;
+  font-size: 14px;
+}
+
+/* ─── SAVING THROWS CHECKBOXES ─── */
+.saves-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.save-check {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.save-check label {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-light);
+  cursor: pointer;
+}
+
+/* ─── EXPERTISE LIST ─── */
+.tag-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 8px;
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 4px;
+  background: var(--field-bg);
+  min-height: 38px;
+  align-items: center;
+  cursor: text;
+}
+
+.tag-input-container:focus-within {
+  border-color: var(--accent-gold);
+  background: var(--field-focus);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: var(--accent-gold);
+  color: white;
+  border-radius: 3px;
+  font-family: 'Alegreya SC', serif;
+  font-size: 11px;
+}
+
+.tag .tag-remove {
+  cursor: pointer;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.tag .tag-remove:hover { opacity: 1; }
+
+.tag-input-container input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Alegreya', serif;
+  font-size: 13px;
+  flex: 1;
+  min-width: 80px;
+  padding: 2px;
+}
+
+/* ─── CURRENCY ROW ─── */
+.currency-edit-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.currency-cell {
+  text-align: center;
+}
+
+.currency-cell .cc-label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  margin-bottom: 3px;
+}
+
+.currency-cell input {
+  width: 100%;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 6px;
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 4px;
+  background: var(--field-bg);
+}
+
+/* ─── FOOTER ─── */
+.creator-footer {
+  background: var(--parchment-dark);
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid var(--border-dark);
+  position: relative;
+  z-index: 1;
+}
+
+.footer-info {
+  font-family: 'Alegreya SC', serif;
+  font-size: 11px;
+  color: var(--ink-faded);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 800px) {
+  .ability-editor-grid { grid-template-columns: repeat(3, 1fr); }
+  .skills-grid { grid-template-columns: 1fr; }
+  .spell-slots-grid { grid-template-columns: repeat(5, 1fr); }
+  .saves-grid { grid-template-columns: repeat(3, 1fr); }
+  .form-row.cols-3, .form-row.cols-4 { grid-template-columns: 1fr 1fr; }
+  .form-row.cols-6 { grid-template-columns: repeat(3, 1fr); }
+  .currency-edit-row { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 500px) {
+  .ability-editor-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row.cols-2, .form-row.cols-3, .form-row.cols-4 { grid-template-columns: 1fr; }
+  .tab-btn { padding: 8px 12px; font-size: 11px; }
+}
+
+/* ─── DRAG HANDLE (for reordering) ─── */
+.drag-handle {
+  cursor: grab;
+  color: var(--ink-faded);
+  font-size: 14px;
+  user-select: none;
+  padding: 0 4px;
+}
+
+.drag-handle:active { cursor: grabbing; }
+
+/* ─── TOAST NOTIFICATION ─── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  background: var(--stat-bg);
+  color: var(--accent-gold-light);
+  font-family: 'Alegreya SC', serif;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid var(--border-mid);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  z-index: 1000;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+
+<div class="creator-container">
+  <!-- TITLE BAR -->
+  <div class="title-bar">
+    <div style="display:flex;align-items:center;gap:8px">
+      <a href="../index.html" style="text-decoration:none;color:var(--stat-text);font-family:'Alegreya SC',serif;font-size:11px;opacity:0.6">← Hub</a>
+      <h1>🛡 Character Creator</h1>
+    </div>
+    <div class="title-bar-actions">
+      <button class="btn" onclick="showCharLib()">📚 Library</button>
+      <label class="btn">
+        📂 Load JSON
+        <input type="file" accept=".json" id="fileInput" style="display:none;">
+      </label>
+      <button class="btn btn-success" onclick="exportJSON()">💾 Export JSON</button>
+      <button class="btn btn-danger btn-sm" onclick="resetAll();">Reset</button>
+    </div>
+  </div>
+
+  <!-- TAB NAVIGATION -->
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="basics">Basics</button>
+    <button class="tab-btn" data-tab="abilities">Abilities & Skills</button>
+    <button class="tab-btn" data-tab="combat">Combat</button>
+    <button class="tab-btn" data-tab="attacks">Attacks</button>
+    <button class="tab-btn" data-tab="spells">Spellcasting</button>
+    <button class="tab-btn" data-tab="features">Features</button>
+    <button class="tab-btn" data-tab="equipment">Equipment</button>
+    <button class="tab-btn" data-tab="personality">Personality</button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: BASICS -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel active" id="tab-basics">
+    <div class="section-title">Character Information</div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Character Name</label>
+        <input type="text" id="basic_name" placeholder="Enter character name">
+      </div>
+      <div class="form-group">
+        <label>Class</label>
+        <input type="text" id="basic_class" placeholder="e.g. Monk, Fighter, Wizard">
+      </div>
+    </div>
+    <div class="form-row cols-4">
+      <div class="form-group">
+        <label>Level</label>
+        <input type="number" id="basic_level" min="1" max="20" value="1">
+      </div>
+      <div class="form-group">
+        <label>Race</label>
+        <input type="text" id="basic_race" placeholder="e.g. Human, Elf">
+      </div>
+      <div class="form-group">
+        <label>Background</label>
+        <input type="text" id="basic_background" placeholder="e.g. Acolyte">
+      </div>
+      <div class="form-group">
+        <label>Alignment</label>
+        <select id="basic_alignment">
+          <option value="">Select...</option>
+          <option>Lawful Good</option><option>Neutral Good</option><option>Chaotic Good</option>
+          <option>Lawful Neutral</option><option>Neutral</option><option>Chaotic Neutral</option>
+          <option>Lawful Evil</option><option>Neutral Evil</option><option>Chaotic Evil</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Experience Points</label>
+        <input type="number" id="basic_xp" min="0" value="0">
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:28px;">Proficiencies & Languages</div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Proficiency Bonus</label>
+        <input type="number" id="prof_bonus" min="2" max="6" value="2">
+      </div>
+    </div>
+
+    <div class="section-subtitle">Saving Throw Proficiencies</div>
+    <div class="saves-grid" id="savesGrid"></div>
+
+    <div class="section-subtitle" style="margin-top:16px;">Armor Proficiencies</div>
+    <div id="armorProfs"></div>
+
+    <div class="section-subtitle" style="margin-top:12px;">Weapon Proficiencies</div>
+    <div id="weaponProfs"></div>
+
+    <div class="section-subtitle" style="margin-top:12px;">Tool Proficiencies</div>
+    <div id="toolProfs"></div>
+
+    <div class="section-subtitle" style="margin-top:12px;">Languages</div>
+    <div id="langProfs"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: ABILITIES & SKILLS -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-abilities">
+    <div class="section-title">Ability Scores</div>
+    <div class="ability-editor-grid" id="abilityEditorGrid"></div>
+
+    <div class="section-title">Skill Proficiencies</div>
+    <div class="skills-grid" id="skillsGrid"></div>
+
+    <div class="section-title" style="margin-top:20px;">Expertise</div>
+    <p style="font-size:12px;color:var(--ink-faded);margin-bottom:8px;">Type a skill name and press Enter to add expertise.</p>
+    <div id="expertiseContainer"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: COMBAT -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-combat">
+    <div class="section-title">Combat Statistics</div>
+    <div class="form-row cols-4">
+      <div class="form-group">
+        <label>Armor Class</label>
+        <input type="number" id="combat_ac" min="0" value="10">
+      </div>
+      <div class="form-group">
+        <label>Initiative</label>
+        <input type="number" id="combat_init" value="0">
+      </div>
+      <div class="form-group">
+        <label>Speed</label>
+        <input type="text" id="combat_speed" value="30 ft" placeholder="e.g. 30 ft">
+      </div>
+      <div class="form-group">
+        <label>Proficiency Bonus</label>
+        <input type="number" id="combat_prof" min="2" max="6" value="2" disabled style="opacity:0.6;">
+      </div>
+    </div>
+
+    <div class="section-title">Hit Points</div>
+    <div class="form-row cols-3">
+      <div class="form-group">
+        <label>Max HP</label>
+        <input type="number" id="combat_maxhp" min="1" value="10">
+      </div>
+      <div class="form-group">
+        <label>Current HP</label>
+        <input type="number" id="combat_curhp" min="0" value="10">
+      </div>
+      <div class="form-group">
+        <label>Temporary HP</label>
+        <input type="number" id="combat_temphp" min="0" value="0">
+      </div>
+    </div>
+
+    <div class="section-title">Hit Dice</div>
+    <div class="form-row cols-3">
+      <div class="form-group">
+        <label>Total Hit Dice</label>
+        <input type="number" id="hd_total" min="1" value="1">
+      </div>
+      <div class="form-group">
+        <label>Current Hit Dice</label>
+        <input type="number" id="hd_current" min="0" value="1">
+      </div>
+      <div class="form-group">
+        <label>Hit Die Type</label>
+        <select id="hd_type">
+          <option value="d6">d6</option>
+          <option value="d8" selected>d8</option>
+          <option value="d10">d10</option>
+          <option value="d12">d12</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-title">Death Saves</div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Successes (0-3)</label>
+        <input type="number" id="ds_successes" min="0" max="3" value="0">
+      </div>
+      <div class="form-group">
+        <label>Failures (0-3)</label>
+        <input type="number" id="ds_failures" min="0" max="3" value="0">
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: ATTACKS -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-attacks">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="section-title" style="margin:0;">Attacks & Actions</div>
+      <button class="btn btn-primary btn-sm" onclick="addAttack()">+ Add Attack</button>
+    </div>
+    <div style="margin-top:12px;" id="attacksList"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: SPELLS -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-spells">
+    <div class="section-title gold">Spellcasting Basics</div>
+    <div class="form-row cols-3">
+      <div class="form-group">
+        <label>Spellcasting Ability</label>
+        <select id="spell_ability">
+          <option value="">None</option>
+          <option value="int">Intelligence</option>
+          <option value="wis">Wisdom</option>
+          <option value="cha">Charisma</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Spell Save DC</label>
+        <input type="number" id="spell_dc" value="0">
+      </div>
+      <div class="form-group">
+        <label>Spell Attack Bonus</label>
+        <input type="number" id="spell_atk" value="0">
+      </div>
+    </div>
+
+    <div class="section-title gold" style="margin-top:20px;">Spell Slots</div>
+    <div class="spell-slots-grid" id="spellSlotsGrid"></div>
+
+    <div class="section-title gold" style="margin-top:24px;">Spells Known / Prepared</div>
+    <div class="spell-level-tabs" id="spellLevelTabs"></div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+      <button class="btn btn-primary btn-sm" onclick="addSpell()">+ Add Spell</button>
+    </div>
+    <div id="spellEditorArea"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: FEATURES -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-features">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="section-title" style="margin:0;">Features & Traits</div>
+      <button class="btn btn-primary btn-sm" onclick="addFeature()">+ Add Feature</button>
+    </div>
+    <div style="margin-top:12px;" id="featuresList"></div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;">
+      <div class="section-title gold" style="margin:0;">Resources</div>
+      <button class="btn btn-primary btn-sm" onclick="addResource()">+ Add Resource</button>
+    </div>
+    <div style="margin-top:12px;" id="resourcesList"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: EQUIPMENT -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-equipment">
+    <div class="section-title gold">Currency</div>
+    <div class="currency-edit-row" id="currencyEditor"></div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;">
+      <div class="section-title" style="margin:0;">Items</div>
+      <button class="btn btn-primary btn-sm" onclick="addItem()">+ Add Item</button>
+    </div>
+    <div style="margin-top:12px;" id="itemsList"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: PERSONALITY -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-personality">
+    <div class="section-title">Personality</div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Personality Traits</label>
+        <textarea id="pers_traits" placeholder="Describe your personality traits..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Ideals</label>
+        <textarea id="pers_ideals" placeholder="What drives you?"></textarea>
+      </div>
+    </div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Bonds</label>
+        <textarea id="pers_bonds" placeholder="Your connections to people, places..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Flaws</label>
+        <textarea id="pers_flaws" placeholder="Your weaknesses..."></textarea>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:12px;">
+      <label>Appearance</label>
+      <textarea id="pers_appearance" placeholder="Describe your character's appearance..."></textarea>
+    </div>
+    <div class="form-group" style="margin-top:12px;">
+      <label>Backstory</label>
+      <textarea id="pers_backstory" placeholder="Your character's history..." style="min-height:120px;"></textarea>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">Notes</div>
+    <div class="form-group">
+      <textarea id="char_notes" placeholder="Any additional notes..." style="min-height:100px;"></textarea>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="creator-footer">
+    <div class="footer-info" id="footerInfo">No character loaded</div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-success" onclick="exportJSON()">💾 Export JSON</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA MODEL
+// ═══════════════════════════════════════════
+const abilityKeys = ['str','dex','con','int','wis','cha'];
+const abilityLabels = { str:'STR', dex:'DEX', con:'CON', int:'INT', wis:'WIS', cha:'CHA' };
+const abilityFull = { str:'Strength', dex:'Dexterity', con:'Constitution', int:'Intelligence', wis:'Wisdom', cha:'Charisma' };
+const skillMap = {
+  acrobatics:'dex', animalHandling:'wis', arcana:'int', athletics:'str',
+  deception:'cha', history:'int', insight:'wis', intimidation:'cha',
+  investigation:'int', medicine:'wis', nature:'int', perception:'wis',
+  performance:'cha', persuasion:'cha', religion:'int', sleightOfHand:'dex',
+  stealth:'dex', survival:'wis'
+};
+const skillNames = {
+  acrobatics:'Acrobatics', animalHandling:'Animal Handling', arcana:'Arcana',
+  athletics:'Athletics', deception:'Deception', history:'History', insight:'Insight',
+  intimidation:'Intimidation', investigation:'Investigation', medicine:'Medicine',
+  nature:'Nature', perception:'Perception', performance:'Performance',
+  persuasion:'Persuasion', religion:'Religion', sleightOfHand:'Sleight of Hand',
+  stealth:'Stealth', survival:'Survival'
+};
+const spellLevelKeys = ['cantrips','level1','level2','level3','level4','level5','level6','level7','level8','level9'];
+const spellLevelLabels = {
+  cantrips:'Cantrips', level1:'1st Level', level2:'2nd Level', level3:'3rd Level',
+  level4:'4th Level', level5:'5th Level', level6:'6th Level',
+  level7:'7th Level', level8:'8th Level', level9:'9th Level'
+};
+
+// Current character state
+let char = createBlankCharacter();
+let activeSpellLevel = 'cantrips';
+
+function createBlankCharacter() {
+  const skills = {};
+  Object.keys(skillMap).forEach(s => skills[s] = false);
+  return {
+    meta: { version: '1.0', name: '', lastModified: new Date().toISOString() },
+    basic: { name: '', class: '', level: 1, race: '', background: '', alignment: '', experiencePoints: 0 },
+    abilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 },
+    combat: {
+      armorClass: 10, currentHP: 10, maxHP: 10, temporaryHP: 0,
+      initiative: 0, speed: '30 ft',
+      hitDice: { current: 1, total: 1, type: 'd8' },
+      deathSaves: { successes: 0, failures: 0 }
+    },
+    proficiencies: {
+      proficiencyBonus: 2, armor: [], weapons: [], tools: [], languages: [],
+      savingThrows: [], skills: skills, expertise: []
+    },
+    attacks: [],
+    spellcasting: {
+      ability: '', saveDC: 0, attackBonus: 0,
+      spellSlots: { '1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0,'8':0,'9':0 },
+      slotUsage: {}
+    },
+    spells: {
+      cantrips:[], level1:[], level2:[], level3:[], level4:[],
+      level5:[], level6:[], level7:[], level8:[], level9:[]
+    },
+    features: [],
+    resources: [],
+    equipment: { currency: { cp:0, sp:0, ep:0, gp:0, pp:0 }, items: [] },
+    personality: { traits:'', ideals:'', bonds:'', flaws:'', appearance:'', backstory:'' },
+    notes: ''
+  };
+}
+
+function mod(score) { return Math.floor((score - 10) / 2); }
+function modStr(v) { return v >= 0 ? `+${v}` : `${v}`; }
+
+// ═══════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+  });
+});
+
+// ═══════════════════════════════════════════
+// INITIALIZE ALL EDITORS
+// ═══════════════════════════════════════════
+function initEditors() {
+  initAbilityEditors();
+  initSavesGrid();
+  initSkillsGrid();
+  initExpertise();
+  initTagInputs();
+  initSpellSlotsGrid();
+  initSpellLevelTabs();
+  initCurrencyEditor();
+  renderAllLists();
+  populateFieldsFromChar();
+}
+
+// ─── ABILITY SCORE EDITORS ───
+function initAbilityEditors() {
+  const grid = document.getElementById('abilityEditorGrid');
+  grid.innerHTML = abilityKeys.map(ab => `
+    <div class="ability-edit-card">
+      <div class="ab-label">${abilityLabels[ab]}</div>
+      <input type="number" min="1" max="30" value="${char.abilities[ab]}" id="ab_${ab}"
+             onchange="char.abilities['${ab}']=parseInt(this.value)||10; updateAbilityMod('${ab}');">
+      <div class="ab-mod" id="abmod_${ab}">${modStr(mod(char.abilities[ab]))}</div>
+    </div>
+  `).join('');
+}
+
+function updateAbilityMod(ab) {
+  document.getElementById(`abmod_${ab}`).textContent = modStr(mod(char.abilities[ab]));
+}
+
+// ─── SAVING THROW CHECKBOXES ───
+function initSavesGrid() {
+  const grid = document.getElementById('savesGrid');
+  grid.innerHTML = abilityKeys.map(ab => `
+    <div class="save-check">
+      <input type="checkbox" id="save_${ab}" ${char.proficiencies.savingThrows.includes(ab)?'checked':''}
+             onchange="toggleSavingThrow('${ab}')">
+      <label for="save_${ab}">${abilityFull[ab]}</label>
+    </div>
+  `).join('');
+}
+
+function toggleSavingThrow(ab) {
+  const idx = char.proficiencies.savingThrows.indexOf(ab);
+  if (idx >= 0) char.proficiencies.savingThrows.splice(idx, 1);
+  else char.proficiencies.savingThrows.push(ab);
+}
+
+// ─── SKILL PROFICIENCIES ───
+function initSkillsGrid() {
+  const grid = document.getElementById('skillsGrid');
+  grid.innerHTML = Object.entries(skillMap).map(([skill, ab]) => `
+    <div class="skill-edit-row">
+      <input type="checkbox" id="skill_${skill}" ${char.proficiencies.skills[skill]?'checked':''}
+             onchange="char.proficiencies.skills['${skill}']=this.checked;">
+      <label for="skill_${skill}">${skillNames[skill]}</label>
+      <span class="skill-ab">${abilityLabels[ab]}</span>
+    </div>
+  `).join('');
+}
+
+// ─── EXPERTISE TAG INPUT ───
+function initExpertise() {
+  const container = document.getElementById('expertiseContainer');
+  const arr = char.proficiencies.expertise;
+  let html = '';
+  arr.forEach((item, i) => {
+    html += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+      <input type="text" value="${esc(item)}" style="flex:1;padding:5px 8px;border:1.5px solid var(--parchment-shadow);border-radius:4px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);"
+             onchange="char.proficiencies.expertise[${i}]=this.value;">
+      <button class="btn btn-danger btn-sm" onclick="char.proficiencies.expertise.splice(${i},1); initExpertise();">✕</button>
+    </div>`;
+  });
+  html += `<button class="btn btn-sm" onclick="char.proficiencies.expertise.push(''); initExpertise();">+ Add</button>`;
+  container.innerHTML = html;
+}
+
+// ─── SIMPLE LIST EDITORS (for armor, weapons, tools, languages, expertise) ───
+function initTagInputs() {
+  renderSimpleList('armorProfs', 'armor');
+  renderSimpleList('weaponProfs', 'weapons');
+  renderSimpleList('toolProfs', 'tools');
+  renderSimpleList('langProfs', 'languages');
+}
+
+function renderSimpleList(containerId, profKey) {
+  const container = document.getElementById(containerId);
+  const arr = char.proficiencies[profKey];
+  let html = '';
+  arr.forEach((item, i) => {
+    html += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+      <input type="text" value="${esc(item)}" style="flex:1;padding:5px 8px;border:1.5px solid var(--parchment-shadow);border-radius:4px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);"
+             onchange="char.proficiencies['${profKey}'][${i}]=this.value;">
+      <button class="btn btn-danger btn-sm" onclick="char.proficiencies['${profKey}'].splice(${i},1); renderSimpleList('${containerId}','${profKey}');">✕</button>
+    </div>`;
+  });
+  html += `<button class="btn btn-sm" onclick="char.proficiencies['${profKey}'].push(''); renderSimpleList('${containerId}','${profKey}');">+ Add</button>`;
+  container.innerHTML = html;
+}
+
+// ─── SPELL SLOTS GRID ───
+function initSpellSlotsGrid() {
+  const grid = document.getElementById('spellSlotsGrid');
+  grid.innerHTML = Array.from({length: 9}, (_, i) => {
+    const lvl = i + 1;
+    return `<div class="slot-edit-cell">
+      <div class="slot-label">Level ${lvl}</div>
+      <input type="number" min="0" max="9" value="${char.spellcasting.spellSlots[lvl] || 0}"
+             id="slot_${lvl}" onchange="char.spellcasting.spellSlots['${lvl}']=parseInt(this.value)||0;">
+    </div>`;
+  }).join('');
+}
+
+// ─── SPELL LEVEL TABS ───
+function initSpellLevelTabs() {
+  const container = document.getElementById('spellLevelTabs');
+  container.innerHTML = spellLevelKeys.map(key => {
+    const count = char.spells[key]?.length || 0;
+    return `<button class="spell-level-tab ${key === activeSpellLevel ? 'active' : ''}"
+                    data-level="${key}" onclick="switchSpellLevel('${key}')">
+      ${spellLevelLabels[key]} <span class="spell-count">${count}</span>
+    </button>`;
+  }).join('');
+}
+
+function switchSpellLevel(key) {
+  activeSpellLevel = key;
+  document.querySelectorAll('.spell-level-tab').forEach(t => t.classList.toggle('active', t.dataset.level === key));
+  renderSpellsList();
+}
+
+// ─── CURRENCY EDITOR ───
+function initCurrencyEditor() {
+  const el = document.getElementById('currencyEditor');
+  const coins = [['CP','cp'],['SP','sp'],['EP','ep'],['GP','gp'],['PP','pp']];
+  el.innerHTML = coins.map(([label, key]) => `
+    <div class="currency-cell">
+      <div class="cc-label">${label}</div>
+      <input type="number" min="0" value="${char.equipment.currency[key]}" id="cur_${key}"
+             onchange="char.equipment.currency['${key}']=parseInt(this.value)||0;">
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════
+// RENDER ALL DYNAMIC LISTS
+// ═══════════════════════════════════════════
+function renderAllLists() {
+  renderAttacksList();
+  renderSpellsList();
+  renderFeaturesList();
+  renderResourcesList();
+  renderItemsList();
+  updateSpellLevelCounts();
+}
+
+// ─── ATTACKS LIST ───
+function renderAttacksList() {
+  const el = document.getElementById('attacksList');
+  if (!char.attacks.length) {
+    el.innerHTML = '<div class="empty-state">No attacks yet. Click "+ Add Attack" to create one.</div>';
+    return;
+  }
+  el.innerHTML = char.attacks.map((atk, i) => `
+    <div class="list-item-card">
+      <div class="list-item-header">
+        <span class="collapse-toggle" onclick="toggleListItem(this)">▼</span>
+        <span class="item-title" onclick="toggleListItem(this)">${atk.name || 'Unnamed Attack'}</span>
+        <button class="btn btn-danger btn-sm" onclick="removeAttack(${i})">✕</button>
+      </div>
+      <div class="list-item-body open">
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" value="${esc(atk.name)}" onchange="char.attacks[${i}].name=this.value; renderAttacksList();">
+          </div>
+          <div class="form-group">
+            <label>Attack Bonus</label>
+            <input type="number" value="${atk.attackBonus||0}" onchange="char.attacks[${i}].attackBonus=parseInt(this.value)||0;">
+          </div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label>Damage Formula</label>
+            <input type="text" value="${esc(atk.damageFormula)}" placeholder="e.g. 1d8+4" onchange="char.attacks[${i}].damageFormula=this.value;">
+          </div>
+          <div class="form-group">
+            <label>Damage Type</label>
+            <input type="text" value="${esc(atk.damageType)}" placeholder="e.g. Slashing" onchange="char.attacks[${i}].damageType=this.value;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea onchange="char.attacks[${i}].notes=this.value;" style="min-height:50px;">${esc(atk.notes||'')}</textarea>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addAttack() {
+  char.attacks.push({ name:'', attackBonus:0, damageFormula:'', damageType:'', notes:'' });
+  renderAttacksList();
+}
+
+function removeAttack(i) {
+  char.attacks.splice(i, 1);
+  renderAttacksList();
+}
+
+// ─── SPELLS LIST ───
+function renderSpellsList() {
+  const el = document.getElementById('spellEditorArea');
+  const spells = char.spells[activeSpellLevel] || [];
+  if (!spells.length) {
+    el.innerHTML = `<div class="empty-state">No ${spellLevelLabels[activeSpellLevel].toLowerCase()} yet. Click "+ Add Spell" to create one.</div>`;
+    return;
+  }
+  el.innerHTML = spells.map((sp, i) => `
+    <div class="list-item-card">
+      <div class="list-item-header">
+        <span class="collapse-toggle" onclick="toggleListItem(this)">▼</span>
+        <span class="item-title" onclick="toggleListItem(this)">${sp.name || 'Unnamed Spell'}</span>
+        <label style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink-faded);cursor:pointer;">
+          <input type="checkbox" ${sp.prepared?'checked':''} onchange="char.spells['${activeSpellLevel}'][${i}].prepared=this.checked;">
+          Prepared
+        </label>
+        <button class="btn btn-danger btn-sm" onclick="removeSpell(${i})">✕</button>
+      </div>
+      <div class="list-item-body open">
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label>Spell Name</label>
+            <input type="text" value="${esc(sp.name)}" onchange="char.spells['${activeSpellLevel}'][${i}].name=this.value; renderSpellsList(); updateSpellLevelCounts();">
+          </div>
+          <div class="form-group">
+            <label>School / Level</label>
+            <input type="text" value="${esc(sp.level||'')}" placeholder="e.g. Level 1 Evocation" onchange="char.spells['${activeSpellLevel}'][${i}].level=this.value;">
+          </div>
+        </div>
+        <div class="form-row cols-3">
+          <div class="form-group">
+            <label>Casting Time</label>
+            <input type="text" value="${esc(sp.castingTime||'')}" placeholder="e.g. 1 action" onchange="char.spells['${activeSpellLevel}'][${i}].castingTime=this.value;">
+          </div>
+          <div class="form-group">
+            <label>Range</label>
+            <input type="text" value="${esc(sp.range||'')}" placeholder="e.g. 60 feet" onchange="char.spells['${activeSpellLevel}'][${i}].range=this.value;">
+          </div>
+          <div class="form-group">
+            <label>Duration</label>
+            <input type="text" value="${esc(sp.duration||'')}" placeholder="e.g. Instantaneous" onchange="char.spells['${activeSpellLevel}'][${i}].duration=this.value;">
+          </div>
+        </div>
+        <div class="form-row cols-3">
+          <div class="form-group">
+            <label>Components</label>
+            <input type="text" value="${esc(sp.components||'')}" placeholder="V, S, M (...)" onchange="char.spells['${activeSpellLevel}'][${i}].components=this.value;">
+          </div>
+          <div class="form-group">
+            <label>Classes</label>
+            <input type="text" value="${esc(sp.classes||'')}" placeholder="e.g. Wizard, Sorcerer" onchange="char.spells['${activeSpellLevel}'][${i}].classes=this.value;">
+          </div>
+          <div class="form-group">
+            <label>Source</label>
+            <input type="text" value="${esc(sp.source||'')}" placeholder="e.g. Player's Handbook" onchange="char.spells['${activeSpellLevel}'][${i}].source=this.value;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea style="min-height:80px;" onchange="char.spells['${activeSpellLevel}'][${i}].description=this.value;">${esc(sp.description||'')}</textarea>
+        </div>
+        ${activeSpellLevel === 'cantrips' ? `
+        <div class="form-group" style="margin-top:8px;">
+          <label>Cantrip Upgrade</label>
+          <textarea style="min-height:40px;" onchange="char.spells['${activeSpellLevel}'][${i}].cantripUpgrade=this.value;">${esc(sp.cantripUpgrade||'')}</textarea>
+        </div>` : `
+        <div class="form-group" style="margin-top:8px;">
+          <label>At Higher Levels</label>
+          <textarea style="min-height:40px;" onchange="char.spells['${activeSpellLevel}'][${i}].higherLevel=this.value;">${esc(sp.higherLevel||'')}</textarea>
+        </div>`}
+      </div>
+    </div>
+  `).join('');
+}
+
+function addSpell() {
+  const sp = { name:'', source:'', level:'', classes:'', castingTime:'', range:'', components:'', duration:'', description:'', prepared:false };
+  if (activeSpellLevel === 'cantrips') sp.cantripUpgrade = '';
+  else sp.higherLevel = '';
+  char.spells[activeSpellLevel].push(sp);
+  renderSpellsList();
+  updateSpellLevelCounts();
+}
+
+function removeSpell(i) {
+  char.spells[activeSpellLevel].splice(i, 1);
+  renderSpellsList();
+  updateSpellLevelCounts();
+}
+
+function updateSpellLevelCounts() {
+  document.querySelectorAll('.spell-level-tab').forEach(tab => {
+    const key = tab.dataset.level;
+    const count = char.spells[key]?.length || 0;
+    tab.querySelector('.spell-count').textContent = count;
+  });
+}
+
+// ─── FEATURES LIST ───
+function renderFeaturesList() {
+  const el = document.getElementById('featuresList');
+  if (!char.features.length) {
+    el.innerHTML = '<div class="empty-state">No features yet. Click "+ Add Feature" to create one.</div>';
+    return;
+  }
+  el.innerHTML = char.features.map((feat, i) => `
+    <div class="list-item-card">
+      <div class="list-item-header">
+        <span class="collapse-toggle" onclick="toggleListItem(this)">▼</span>
+        <span class="item-title" onclick="toggleListItem(this)">${feat.name || 'Unnamed Feature'}</span>
+        <select style="font-size:11px;padding:2px 6px;border-radius:3px;border:1px solid var(--parchment-shadow);font-family:'Alegreya SC',serif;"
+                onchange="char.features[${i}].type=this.value;">
+          <option value="passive" ${feat.type==='passive'?'selected':''}>Passive</option>
+          <option value="active" ${feat.type==='active'?'selected':''}>Active</option>
+        </select>
+        <button class="btn btn-danger btn-sm" onclick="removeFeature(${i})">✕</button>
+      </div>
+      <div class="list-item-body open">
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label>Feature Name</label>
+            <input type="text" value="${esc(feat.name)}" onchange="char.features[${i}].name=this.value; renderFeaturesList();">
+          </div>
+          <div class="form-group">
+            <label>Source</label>
+            <input type="text" value="${esc(feat.source||'')}" placeholder="e.g. Monk 1, Feat" onchange="char.features[${i}].source=this.value;">
+          </div>
+        </div>
+        <div class="form-row cols-3">
+          <div class="form-group">
+            <label>Category</label>
+            <input type="text" value="${esc(feat.category||'')}" placeholder="e.g. Class, Race" onchange="char.features[${i}].category=this.value;">
+          </div>
+          <div class="form-group">
+            <label>Action Type</label>
+            <select onchange="char.features[${i}].actionType=this.value||null;">
+              <option value="" ${!feat.actionType?'selected':''}>None</option>
+              <option value="action" ${feat.actionType==='action'?'selected':''}>Action</option>
+              <option value="bonus action" ${feat.actionType==='bonus action'?'selected':''}>Bonus Action</option>
+              <option value="reaction" ${feat.actionType==='reaction'?'selected':''}>Reaction</option>
+              <option value="free" ${feat.actionType==='free'?'selected':''}>Free</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Resource Cost</label>
+            <input type="text" value="${esc(feat.resourceCost||'')}" placeholder="e.g. 1 Focus Point" onchange="char.features[${i}].resourceCost=this.value||null;">
+          </div>
+        </div>
+        <div class="form-row cols-3">
+          <div class="form-group">
+            <label>Requirements</label>
+            <input type="text" value="${esc(feat.requirements||'')}" onchange="char.features[${i}].requirements=this.value;">
+          </div>
+          <div class="form-group">
+            <label style="display:flex;align-items:center;gap:6px;">
+              <input type="checkbox" ${feat.isMovement?'checked':''} onchange="char.features[${i}].isMovement=this.checked;"> Uses Movement
+            </label>
+          </div>
+          <div class="form-group">
+            <label>Movement Cost (ft)</label>
+            <input type="number" min="0" value="${feat.movementCost||0}" onchange="char.features[${i}].movementCost=parseInt(this.value)||0;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea style="min-height:80px;" onchange="char.features[${i}].description=this.value;">${esc(feat.description||'')}</textarea>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addFeature() {
+  char.features.push({
+    name:'', source:'', type:'passive', description:'',
+    category:'', actionType:null, isMovement:false, movementCost:0,
+    resourceCost:null, requirements:''
+  });
+  renderFeaturesList();
+}
+
+function removeFeature(i) {
+  char.features.splice(i, 1);
+  renderFeaturesList();
+}
+
+// ─── RESOURCES LIST ───
+function renderResourcesList() {
+  const el = document.getElementById('resourcesList');
+  if (!char.resources.length) {
+    el.innerHTML = '<div class="empty-state">No resources yet. Click "+ Add Resource" to create one.</div>';
+    return;
+  }
+  el.innerHTML = char.resources.map((res, i) => `
+    <div class="list-item-card">
+      <div class="list-item-header">
+        <span class="item-title">${res.name || 'Unnamed Resource'}</span>
+        <button class="btn btn-danger btn-sm" onclick="removeResource(${i})">✕</button>
+      </div>
+      <div class="form-row cols-3">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" value="${esc(res.name)}" onchange="char.resources[${i}].name=this.value; renderResourcesList();">
+        </div>
+        <div class="form-group">
+          <label>Maximum</label>
+          <input type="number" min="0" value="${res.maximum||0}" onchange="char.resources[${i}].maximum=parseInt(this.value)||0;">
+        </div>
+        <div class="form-group">
+          <label>Current</label>
+          <input type="number" min="0" value="${res.current||0}" onchange="char.resources[${i}].current=parseInt(this.value)||0;">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea style="min-height:40px;" onchange="char.resources[${i}].description=this.value;">${esc(res.description||'')}</textarea>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addResource() {
+  char.resources.push({ name:'', current:0, maximum:0, description:'' });
+  renderResourcesList();
+}
+
+function removeResource(i) {
+  char.resources.splice(i, 1);
+  renderResourcesList();
+}
+
+// ─── ITEMS LIST ───
+function renderItemsList() {
+  const el = document.getElementById('itemsList');
+  const items = char.equipment.items;
+  if (!items.length) {
+    el.innerHTML = '<div class="empty-state">No items yet. Click "+ Add Item" to create one.</div>';
+    return;
+  }
+  el.innerHTML = items.map((item, i) => `
+    <div class="list-item-card" style="padding:8px 12px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <input type="text" value="${esc(typeof item === 'string' ? item : item.name || '')}"
+               style="flex:1;padding:5px 8px;border:1px solid var(--parchment-shadow);border-radius:3px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);"
+               onchange="char.equipment.items[${i}]=this.value;">
+        <button class="btn btn-danger btn-sm" onclick="removeItem(${i})">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addItem() {
+  char.equipment.items.push('');
+  renderItemsList();
+}
+
+function removeItem(i) {
+  char.equipment.items.splice(i, 1);
+  renderItemsList();
+}
+
+// ═══════════════════════════════════════════
+// COLLAPSE/EXPAND ITEMS
+// ═══════════════════════════════════════════
+function toggleListItem(el) {
+  const card = el.closest('.list-item-card');
+  const body = card.querySelector('.list-item-body');
+  const toggle = card.querySelector('.collapse-toggle');
+  if (body) {
+    body.classList.toggle('open');
+    if (toggle) toggle.classList.toggle('collapsed');
+  }
+}
+
+// ═══════════════════════════════════════════
+// POPULATE FORM FIELDS FROM char OBJECT
+// ═══════════════════════════════════════════
+function populateFieldsFromChar() {
+  // Basics
+  document.getElementById('basic_name').value = char.basic.name;
+  document.getElementById('basic_class').value = char.basic.class;
+  document.getElementById('basic_level').value = char.basic.level;
+  document.getElementById('basic_race').value = char.basic.race;
+  document.getElementById('basic_background').value = char.basic.background;
+  document.getElementById('basic_alignment').value = char.basic.alignment;
+  document.getElementById('basic_xp').value = char.basic.experiencePoints;
+  document.getElementById('prof_bonus').value = char.proficiencies.proficiencyBonus;
+
+  // Combat
+  document.getElementById('combat_ac').value = char.combat.armorClass;
+  document.getElementById('combat_init').value = char.combat.initiative;
+  document.getElementById('combat_speed').value = char.combat.speed;
+  document.getElementById('combat_prof').value = char.proficiencies.proficiencyBonus;
+  document.getElementById('combat_maxhp').value = char.combat.maxHP;
+  document.getElementById('combat_curhp').value = char.combat.currentHP;
+  document.getElementById('combat_temphp').value = char.combat.temporaryHP;
+  document.getElementById('hd_total').value = char.combat.hitDice.total;
+  document.getElementById('hd_current').value = char.combat.hitDice.current;
+  document.getElementById('hd_type').value = char.combat.hitDice.type;
+  document.getElementById('ds_successes').value = char.combat.deathSaves.successes;
+  document.getElementById('ds_failures').value = char.combat.deathSaves.failures;
+
+  // Spellcasting
+  document.getElementById('spell_ability').value = char.spellcasting.ability || '';
+  document.getElementById('spell_dc').value = char.spellcasting.saveDC;
+  document.getElementById('spell_atk').value = char.spellcasting.attackBonus;
+
+  // Personality
+  document.getElementById('pers_traits').value = char.personality.traits;
+  document.getElementById('pers_ideals').value = char.personality.ideals;
+  document.getElementById('pers_bonds').value = char.personality.bonds;
+  document.getElementById('pers_flaws').value = char.personality.flaws;
+  document.getElementById('pers_appearance').value = char.personality.appearance;
+  document.getElementById('pers_backstory').value = char.personality.backstory;
+  document.getElementById('char_notes').value = char.notes;
+
+  // Footer
+  updateFooter();
+}
+
+function updateFooter() {
+  const name = char.basic.name || 'Unnamed Character';
+  document.getElementById('footerInfo').textContent = `Editing: ${name} (Level ${char.basic.level} ${char.basic.class || '?'})`;
+}
+
+// ═══════════════════════════════════════════
+// COLLECT FORM DATA INTO char OBJECT
+// ═══════════════════════════════════════════
+function collectFormData() {
+  // Basics
+  char.basic.name = document.getElementById('basic_name').value;
+  char.basic.class = document.getElementById('basic_class').value;
+  char.basic.level = parseInt(document.getElementById('basic_level').value) || 1;
+  char.basic.race = document.getElementById('basic_race').value;
+  char.basic.background = document.getElementById('basic_background').value;
+  char.basic.alignment = document.getElementById('basic_alignment').value;
+  char.basic.experiencePoints = parseInt(document.getElementById('basic_xp').value) || 0;
+  char.proficiencies.proficiencyBonus = parseInt(document.getElementById('prof_bonus').value) || 2;
+
+  // Combat
+  char.combat.armorClass = parseInt(document.getElementById('combat_ac').value) || 10;
+  char.combat.initiative = parseInt(document.getElementById('combat_init').value) || 0;
+  char.combat.speed = document.getElementById('combat_speed').value;
+  char.combat.maxHP = parseInt(document.getElementById('combat_maxhp').value) || 1;
+  char.combat.currentHP = parseInt(document.getElementById('combat_curhp').value) || 0;
+  char.combat.temporaryHP = parseInt(document.getElementById('combat_temphp').value) || 0;
+  char.combat.hitDice.total = parseInt(document.getElementById('hd_total').value) || 1;
+  char.combat.hitDice.current = parseInt(document.getElementById('hd_current').value) || 0;
+  char.combat.hitDice.type = document.getElementById('hd_type').value;
+  char.combat.deathSaves.successes = parseInt(document.getElementById('ds_successes').value) || 0;
+  char.combat.deathSaves.failures = parseInt(document.getElementById('ds_failures').value) || 0;
+
+  // Spellcasting
+  char.spellcasting.ability = document.getElementById('spell_ability').value;
+  char.spellcasting.saveDC = parseInt(document.getElementById('spell_dc').value) || 0;
+  char.spellcasting.attackBonus = parseInt(document.getElementById('spell_atk').value) || 0;
+
+  // Spell slots
+  for (let i = 1; i <= 9; i++) {
+    const el = document.getElementById(`slot_${i}`);
+    if (el) char.spellcasting.spellSlots[i] = parseInt(el.value) || 0;
+  }
+
+  // Personality
+  char.personality.traits = document.getElementById('pers_traits').value;
+  char.personality.ideals = document.getElementById('pers_ideals').value;
+  char.personality.bonds = document.getElementById('pers_bonds').value;
+  char.personality.flaws = document.getElementById('pers_flaws').value;
+  char.personality.appearance = document.getElementById('pers_appearance').value;
+  char.personality.backstory = document.getElementById('pers_backstory').value;
+  char.notes = document.getElementById('char_notes').value;
+
+  // Meta
+  char.meta.name = char.basic.name;
+  char.meta.lastModified = new Date().toISOString();
+}
+
+// ═══════════════════════════════════════════
+// EXPORT JSON
+// ═══════════════════════════════════════════
+function exportJSON() {
+  collectFormData();
+  const json = JSON.stringify(char, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safeName = (char.basic.name || 'character').replace(/[^a-zA-Z0-9_'-]/g, '_');
+  a.href = url;
+  a.download = `${safeName}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast(`Exported ${safeName}.json`);
+}
+
+// ═══════════════════════════════════════════
+// LOAD JSON
+// ═══════════════════════════════════════════
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const data = JSON.parse(ev.target.result);
+      loadCharacter(data);
+      showToast(`Loaded ${data.basic?.name || 'character'}`);
+    } catch (err) {
+      alert('Error parsing JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  this.value = '';
+});
+
+function loadCharacter(data) {
+  // Merge loaded data onto blank character to fill any gaps
+  const blank = createBlankCharacter();
+  char = deepMerge(blank, data);
+  // Reinit everything
+  activeSpellLevel = 'cantrips';
+  initEditors();
+}
+
+function deepMerge(target, source) {
+  const result = { ...target };
+  for (const key of Object.keys(source)) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      result[key] = deepMerge(target[key] || {}, source[key]);
+    } else {
+      result[key] = source[key];
+    }
+  }
+  return result;
+}
+
+// ═══════════════════════════════════════════
+// RESET
+// ═══════════════════════════════════════════
+function resetAll() {
+  char = createBlankCharacter();
+  activeSpellLevel = 'cantrips';
+  initEditors();
+  showToast('Character reset');
+}
+
+// ═══════════════════════════════════════════
+// UTILITY
+// ═══════════════════════════════════════════
+function esc(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ═══════════════════════════════════════════
+// LIBRARY LOADING
+// ═══════════════════════════════════════════
+async function showCharLib(){
+  const el=document.createElement('div');
+  el.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center;';
+  el.onclick=e=>{if(e.target===el)el.remove()};
+  const box=document.createElement('div');
+  box.style.cssText='background:#f5f0e1;border:2px solid #2c2418;border-radius:8px;padding:20px;max-width:400px;width:90%;max-height:70vh;overflow-y:auto;font-family:Alegreya,serif;';
+  box.innerHTML='<div style="font-family:Cinzel,serif;font-size:16px;font-weight:700;color:#8b1a1a;margin-bottom:12px;">📚 Load from Library</div><div id="_libItems" style="color:#6b5d4d;font-style:italic;">Loading...</div>';
+  el.appendChild(box);document.body.appendChild(el);
+  try{
+    const r=await fetch('../data/index.json');const idx=await r.json();
+    const items=document.getElementById('_libItems');
+    if(!idx.players?.length){items.textContent='No players in library';return;}
+    let h='';
+    for(const f of idx.players){
+      try{const pr=await fetch(`../data/players/${f}`);const d=await pr.json();
+        const nm=d.basic?.name||d.name||f;const meta=d.basic?`Lv${d.basic.level} ${d.basic.class||''}`:'';
+        h+=`<div style="padding:8px;border:1px solid #d4c5a9;border-radius:4px;margin-bottom:4px;cursor:pointer;background:rgba(255,255,255,0.5)" onclick="libLoadChar('../data/players/${f}');this.closest('[style*=fixed]').remove()">
+          <span style="font-weight:700">${nm}</span> <span style="font-size:12px;color:#6b5d4d">${meta}</span>
+        </div>`;}catch(e){}
+    }
+    items.innerHTML=h||'No players found';
+  }catch(e){document.getElementById('_libItems').textContent='Could not load data/index.json';}
+}
+
+async function libLoadChar(url){
+  try{const r=await fetch(url);const data=await r.json();loadCharacter(data);showToast(`Loaded ${data.basic?.name||data.name||'character'}`);}
+  catch(e){showToast('Error loading file');}
+}
+
+// ═══════════════════════════════════════════
+// INIT ON LOAD
+// ═══════════════════════════════════════════
+initEditors();
+</script>
+</body>
+</html>

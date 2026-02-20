@@ -1,0 +1,11 @@
+{
+  "monsters": [
+    "Summer_Eladrin.json",
+    "Winter_Eladrin.json",
+    "Elven_Lost_Soul_CR2.json",
+    "Elven_Lost_Soul_CR4.json"
+  ],
+  "players": [
+    "Ja_Liss.json"
+  ]
+}
