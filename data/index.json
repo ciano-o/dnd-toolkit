@@ -1,11 +1,41 @@
 {
   "monsters": [
-    "Summer_Eladrin.json",
-    "Winter_Eladrin.json",
+    "basilisk.json",
+    "bearded_devil.json",
+    "Celentan.json",
+    "displacer_beast.json",
+    "Elanvirel.json",
     "Elven_Lost_Soul_CR2.json",
-    "Elven_Lost_Soul_CR4.json"
+    "Elven_Lost_Soul_CR4.json",
+    "guard_captain.json",
+    "guard.json",
+    "hobgoblin_captain.json",
+    "hobgoblin_warrior.json",
+    "knight.json",
+    "kobold_warrior.json",
+    "mage.json",
+    "manticore.json",
+    "medusa.json",
+    "minotaur_of_baphomet.json",
+    "oni.json",
+    "scout_captain.json",
+    "Silent_Knight.json",
+    "Summer_Eladrin.json",
+    "tough_boss.json",
+    "troll.json",
+    "werebear.json",
+    "wight.json",
+    "Winter_Eladrin.json",
+    "Zur_Et.json"
   ],
   "players": [
-    "Ja_Liss.json"
+    "Eyo-Pett.json",
+    "German.json",
+    "Isir.json",
+    "Ja_Liss.json",
+    "Ja'Liss.json",
+    "Krusko.json",
+    "Ofis_Altamont.json",
+    "Selene.json"
   ]
 }
