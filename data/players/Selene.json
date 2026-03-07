@@ -1,0 +1,396 @@
+{
+  "meta": {
+    "version": "1.0",
+    "name": "Selene",
+    "lastModified": "2026-03-03T19:28:08.621Z"
+  },
+  "basic": {
+    "name": "Selene",
+    "class": "Paladin",
+    "level": 5,
+    "race": "Elf (Drow)",
+    "background": "Soldier",
+    "alignment": "",
+    "experiencePoints": 8400
+  },
+  "abilities": {
+    "str": 17,
+    "dex": 12,
+    "con": 14,
+    "int": 9,
+    "wis": 10,
+    "cha": 14
+  },
+  "combat": {
+    "armorClass": 19,
+    "currentHP": 44,
+    "maxHP": 44,
+    "temporaryHP": 0,
+    "initiative": 1,
+    "speed": "9 m",
+    "hitDice": {
+      "current": 4,
+      "total": 4,
+      "type": "d10"
+    },
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    }
+  },
+  "proficiencies": {
+    "proficiencyBonus": 3,
+    "armor": [
+      "All armors"
+    ],
+    "weapons": [
+      "All Weapons"
+    ],
+    "tools": [],
+    "languages": [
+      "Common",
+      "Undercommon",
+      "Elvish"
+    ],
+    "savingThrows": [
+      "cha",
+      "wis"
+    ],
+    "skills": {
+      "acrobatics": false,
+      "animalHandling": false,
+      "arcana": false,
+      "athletics": true,
+      "deception": false,
+      "history": true,
+      "insight": false,
+      "intimidation": true,
+      "investigation": false,
+      "medicine": false,
+      "nature": false,
+      "perception": true,
+      "performance": false,
+      "persuasion": true,
+      "religion": false,
+      "sleightOfHand": false,
+      "stealth": false,
+      "survival": false
+    },
+    "expertise": []
+  },
+  "attacks": [
+    {
+      "name": "Phalar Aluve",
+      "attackBonus": 7,
+      "damageFormula": "1d8 +4",
+      "damageType": "Slashing",
+      "notes": "can cast bless/ bane (two rounds, no concentration required)"
+    }
+  ],
+  "spellcasting": {
+    "ability": "cha",
+    "saveDC": 13,
+    "attackBonus": 5,
+    "spellSlots": {
+      "1": 4,
+      "2": 2,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0
+    },
+    "slotUsage": {
+      "2": 0
+    }
+  },
+  "spells": {
+    "cantrips": [],
+    "level1": [
+      {
+        "name": "Divine Smite",
+        "source": "",
+        "level": "Evocation Lv 1",
+        "classes": "",
+        "castingTime": "Bonus Action",
+        "range": "Self",
+        "components": "V",
+        "duration": "Instantaneous",
+        "description": "The target takes an extra 2d8 Radiant damage from the attack. The damage increases by 1d8 if the target is a Fiend or an Undead.",
+        "prepared": false,
+        "cantripUpgrade": "The damage increases by 1d8 for each spell slot level above 1."
+      },
+      {
+        "name": "Bane",
+        "source": "",
+        "level": "Lv 1",
+        "classes": "",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "components": "V, S, M (a drop of blood)",
+        "duration": "Concentration/ 1 minute",
+        "description": "Up to three creatures of your choice that you can see within range must each make a Charisma saving throw. Whenever a target that fails this save makes an attack roll or a saving throw before the spell ends, the target must subtract 1d4 from the attack roll or save.",
+        "prepared": false,
+        "cantripUpgrade": "You can target one additional creature for each spell slot level above 1."
+      },
+      {
+        "name": "Hunter's Mark",
+        "source": "",
+        "level": "Divination Lv 1",
+        "classes": "",
+        "castingTime": "Bonus Action",
+        "range": "90 feet",
+        "components": "V",
+        "duration": "Concentration/ 1 hour",
+        "description": "You magically mark one creature you can see within range as your quarry. Until the spell ends, you deal an extra 1d6 Force damage to the target whenever you hit it with an attack roll. You also have Advantage on any Wisdom (Perception or Survival) check you make to find it.\nIf the target drops to 0 Hit Points before this spell ends, you can take a Bonus Action to move the mark to a new creature you can see within range.",
+        "prepared": false,
+        "cantripUpgrade": "Your Concentration can last longer with a spell slot of level 3–4 (up to 8 hours) or 5+ (up to 24 hours)."
+      },
+      {
+        "name": "Bless",
+        "source": "",
+        "level": "Lv 1",
+        "classes": "",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "components": "V, S, M (a Holy Symbol worth 5+ GP)",
+        "duration": "Concentration/ 1 minute",
+        "description": "You bless up to three creatures within range. Whenever a target makes an attack roll or a saving throw before the spell ends, the target adds 1d4 to the attack roll or save.",
+        "prepared": false,
+        "cantripUpgrade": "You can target one additional creature for each spell slot level above 1."
+      },
+      {
+        "name": "Command",
+        "source": "",
+        "level": "Lv 1",
+        "classes": "",
+        "castingTime": "Action",
+        "range": "60 feet",
+        "components": "V",
+        "duration": "Instantaneous",
+        "description": "You speak a one-word command to a creature you can see within range. The target must succeed on a Wisdom saving throw or follow the command on its next turn. Choose the command from these options:\n\nApproach. The target moves toward you by the shortest and most direct route, ending its turn if it moves within 5 feet of you.\n\nDrop. The target drops whatever it is holding and then ends its turn.\n\nFlee. The target spends its turn moving away from you by the fastest available means.\n\nGrovel. The target has the Prone condition and then ends its turn.\n\nHalt. On its turn, the target doesn’t move and takes no action or Bonus Action",
+        "prepared": false,
+        "cantripUpgrade": "You can affect one additional creature for each spell slot level above 1."
+      },
+      {
+        "name": "Shield of Faith",
+        "source": "",
+        "level": "Abjuration Lv 1",
+        "classes": "",
+        "castingTime": "Bonus Action",
+        "range": "60 feet",
+        "components": "",
+        "duration": "Concentration/ 10 minutes",
+        "description": "A shimmering field surrounds a creature of your choice within range, granting it a +2 bonus to AC for the duration.",
+        "prepared": false,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Searing Smite",
+        "source": "",
+        "level": "Evocation Lv 1",
+        "classes": "",
+        "castingTime": "Bonus Action",
+        "range": "Self",
+        "components": "V",
+        "duration": "1 minute",
+        "description": "As you hit the target, it takes an extra 1d6 Fire damage from the attack. At the start of each of its turns until the spell ends, the target takes 1d6 Fire damage and then makes a Constitution saving throw. On a failed save, the spell continues. On a successful save, the spell ends.",
+        "prepared": false,
+        "cantripUpgrade": "All the damage increases by 1d6 for each spell slot level above 1."
+      }
+    ],
+    "level2": [
+      {
+        "name": "Hold Person",
+        "source": "",
+        "level": "Lv 2",
+        "classes": "",
+        "castingTime": "Action",
+        "range": "60 feet",
+        "components": "V, S, M (a straight piece of iron)",
+        "duration": "Concentration/ 1 minute",
+        "description": "Choose a Humanoid that you can see within range. The target must succeed on a Wisdom saving throw or have the Paralyzed condition for the duration. At the end of each of its turns, the target repeats the save, ending the spell on itself on a success.",
+        "prepared": false,
+        "cantripUpgrade": "You can target one additional Humanoid for each spell slot level above 2."
+      },
+      {
+        "name": "Misty Step",
+        "source": "",
+        "level": "Conjuration Lv 2",
+        "classes": "",
+        "castingTime": "Bonus Action",
+        "range": "Self",
+        "components": "V",
+        "duration": "",
+        "description": "Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space you can see.",
+        "prepared": false,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Shining Smite",
+        "source": "",
+        "level": "Transmutation Lv 2",
+        "classes": "",
+        "castingTime": "Bonus Action",
+        "range": "Self",
+        "components": "V",
+        "duration": "Concentration/ 1 minute",
+        "description": "The target hit by the strike takes an extra 2d6 Radiant damage from the attack. Until the spell ends, the target sheds Bright Light in a 5-foot radius, attack rolls against it have Advantage, and it can’t benefit from the Invisible condition.",
+        "prepared": false,
+        "cantripUpgrade": "The damage increases by 1d6 for each spell slot level above 2."
+      },
+      {
+        "name": "Lesser Restoration",
+        "source": "",
+        "level": "Abiuration Lv 2",
+        "classes": "",
+        "castingTime": "Bonus Action",
+        "range": "Touch",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "You touch a creature and end one condition on it: Blinded, Deafened, Paralyzed, or Poisoned.",
+        "prepared": false,
+        "cantripUpgrade": ""
+      }
+    ],
+    "level3": [],
+    "level4": [],
+    "level5": [],
+    "level6": [],
+    "level7": [],
+    "level8": [],
+    "level9": []
+  },
+  "features": [
+    {
+      "name": "Darkvision",
+      "source": "Drow",
+      "type": "passive",
+      "description": "You have Darkvision with a range of 60 feet.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Savage Attacker",
+      "source": "",
+      "type": "active",
+      "description": "",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Heavy Armor Master",
+      "source": "",
+      "type": "passive",
+      "description": "",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Fighting Style",
+      "source": "",
+      "type": "passive",
+      "description": "",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Channel Divinity",
+      "source": "",
+      "type": "active",
+      "description": "",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Healing touch",
+      "source": "",
+      "type": "passive",
+      "description": "",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Extra Attack",
+      "source": "",
+      "type": "passive",
+      "description": "",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Faithful Steed",
+      "source": "",
+      "type": "active",
+      "description": "",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    }
+  ],
+  "resources": [],
+  "equipment": {
+    "currency": {
+      "cp": 0,
+      "sp": 0,
+      "ep": 0,
+      "gp": 5134,
+      "pp": 0
+    },
+    "items": [
+      "Chain Mail",
+      "Shield",
+      "Sending Stone",
+      "Longsword",
+      "5 Javelins",
+      "Holy Symbol",
+      "Priest pack",
+      "Pendente Sigillo",
+      "2 pozioni (2d4+2 Bonus Action)",
+      "4 pozioni (4d4+4 Bonus Action)",
+      "Lente Telescopio"
+    ]
+  },
+  "personality": {
+    "traits": "",
+    "ideals": "",
+    "bonds": "",
+    "flaws": "",
+    "appearance": "",
+    "backstory": ""
+  },
+  "notes": ""
+}

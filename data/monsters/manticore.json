@@ -1,0 +1,54 @@
+{
+  "name": "Manticore",
+  "size": "Large",
+  "type": "Monstrosity",
+  "alignment": "Lawful Evil",
+  "source": "D&D 2024 Basic Rules",
+  "ac": 14,
+  "hp": 68,
+  "hitDice": "8d10 + 24",
+  "initiative": "+3 (13)",
+  "speed": "30 ft., Fly 50 ft.",
+  "cr": "3 (XP 700; PB +2)",
+  "abilities": {
+    "str": { "score": 17, "save": null },
+    "dex": { "score": 16, "save": null },
+    "con": { "score": 17, "save": null },
+    "int": { "score": 7, "save": null },
+    "wis": { "score": 12, "save": null },
+    "cha": { "score": 8, "save": null }
+  },
+  "skills": "",
+  "resistances": "",
+  "immunities": "",
+  "vulnerabilities": "",
+  "conditionImmunities": "",
+  "senses": "Darkvision 60 ft., Passive Perception 11",
+  "languages": "Common",
+  "gear": "",
+  "traits": [],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "The manticore makes three attacks, using Rend or Tail Spike in any combination."
+    },
+    {
+      "name": "Rend",
+      "description": "Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Slashing damage."
+    },
+    {
+      "name": "Tail Spike",
+      "description": "Ranged Attack Roll: +5, range 100/200 ft. Hit: 7 (1d8 + 3) Piercing damage."
+    }
+  ],
+  "bonusActions": [],
+  "reactions": [],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "",
+  "habitat": "",
+  "treasure": ""
+}

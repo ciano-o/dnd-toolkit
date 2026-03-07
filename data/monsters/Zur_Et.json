@@ -1,0 +1,131 @@
+{
+  "name": "Zur Et",
+  "size": "Medium",
+  "type": "Aberration (Githzerai)",
+  "alignment": "Lawful Neutral",
+  "source": "Homebrew",
+  "ac": 19,
+  "hp": 229,
+  "hitDice": "27d8 + 108",
+  "initiative": "+10 (20)",
+  "speed": "50 ft., Fly 10 ft. (Hover)",
+  "cr": "16 (15000 XP; PB +5)",
+  "abilities": {
+    "str": {
+      "score": 16,
+      "save": null
+    },
+    "dex": {
+      "score": 20,
+      "save": 10
+    },
+    "con": {
+      "score": 18,
+      "save": null
+    },
+    "int": {
+      "score": 18,
+      "save": 9
+    },
+    "wis": {
+      "score": 22,
+      "save": 11
+    },
+    "cha": {
+      "score": 12,
+      "save": null
+    }
+  },
+  "skills": "Acrobatics +10, Athletics +8, Insight +11, Perception +11, Stealth +10",
+  "resistances": "Psychic",
+  "immunities": "",
+  "vulnerabilities": "",
+  "conditionImmunities": "Charmed, Frightened",
+  "senses": "Truesight 60 ft., Passive Perception 21",
+  "languages": "Common, Gith, Deep Speech, telepathy 120 ft.",
+  "traits": [
+    {
+      "name": "Magic Resistance",
+      "description": "Zur Et has Advantage on saving throws against spells and other magical effects."
+    },
+    {
+      "name": "Psionic Bastion",
+      "description": "Zur Et is immune to any effect that would read his thoughts, determine whether he is lying, or magically influence his emotions. He can suppress or resume this trait as a Bonus Action."
+    },
+    {
+      "name": "Legendary Resistance (3/Day)",
+      "description": "If Zur Et fails a saving throw, he can choose to succeed instead."
+    },
+    {
+      "name": "Zerth Discipline",
+      "description": "Zur Et's unarmed strikes and psionic abilities count as magical. When Zur Et hits a creature with an unarmed strike, he can force it to make a DC 18 Constitution Saving Throw. On a failure, the creature can't take Reactions until the start of its next turn."
+    },
+    {
+      "name": "Manifest Deck (Special)",
+      "description": "Like all who carry a mystic deck, Zur Et can use an Action to play a card and conjure a creature of CR 5 or lower into an unoccupied space within 60 feet. Unlike most deck wielders, Zur Et's psionic mastery allows him to maintain two conjured creatures simultaneously without Concentration. Each manifestation acts on its own Initiative, obeys Zur Et's telepathic commands (no action required), and vanishes after 1 minute, when reduced to 0 HP, or when dismissed (no action required)."
+    }
+  ],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "Zur Et makes four Unarmed Strike or Psi Bolt attacks in any combination. He can replace one attack with Telekinetic Grasp."
+    },
+    {
+      "name": "Unarmed Strike",
+      "description": "*Melee Attack Roll:* +10 to hit, reach 10 ft. *Hit:* 15 (2d8 + 6) Force damage."
+    },
+    {
+      "name": "Psi Bolt",
+      "description": "*Ranged Attack Roll:* +11 to hit, range 120 ft. *Hit:* 17 (2d10 + 6) Psychic damage."
+    },
+    {
+      "name": "Telekinetic Grasp",
+      "description": "*Wisdom Saving Throw:* DC 18, one Large or smaller creature Zur Et can see within 60 ft. *Failure:* The target is lifted, moved up to 30 feet in any direction, and has the Restrained condition until the end of Zur Et's next turn. A Restrained creature can repeat the save at the end of its turn, ending the effect on a success. *Success:* The target is pushed 10 feet."
+    },
+    {
+      "name": "Psychic Annihilation (Recharge 5-6)",
+      "description": "Zur Et focuses his mind into a devastating psionic pulse. Each creature of his choice within 30 feet must make a DC 18 Intelligence Saving Throw. *Failure:* 49 (9d10) Psychic damage, and the creature has the Stunned condition until the end of its next turn. *Success:* Half damage only."
+    }
+  ],
+  "bonusActions": [
+    {
+      "name": "Step Between Thoughts",
+      "description": "Zur Et teleports up to 30 feet to an unoccupied space he can see."
+    },
+    {
+      "name": "Flurry of the Focused Mind",
+      "description": "Immediately after taking the Attack action, Zur Et makes two Unarmed Strike attacks. Each strike that hits deals an additional 4 (1d8) Psychic damage."
+    }
+  ],
+  "reactions": [
+    {
+      "name": "Psionic Deflection",
+      "description": "*Trigger:* A creature Zur Et can see within 60 feet casts a spell or makes an attack. *Response:* The creature must succeed on a DC 18 Wisdom Saving Throw or have Disadvantage on the triggering attack roll, or all creatures targeted by the triggering spell have Advantage on their saving throws against it."
+    }
+  ],
+  "legendaryPreamble": "Legendary Action Uses: 3. Immediately after another creature's turn, Zur Et can take one of the following legendary actions. He regains all uses at the start of his turn.",
+  "legendaryActions": [
+    {
+      "name": "Shift",
+      "description": "Zur Et uses Step Between Thoughts."
+    },
+    {
+      "name": "Strike",
+      "description": "Zur Et makes one Unarmed Strike or Psi Bolt attack."
+    },
+    {
+      "name": "Psychokinetic Slam (Costs 2 Actions)",
+      "description": "Zur Et targets one creature he can see within 60 feet. The target must succeed on a DC 18 Strength Saving Throw or be hurled up to 30 feet in a direction of Zur Et's choice and knocked Prone. If the target collides with a solid surface or another creature, both take 11 (3d6) Force damage."
+    },
+    {
+      "name": "Mind Scour (Costs 2 Actions)",
+      "description": "Zur Et targets one creature he can see within 60 feet. *Intelligence Saving Throw:* DC 18. *Failure:* 22 (4d10) Psychic damage and the target can't take Reactions and has Disadvantage on attack rolls until the end of its next turn. *Success:* Half damage only."
+    }
+  ],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "",
+  "habitat": "",
+  "treasure": ""
+}

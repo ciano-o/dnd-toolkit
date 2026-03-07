@@ -1,0 +1,375 @@
+{
+  "meta": {
+    "version": "1.0",
+    "name": "Ofis Altamont",
+    "lastModified": "2026-02-22T15:45:20.059Z"
+  },
+  "basic": {
+    "name": "Ofis Altamont",
+    "class": "Fighter (psi-warrior)",
+    "level": 5,
+    "race": "Human",
+    "background": "Noble",
+    "alignment": "",
+    "experiencePoints": 0
+  },
+  "abilities": {
+    "str": 16,
+    "dex": 12,
+    "con": 14,
+    "int": 16,
+    "wis": 10,
+    "cha": 8
+  },
+  "combat": {
+    "armorClass": 18,
+    "currentHP": 44,
+    "maxHP": 44,
+    "temporaryHP": 0,
+    "initiative": 2,
+    "speed": "30 ft",
+    "hitDice": {
+      "current": 5,
+      "total": 5,
+      "type": "d10"
+    },
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    }
+  },
+  "proficiencies": {
+    "proficiencyBonus": 3,
+    "armor": [
+      "Light",
+      "Medium",
+      "Heavy",
+      "Shields"
+    ],
+    "weapons": [
+      "Simple",
+      "Martial weapons"
+    ],
+    "tools": [],
+    "languages": [
+      "Common, Common sign language"
+    ],
+    "savingThrows": [
+      "str",
+      "dex"
+    ],
+    "skills": {
+      "acrobatics": false,
+      "animalHandling": false,
+      "arcana": true,
+      "athletics": true,
+      "deception": false,
+      "history": true,
+      "insight": true,
+      "intimidation": false,
+      "investigation": true,
+      "medicine": false,
+      "nature": false,
+      "perception": true,
+      "performance": false,
+      "persuasion": true,
+      "religion": false,
+      "sleightOfHand": false,
+      "stealth": false,
+      "survival": false
+    },
+    "expertise": []
+  },
+  "attacks": [
+    {
+      "name": "Greatsword",
+      "attackBonus": 7,
+      "damageFormula": "2d6+4",
+      "damageType": "Slashing",
+      "notes": "Mastery: Graze"
+    },
+    {
+      "name": "Ray of frost",
+      "attackBonus": 0,
+      "damageFormula": "2d8",
+      "damageType": "Radiant",
+      "notes": "Dexterity DC 14"
+    },
+    {
+      "name": "Rapier",
+      "attackBonus": 7,
+      "damageFormula": "1d8+4",
+      "damageType": "Piercing",
+      "notes": "Mastery: Vex"
+    }
+  ],
+  "spellcasting": {
+    "ability": "int",
+    "saveDC": 0,
+    "attackBonus": 0,
+    "spellSlots": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0
+    },
+    "slotUsage": {}
+  },
+  "spells": {
+    "cantrips": [
+      {
+        "name": "Sacred Flame",
+        "source": "",
+        "level": "Evocation Cantrip",
+        "classes": "Artificer, Sorcerer, Wizard",
+        "castingTime": "Action",
+        "range": "60 feet",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "Flame-like radiance descends on a creature that you can see within range. The target must succeed on a Dexterity saving throw or take 1d8 Radiant damage. The target gains no benefit from Half Cover or Three-Quarters Cover for this save.",
+        "prepared": true,
+        "cantripUpgrade": "The damage increases by 1d8 when you reach levels 5 (2d8), 11 (3d8), and 17 (4d8)."
+      }
+    ],
+    "level1": [],
+    "level2": [],
+    "level3": [],
+    "level4": [],
+    "level5": [],
+    "level6": [],
+    "level7": [],
+    "level8": [],
+    "level9": []
+  },
+  "features": [
+    {
+      "name": "Blind Fighting",
+      "source": "Fighter 1",
+      "type": "passive",
+      "description": "You have Blindsight with a range of 10 feet.",
+      "category": "Class",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Second Wind ",
+      "source": "Fighter",
+      "type": "active",
+      "description": "You have a limited well of physical and mental stamina that you can draw on. As a Bonus Action, you can use it to regain Hit Points equal to 1d10 plus your Fighter level.\n\nYou can use this feature twice. You regain one expended use when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest.\n\nWhen you reach certain Fighter levels, you gain more uses of this feature, as shown in the Second Wind column of the Fighter Features table.",
+      "category": "Class",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": "Second Wind",
+      "requirements": ""
+    },
+    {
+      "name": "Weapon Mastery",
+      "source": "Fighter",
+      "type": "passive",
+      "description": "Your training with weapons allows you to use the mastery properties of three kinds of Simple or Martial weapons of your choice. Whenever you finish a Long Rest, you can practice weapon drills and change one of those weapon choices.\n\nWhen you reach certain Fighter levels, you gain the ability to use the mastery properties of more kinds of weapons, as shown in the Weapon Mastery column of the Fighter Features table.",
+      "category": "Class",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Action Surge ",
+      "source": "Fighter",
+      "type": "active",
+      "description": "You can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action, except the Magic action.\n\nOnce you use this feature, you can’t do so again until you finish a Short or Long Rest. Starting at level 17, you can use it twice before a rest but only once on a turn.",
+      "category": "Class",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Tactical Mind",
+      "source": "Fighter",
+      "type": "active",
+      "description": "You have a mind for tactics on and off the battlefield. When you fail an ability check, you can expend a use of your Second Wind to push yourself toward success. Rather than regaining Hit Points, you roll 1d10 and add the number rolled to the ability check, potentially turning it into a success. If the check still fails, this use of Second Wind isn’t expended.",
+      "category": "Class",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Mage Slayer",
+      "source": "Feat",
+      "type": "passive",
+      "description": "When you damage a creature that is concentrating, it has Disadvantage on the saving throw it makes to maintain Concentration.\nIf you fail an Intelligence, a Wisdom, or a Charisma saving throw, you can cause yourself to succeed instead. Once you use this benefit, you can't use it again until you finish a Short or Long Rest.",
+      "category": "Class",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Extra Attack ",
+      "source": "Fighter",
+      "type": "passive",
+      "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+      "category": "Class",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Tactical Shift ",
+      "source": "Fighter",
+      "type": "passive",
+      "description": "Whenever you activate your Second Wind with a Bonus Action, you can move up to half your Speed without provoking Opportunity Attacks.",
+      "category": "Class",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Psionic Power: Protective Field",
+      "source": "Fighter",
+      "type": "active",
+      "description": "When you or another creature you can see within 30 feet of you takes damage, you can take a Reaction to expend one Psionic Energy Die, roll the die, and reduce the damage taken by the number rolled plus your Intelligence modifier (minimum reduction of 1), as you create a momentary shield of telekinetic force.",
+      "category": "Class",
+      "actionType": "reaction",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": "(1 Psionic Power free per short/long rest) Psionic Energy Dice",
+      "requirements": ""
+    },
+    {
+      "name": "Psionic Power: Psionic Strike",
+      "source": "Fighter",
+      "type": "active",
+      "description": "You can propel your weapons with psionic force. Once on each of your turns, immediately after you hit a target within 30 feet of yourself with an attack and deal damage to it with a weapon, you can expend one Psionic Energy Die, rolling it and dealing Force damage to the target equal to the number rolled plus your Intelligence modifier.",
+      "category": "Class",
+      "actionType": "free",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": "(1 Psionic Power free per short/long rest) Psionic Energy Dice",
+      "requirements": "deal damage"
+    },
+    {
+      "name": "Psionic Power: Telekinetic Movement",
+      "source": "Fighter",
+      "type": "active",
+      "description": "You can move an object or a creature with your mind. As a Magic action, choose one target you can see within 30 feet of yourself; the target must be a loose object that is Large or smaller or one willing creature other than you. You transport the target up to 30 feet to an unoccupied space you can see. Alternatively, if the target is a Tiny object, you can transport it to or from your hand.",
+      "category": "Class",
+      "actionType": "action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": "(1 Psionic Power free per short/long rest) Psionic Energy Dice",
+      "requirements": ""
+    },
+    {
+      "name": "Spellfire Spark - Magic Absorption",
+      "source": "Human",
+      "type": "passive",
+      "description": "Once per turn, when you take damage from a spell or magical effect, you reduce the total damage taken by 1d4. You can’t use this benefit if you have the Incapacitated condition.",
+      "category": "Origin feat",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Spellfire Spark - Spellfire Flame",
+      "source": "Human",
+      "type": "passive",
+      "description": "You learn the Sacred Flame cantrip. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you select this feat). You can also cast this cantrip as a Bonus Action a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",
+      "category": "Origin feat",
+      "actionType": "bonus action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    }
+  ],
+  "resources": [
+    {
+      "name": "Second Wind",
+      "current": 2,
+      "maximum": 2,
+      "description": "As a Bonus Action, you can use it to regain Hit Points equal to 1d10 plus your Fighter level.\nYou can use this feature twice. You regain one expended use when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest."
+    },
+    {
+      "name": "Action Surge ",
+      "current": 1,
+      "maximum": 1,
+      "description": "On your turn, you can take one additional action, except the Magic action.\nOnce you use this feature, you can’t do so again until you finish a Short or Long Rest."
+    },
+    {
+      "name": "Guarded Mind",
+      "current": 1,
+      "maximum": 1,
+      "description": "If you fail an Intelligence, a Wisdom, or a Charisma saving throw, you can cause yourself to succeed instead. Once you use this benefit, you can't use it again until you finish a Short or Long Rest."
+    },
+    {
+      "name": "Detect Magic",
+      "current": 1,
+      "maximum": 1,
+      "description": "Long rest."
+    },
+    {
+      "name": "Misty Step",
+      "current": 1,
+      "maximum": 1,
+      "description": "Long rest."
+    },
+    {
+      "name": "Psi Warrior Energy Dice",
+      "current": 6,
+      "maximum": 6,
+      "description": "You regain one of your expended Psionic Energy Dice when you finish a Short Rest, and you regain all of them when you finish a Long Rest."
+    },
+    {
+      "name": "Spellfire Spark - Sacred Flame",
+      "current": 3,
+      "maximum": 3,
+      "description": "You can cast Sacred Flame as a Bonus Action a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest."
+    }
+  ],
+  "equipment": {
+    "currency": {
+      "cp": 0,
+      "sp": 0,
+      "ep": 0,
+      "gp": 0,
+      "pp": 0
+    },
+    "items": [
+      "Mithral Plate Armor (AC18)",
+      "Shield",
+      "Rapier +1",
+      "Hushed Edge +1 Vow of Silence: As a bonus action, you can activate or deactivate this property. While active, the blade produces the effect of the Silence spell in a 20-foot-radius sphere centered on the weapon. The sphere moves with you. No sound can be created within or pass through the area. Any creature entirely inside the sphere is immune to thunder damage and is deafened. Spells with a verbal component cannot be cast within the sphere. This effect does not require concentration and lasts until you deactivate it as a bonus action or until the weapon leaves your hand."
+    ]
+  },
+  "personality": {
+    "traits": "",
+    "ideals": "",
+    "bonds": "",
+    "flaws": "",
+    "appearance": "",
+    "backstory": ""
+  },
+  "notes": ""
+}

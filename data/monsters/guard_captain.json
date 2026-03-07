@@ -1,0 +1,54 @@
+{
+  "name": "Guard Captain",
+  "size": "Medium or Small",
+  "type": "Humanoid",
+  "alignment": "Neutral",
+  "source": "D&D 2024 Basic Rules",
+  "ac": 18,
+  "hp": 75,
+  "hitDice": "10d8 + 30",
+  "initiative": "+4 (14)",
+  "speed": "30 ft.",
+  "cr": "4 (XP 1,100; PB +2)",
+  "abilities": {
+    "str": { "score": 18, "save": null },
+    "dex": { "score": 14, "save": null },
+    "con": { "score": 16, "save": null },
+    "int": { "score": 12, "save": null },
+    "wis": { "score": 14, "save": null },
+    "cha": { "score": 13, "save": null }
+  },
+  "skills": "Athletics +6, Perception +4",
+  "resistances": "",
+  "immunities": "",
+  "vulnerabilities": "",
+  "conditionImmunities": "",
+  "senses": "Passive Perception 14",
+  "languages": "Common",
+  "gear": "Breastplate, Javelins (6), Longsword, Shield",
+  "traits": [],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "The guard makes two attacks, using Javelin or Longsword in any combination."
+    },
+    {
+      "name": "Javelin",
+      "description": "Melee or Ranged Attack Roll: +6, reach 5 ft. or range 30/120 ft. Hit: 14 (3d6 + 4) Piercing damage."
+    },
+    {
+      "name": "Longsword",
+      "description": "Melee Attack Roll: +6, reach 5 ft. Hit: 15 (2d10 + 4) Slashing damage."
+    }
+  ],
+  "bonusActions": [],
+  "reactions": [],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "Guard captains often have ample professional experience. They might be accomplished bodyguards, protectors of magic treasures, veteran watch members, or similar wardens.",
+  "habitat": "",
+  "treasure": ""
+}

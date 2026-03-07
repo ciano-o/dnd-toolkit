@@ -1,0 +1,611 @@
+{
+  "meta": {
+    "version": "1.0",
+    "name": "German",
+    "lastModified": "2026-02-08T20:02:49.617Z"
+  },
+  "basic": {
+    "name": "German",
+    "class": "Sorcerer",
+    "level": 3,
+    "race": "Yuan-Ti",
+    "background": "Acolyte",
+    "alignment": "",
+    "experiencePoints": 1775
+  },
+  "abilities": {
+    "str": 8,
+    "dex": 12,
+    "con": 14,
+    "int": 10,
+    "wis": 14,
+    "cha": 17
+  },
+  "combat": {
+    "armorClass": 14,
+    "currentHP": 23,
+    "maxHP": 23,
+    "temporaryHP": 0,
+    "initiative": 1,
+    "speed": "30 ft",
+    "hitDice": {
+      "current": 3,
+      "total": 3,
+      "type": "d6"
+    },
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    }
+  },
+  "proficiencies": {
+    "proficiencyBonus": 2,
+    "armor": [],
+    "weapons": [
+      "Simple weapons"
+    ],
+    "tools": [
+      "Calligrapher's suplies"
+    ],
+    "languages": [
+      "Common"
+    ],
+    "savingThrows": [
+      "con",
+      "cha"
+    ],
+    "skills": {
+      "acrobatics": false,
+      "animalHandling": false,
+      "arcana": false,
+      "athletics": false,
+      "deception": false,
+      "history": false,
+      "insight": true,
+      "intimidation": true,
+      "investigation": false,
+      "medicine": false,
+      "nature": false,
+      "perception": false,
+      "performance": false,
+      "persuasion": true,
+      "religion": true,
+      "sleightOfHand": false,
+      "stealth": false,
+      "survival": false
+    },
+    "expertise": []
+  },
+  "attacks": [
+    {
+      "name": "Sorcerous burst",
+      "attackBonus": 5,
+      "damageFormula": "1d8",
+      "damageType": "Acid, Cold, Fire, Lightning, Poison, Psychic, or Thunder",
+      "notes": "Range: 120 feet\nComponents: V, S\nDuration: Instantaneous\n\nIf you roll an 8 on a d8 for this spell, you can roll another d8, and add it to the damage. When you cast this spell, the maximum number of these d8s you can add to the spell’s damage equals your spellcasting ability modifier."
+    },
+    {
+      "name": "Poison spray",
+      "attackBonus": 5,
+      "damageFormula": "1d12",
+      "damageType": "Poison",
+      "notes": "Range: 30 feet\nComponents: V, S\nDuration: Instantaneous\n\nThe damage increases by 1d12 when you reach levels 5 (2d12), 11 (3d12), and 17 (4d12)."
+    },
+    {
+      "name": "Chromatic orb",
+      "attackBonus": 5,
+      "damageFormula": "3d8",
+      "damageType": "Acid, Cold, Fire, Lightning, Poison, or Thunder ",
+      "notes": "Range: 90 feet\nComponents: V, S, M (a diamond worth 50+ GP)\nDuration: Instantaneous\n\nThe damage increases by 1d8 for each spell slot level above 1. The orb can leap a maximum number of times equal to the level of the slot expended, and a creature can be targeted only once by each casting of this spell."
+    },
+    {
+      "name": "Ray of sickness",
+      "attackBonus": 5,
+      "damageFormula": "2d8",
+      "damageType": "Poison",
+      "notes": "Range: 60 feet\nComponents: V, S\nDuration: Instantaneous\n\nThe damage increases by 1d8 for each spell slot level above 1."
+    },
+    {
+      "name": "Dragon's breath",
+      "attackBonus": 5,
+      "damageFormula": "3d6",
+      "damageType": "Acid, Cold, Fire, Lightning, or Poison",
+      "notes": "Casting Time: Bonus Action\nRange: Touch\nComponents: V, S, M (a hot pepper)\nDuration: Concentration, up to 1 minute\n\nThe damage increases by 1d6 for each spell slot level above 2."
+    }
+  ],
+  "spellcasting": {
+    "ability": "cha",
+    "saveDC": 13,
+    "attackBonus": 5,
+    "spellSlots": {
+      "1": 4,
+      "2": 2,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0
+    },
+    "slotUsage": {}
+  },
+  "spells": {
+    "cantrips": [
+      {
+        "name": "Guidance",
+        "source": "Player's Handbook",
+        "level": "Divination Cantrip",
+        "classes": "Artificer, Cleric, Druid",
+        "castingTime": "action",
+        "range": "touch",
+        "components": "V, S",
+        "duration": "Concentration, up to 1 minute",
+        "description": "You touch a willing creature and choose a skill. Until the spell ends, the creature adds 1d4 to any ability check using the chosen skill.",
+        "prepared": true,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Thaumaturgy",
+        "source": "Player's Handbook",
+        "level": "Transmutation Cantrip ",
+        "classes": "Cleric",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "components": "V",
+        "duration": "Up to 1 minute",
+        "description": "You manifest a minor wonder within range. You create one of the effects below within range. If you cast this spell multiple times, you can have up to three of its 1-minute effects active at a time.\n\nAltered Eyes. You alter the appearance of your eyes for 1 minute.\n\nBooming Voice. Your voice booms up to three times as loud as normal for 1 minute. For the duration, you have Advantage on Charisma (Intimidation) checks.\n\nFire Play. You cause flames to flicker, brighten, dim, or change color for 1 minute.\n\nInvisible Hand. You instantaneously cause an unlocked door or window to fly open or slam shut.\n\nPhantom Sound. You create an instantaneous sound that originates from a point of your choice within range, such as a rumble of thunder, the cry of a raven, or ominous whispers.\n\nTremors. You cause harmless tremors in the ground for 1 minute.",
+        "prepared": true,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Sorcerous burst",
+        "source": "Player's Handbook",
+        "level": "Evocation Cantrip ",
+        "classes": "Sorcerer",
+        "castingTime": "Action",
+        "range": "120 feet",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "You cast sorcerous energy at one creature or object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d8 damage of a type you choose: Acid, Cold, Fire, Lightning, Poison, Psychic, or Thunder.\n\nIf you roll an 8 on a d8 for this spell, you can roll another d8, and add it to the damage. When you cast this spell, the maximum number of these d8s you can add to the spell’s damage equals your spellcasting ability modifier.",
+        "prepared": true,
+        "cantripUpgrade": "The damage increases by 1d8 when you reach levels 5 (2d8), 11 (3d8), and 17 (4d8)."
+      },
+      {
+        "name": "Mage hand",
+        "source": "Player's Handbook",
+        "level": "Conjuration Cantrip ",
+        "classes": "Artificer, Bard, Sorcerer, Warlock, Wizard",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "components": "V, S",
+        "duration": " 1 minute",
+        "description": "A spectral, floating hand appears at a point you choose within range. The hand lasts for the duration. The hand vanishes if it is ever more than 30 feet away from you or if you cast this spell again.\n\nWhen you cast the spell, you can use the hand to manipulate an object, open an unlocked door or container, stow or retrieve an item from an open container, or pour the contents out of a vial.\n\nAs a Magic action on your later turns, you can control the hand thus again. As part of that action, you can move the hand up to 30 feet.\n\nThe hand can’t attack, activate magic items, or carry more than 10 pounds.",
+        "prepared": true,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Minor illusion",
+        "source": "Player's Handbook",
+        "level": "Illusion Cantrip ",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "components": " S, M (a bit of fleece)",
+        "duration": " 1 minute",
+        "description": "You create a sound or an image of an object within range that lasts for the duration. See the descriptions below for the effects of each. The illusion ends if you cast this spell again.\n\nIf a creature takes a Study action to examine the sound or image, the creature can determine that it is an illusion with a successful Intelligence (Investigation) check against your spell save DC. If a creature discerns the illusion for what it is, the illusion becomes faint to the creature.\n\nSound. If you create a sound, its volume can range from a whisper to a scream. It can be your voice, someone else’s voice, a lion’s roar, a beating of drums, or any other sound you choose. The sound continues unabated throughout the duration, or you can make discrete sounds at different times before the spell ends.\n\nImage. If you create an image of an object—such as a chair, muddy footprints, or a small chest—it must be no larger than a 5-foot Cube. The image can’t create sound, light, smell, or any other sensory effect. Physical interaction with the image reveals it to be an illusion, since things can pass through it.",
+        "prepared": true,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Friends",
+        "source": "Player's Handbook",
+        "level": "Enchantment Cantrip ",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "castingTime": "Action",
+        "range": "10 feet",
+        "components": "S, M (some makeup)",
+        "duration": "Concentration, up to 1 minute",
+        "description": "You magically emanate a sense of friendship toward one creature you can see within range. The target must succeed on a Wisdom saving throw or have the Charmed condition for the duration. The target succeeds automatically if it isn’t a Humanoid, if you’re fighting it, or if you have cast this spell on it within the past 24 hours.\n\nThe spell ends early if the target takes damage or if you make an attack roll, deal damage, or force anyone to make a saving throw. When the spell ends, the target knows it was Charmed by you.",
+        "prepared": true,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Poison spray",
+        "source": "Player's Handbook",
+        "level": "Necromancy Cantrip ",
+        "classes": "Artificer, Druid, Sorcerer, Warlock, Wizard",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "You spray toxic mist at a creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d12 Poison damage.",
+        "prepared": true,
+        "cantripUpgrade": "The damage increases by 1d12 when you reach levels 5 (2d12), 11 (3d12), and 17 (4d12)."
+      }
+    ],
+    "level1": [
+      {
+        "name": "Cure Wounds",
+        "source": "Player's Handbook",
+        "level": "Level 1 Abjuration ",
+        "classes": "Artificer, Bard, Cleric, Druid, Paladin, Ranger",
+        "castingTime": "Action",
+        "range": "Touch",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "A creature you touch regains a number of Hit Points equal to 2d8 plus your spellcasting ability modifier.",
+        "prepared": true,
+        "higherLevel": "The healing increases by 2d8 for each spell slot level above 1."
+      },
+      {
+        "name": "Shield",
+        "source": "Player's Handbook",
+        "level": "Level 1 Abjuration ",
+        "classes": "Sorcerer, Wizard",
+        "castingTime": "Reaction, which you take when you are hit by an attack roll or targeted by the Magic Missile spell",
+        "range": "Self",
+        "components": "V, S",
+        "duration": "1 round",
+        "description": "An imperceptible barrier of magical force protects you. Until the start of your next turn, you have a +5 bonus to AC, including against the triggering attack, and you take no damage from Magic Missile.",
+        "prepared": true,
+        "higherLevel": ""
+      },
+      {
+        "name": "Expeditious retreat",
+        "source": "Player's Handbook",
+        "level": "Level 1 Transmutation ",
+        "classes": "Artificer, Sorcerer, Warlock, Wizard",
+        "castingTime": "Bonus Action",
+        "range": "Self",
+        "components": "V, S",
+        "duration": "Concentration, up to 10 minutes",
+        "description": "You take the Dash action, and until the spell ends, you can take that action again as a Bonus Action",
+        "prepared": true,
+        "higherLevel": ""
+      },
+      {
+        "name": "Ray of sickness",
+        "source": "Player's Handbook",
+        "level": "Level 1 Necromancy ",
+        "classes": "Sorcerer, Wizard",
+        "castingTime": "Action",
+        "range": "60 feet",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "You shoot a greenish ray at a creature within range. Make a ranged spell attack against the target. On a hit, the target takes 2d8 Poison damage and has the Poisoned condition until the end of your next turn.",
+        "prepared": true,
+        "higherLevel": "The damage increases by 1d8 for each spell slot level above 1."
+      },
+      {
+        "name": "Chromatic orb",
+        "source": "Player's Handbook",
+        "level": "Level 1 Evocation ",
+        "classes": "Sorcerer, Wizard",
+        "castingTime": "Action",
+        "range": "90 feet",
+        "components": "V, S, M (a diamond worth 50+ GP)",
+        "duration": "Instantaneous",
+        "description": "You hurl an orb of energy at a target within range. Choose Acid, Cold, Fire, Lightning, Poison, or Thunder for the type of orb you create, and then make a ranged spell attack against the target. On a hit, the target takes 3d8 damage of the chosen type.\n\nIf you roll the same number on two or more of the d8s, the orb leaps to a different target of your choice within 30 feet of the target. Make an attack roll against the new target, and make a new damage roll. The orb can’t leap again unless you cast the spell with a level 2+ spell slot.",
+        "prepared": true,
+        "higherLevel": "The damage increases by 1d8 for each spell slot level above 1. The orb can leap a maximum number of times equal to the level of the slot expended, and a creature can be targeted only once by each casting of this spell."
+      },
+      {
+        "name": "Command",
+        "source": "Player's Handbook",
+        "level": "Level 1 Enchantment ",
+        "classes": "Bard, Cleric, Paladin",
+        "castingTime": "Action",
+        "range": "60 feet",
+        "components": "V",
+        "duration": "Instantaneous",
+        "description": "You speak a one-word command to a creature you can see within range. The target must succeed on a Wisdom saving throw or follow the command on its next turn. Choose the command from these options:\n\nApproach. The target moves toward you by the shortest and most direct route, ending its turn if it moves within 5 feet of you.\n\nDrop. The target drops whatever it is holding and then ends its turn.\n\nFlee. The target spends its turn moving away from you by the fastest available means.\n\nGrovel. The target has the Prone condition and then ends its turn.\n\nHalt. On its turn, the target doesn’t move and takes no action or Bonus Action.",
+        "prepared": true,
+        "higherLevel": "You can affect one additional creature for each spell slot level above 1."
+      },
+      {
+        "name": "Animal Friendship",
+        "source": "Player's Handbook",
+        "level": "Level 1 Enchantment ",
+        "classes": "Bard, Druid, Ranger",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "components": "V, S, M (a morsel of food)",
+        "duration": "24 hours",
+        "description": "Target a Beast that you can see within range. The target must succeed on a Wisdom saving throw or have the Charmed condition for the duration. If you or one of your allies deals damage to the target, the spells ends.",
+        "prepared": true,
+        "higherLevel": "You can target one additional Beast for each spell slot level above 1."
+      }
+    ],
+    "level2": [
+      {
+        "name": "Enhance Ability",
+        "source": "Player's Handbook",
+        "level": "Level 2 Transmutation ",
+        "classes": "Artificer, Bard, Cleric, Druid, Ranger, Sorcerer, Wizard",
+        "castingTime": "Action",
+        "range": "Touch",
+        "components": "V, S, M (fur or a feather)",
+        "duration": "Concentration, up to 1 hour",
+        "description": "You touch a creature and choose Strength, Dexterity, Intelligence, Wisdom, or Charisma. For the duration, the target has Advantage on ability checks using the chosen ability.",
+        "prepared": true,
+        "higherLevel": "You can target one additional creature for each spell slot level above 2. You can choose a different ability for each target."
+      },
+      {
+        "name": "Misty Step",
+        "source": "Player's Handbook",
+        "level": "Level 2 Conjuration ",
+        "classes": "Sorcerer, Warlock, Wizard",
+        "castingTime": "Bonus Action",
+        "range": "Self",
+        "components": "V",
+        "duration": "Instantaneous",
+        "description": "Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space you can see.",
+        "prepared": true,
+        "higherLevel": ""
+      },
+      {
+        "name": "Invisibility",
+        "source": "Player's Handbook",
+        "level": "Level 2 Illusion ",
+        "classes": "Artificer, Bard, Sorcerer, Warlock, Wizard",
+        "castingTime": "Action",
+        "range": "Touch",
+        "components": "V, S, M (an eyelash in gum arabic)",
+        "duration": "Concentration, up to 1 hour",
+        "description": "A creature you touch has the Invisible condition until the spell ends. The spell ends early immediately after the target makes an attack roll, deals damage, or casts a spell.",
+        "prepared": true,
+        "higherLevel": "You can target one additional creature for each spell slot level above 2."
+      },
+      {
+        "name": "Alter Self",
+        "source": "Player's Handbook",
+        "level": "Level 2 Transmutation ",
+        "classes": "Artificer, Sorcerer, Wizard",
+        "castingTime": "Action",
+        "range": "Self",
+        "components": " V, S",
+        "duration": "Concentration, up to 1 hour",
+        "description": "You alter your physical form. Choose one of the following options. Its effects last for the duration, during which you can take a Magic action to replace the option you chose with a different one.\n\nAquatic Adaptation. You sprout gills and grow webs between your fingers. You can breathe underwater and gain a Swim Speed equal to your Speed.\n\nChange Appearance. You alter your appearance. You decide what you look like, including your height, weight, facial features, sound of your voice, hair length, coloration, and other distinguishing characteristics. You can make yourself appear as a member of another species, though none of your statistics change. You can’t appear as a creature of a different size, and your basic shape stays the same; if you’re bipedal, you can’t use this spell to become quadrupedal, for instance. For the duration, you can take a Magic action to change your appearance in this way again.\n\nNatural Weapons. You grow claws (Slashing), fangs (Piercing), horns (Piercing), or hooves (Bludgeoning). When you use your Unarmed Strike to deal damage with that new growth, it deals 1d6 damage of the type in parentheses instead of dealing the normal damage for your Unarmed Strike, and you use your spellcasting ability modifier for the attack and damage rolls rather than using Strength.",
+        "prepared": true,
+        "higherLevel": ""
+      },
+      {
+        "name": "Dragon's Breath",
+        "source": "Player's Handbook",
+        "level": "Level 2 Transmutation ",
+        "classes": "Artificer, Sorcerer, Wizard",
+        "castingTime": "Bonus Action",
+        "range": "Touch",
+        "components": "V, S, M (a hot pepper)",
+        "duration": "Concentration, up to 1 minute",
+        "description": "You touch one willing creature, and choose Acid, Cold, Fire, Lightning, or Poison. Until the spell ends, the target can take a Magic action to exhale a 15-foot Cone. Each creature in that area makes a Dexterity saving throw, taking 3d6 damage of the chosen type on a failed save or half as much damage on a successful one.",
+        "prepared": true,
+        "higherLevel": "The damage increases by 1d6 for each spell slot level above 2."
+      },
+      {
+        "name": "Suggestion",
+        "source": "Player's Handbook",
+        "level": "Level 2 Enchantment ",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "components": "V, M (a drop of honey)",
+        "duration": "Concentration, up to 8 hours",
+        "description": "You suggest a course of activity—described in no more than 25 words—to one creature you can see within range that can hear and understand you. The suggestion must sound achievable and not involve anything that would obviously deal damage to the target or its allies. For example, you could say, “Fetch the key to the cult’s treasure vault, and give the key to me.” Or you could say, “Stop fighting, leave this library peacefully, and don’t return.”\n\nThe target must succeed on a Wisdom saving throw or have the Charmed condition for the duration or until you or your allies deal damage to the target. The Charmed target pursues the suggestion to the best of its ability. The suggested activity can continue for the entire duration, but if the suggested activity can be completed in a shorter time, the spell ends for the target upon completing it.",
+        "prepared": true,
+        "higherLevel": ""
+      }
+    ],
+    "level3": [],
+    "level4": [],
+    "level5": [],
+    "level6": [],
+    "level7": [],
+    "level8": [],
+    "level9": []
+  },
+  "features": [
+    {
+      "name": "Magic initiate (cleric)",
+      "source": "Acolyte",
+      "type": "passive",
+      "description": "Two Cantrips. You learn two cantrips of your choice from the Cleric, Druid, or Wizard spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat). [guidance, thaumaturgy]\n\nLevel 1 Spell. Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have. [cure wounds]\n\nSpell Change. Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.\n\nRepeatable. You can take this feat more than once, but you must choose a different spell list each time.",
+      "category": "Origin feat",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Magic resistance",
+      "source": "Yuan Ti",
+      "type": "passive",
+      "description": "You have advantage on saving throws against spells.",
+      "category": "Resistance",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Poison resilience",
+      "source": "Yuan Ti",
+      "type": "passive",
+      "description": "You have advantage on saving throws you make to avoid or end\nthe poisoned condition on yourself. You also have resistance to poison damage.",
+      "category": "Resistance",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Serpentine spellcasting",
+      "source": "Yuan Ti",
+      "type": "passive",
+      "description": "You know the Poison Spray cantrip. You can cast Animal Friendship an unlimited number of times with this trait, but you can target only snakes with it. Starting at 3rd level, you can also cast Suggestion with this trait. Once you cast it, you can’t do so again until you finish a long rest. You can also cast it using any spell slots you have of 2nd level or higher.\n    Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race).\n",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Spellcasting",
+      "source": "Sorcerer",
+      "type": "passive",
+      "description": "Drawing from your innate magic, you can cast spells. See chapter 7 for the rules on spellcasting. The information below details how you use those rules with Sorcerer spells, which appear in the Sorcerer spell list later in the class’s description.\n\nCantrips. You know four Sorcerer cantrips of your choice. Light, Prestidigitation, Shocking Grasp, and Sorcerous Burst are recommended. Whenever you gain a Sorcerer level, you can replace one of your cantrips from this feature with another Sorcerer cantrip of your choice.\n\nWhen you reach Sorcerer levels 4 and 10, you learn another Sorcerer cantrip of your choice, as shown in the Cantrips column of the Sorcerer Features table.\n\nSpell Slots. The Sorcerer Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.\n\nPrepared Spells of Level 1+. You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 Sorcerer spells. Burning Hands and Detect Magic are recommended.\n\nThe number of spells on your list increases as you gain Sorcerer levels, as shown in the Prepared Spells column of the Sorcerer Features table. Whenever that number increases, choose additional Sorcerer spells until the number of spells on your list matches the number in the Sorcerer Features table. The chosen spells must be of a level for which you have spell slots. For example, if you’re a level 3 Sorcerer, your list of prepared spells can include six Sorcerer spells of level 1 or 2 in any combination.\n\nIf another Sorcerer feature gives you spells that you always have prepared, those spells don’t count against the number of spells you can prepare with this feature, but those spells otherwise count as Sorcerer spells for you.\n\nChanging Your Prepared Spells. Whenever you gain a Sorcerer level, you can replace one spell on your list with another Sorcerer spell for which you have spell slots.\n\nSpellcasting Ability. Charisma is your spellcasting ability for your Sorcerer spells.\n\nSpellcasting Focus. You can use an Arcane Focus as a Spellcasting Focus for your Sorcerer spells.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Innate sorcery",
+      "source": "Sorcerer",
+      "type": "active",
+      "description": "An event in your past left an indelible mark on you, infusing you with simmering magic. As a Bonus Action, you can unleash that magic for 1 minute, during which you gain the following benefits:\n    The spell save DC of your Sorcerer spells increases by 1.\n    You have Advantage on the attack rolls of Sorcerer spells you cast.\n\nYou can use this feature twice, and you regain all expended uses of it when you finish a Long Rest.",
+      "category": "",
+      "actionType": "bonus action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Font of magic",
+      "source": "Sorcerer",
+      "type": "passive",
+      "description": "You can tap into the wellspring of magic within yourself. This wellspring is represented by Sorcery Points, which allow you to create a variety of magical effects.\n\nYou have 2 Sorcery Points, and you gain more as you reach higher levels, as shown in the Sorcery Points column of the Sorcerer Features table. You can’t have more Sorcery Points than the number shown in the table for your level. You regain all expended Sorcery Points when you finish a Long Rest.\n\nYou can use your Sorcery Points to fuel the options below, along with other features, such as Metamagic, that use those points.\n\nConverting Spell Slots to Sorcery Points. You can expend a spell slot to gain a number of Sorcery Points equal to the slot’s level (no action required).\n\nCreating Spell Slots. As a Bonus Action, you can transform unexpended Sorcery Points into one spell slot. The Creating Spell Slots table shows the cost of creating a spell slot of a given level, and it lists the minimum Sorcerer level you must be to create a slot. You can create a spell slot no higher than level 5.\n\nAny spell slot you create with this feature vanishes when you finish a Long Rest.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Metamagic",
+      "source": "Sorcerer",
+      "type": "active",
+      "description": "Because your magic flows from within, you can alter your spells to suit your needs; you gain two Metamagic options of your choice from “Metamagic Options” later in this class’s description. You use the chosen options to temporarily modify spells you cast. To use an option, you must spend the number of Sorcery Points that it costs.\n\nYou can use only one Metamagic option on a spell when you cast it unless otherwise noted in one of those options.\n\nWhenever you gain a Sorcerer level, you can replace one of your Metamagic options with one you don’t know. You gain two more options at Sorcerer level 10 and two more at Sorcerer level 17.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Distant Spell",
+      "source": "Sorcerer",
+      "type": "active",
+      "description": "When you cast a spell that has a range of at least 5 feet, you can spend 1 Sorcery Point to double the spell’s range. Or when you cast a spell that has a range of Touch, you can spend 1 Sorcery Point to make the spell’s range 30 feet.",
+      "category": "Metamagic option",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": "1 Sorcery Point",
+      "requirements": ""
+    },
+    {
+      "name": "Subtle Spell",
+      "source": "Sorcerer",
+      "type": "active",
+      "description": "When you cast a spell, you can spend 1 Sorcery Point to cast it without any Verbal, Somatic, or Material components, except Material components that are consumed by the spell or that have a cost specified in the spell.",
+      "category": "Metamagic option",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": "1 Sorcery Point",
+      "requirements": ""
+    },
+    {
+      "name": "Draconic Resilience",
+      "source": "Draconic sorcery",
+      "type": "passive",
+      "description": "The magic in your body manifests physical traits of your draconic gift. Your Hit Point maximum increases by 3, and it increases by 1 whenever you gain another Sorcerer level.\n\nParts of you are also covered by dragon-like scales. While you aren’t wearing armor, your base Armor Class equals 10 plus your Dexterity and Charisma modifiers.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Draconic Spells",
+      "source": "Draconic sorcery",
+      "type": "passive",
+      "description": "When you reach a Sorcerer level specified in the Draconic Spells table, you thereafter always have the listed spells prepared.\n3 \tAlter Self, Chromatic Orb, Command, Dragon's Breath\n5 \tFear, Fly\n7 \tArcane Eye, Charm Monster\n9 \tLegend Lore, Summon Dragon",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    }
+  ],
+  "resources": [
+    {
+      "name": "Sorcery points",
+      "current": 3,
+      "maximum": 3,
+      "description": ""
+    },
+    {
+      "name": "Cure wounds free cast",
+      "current": 1,
+      "maximum": 1,
+      "description": ""
+    },
+    {
+      "name": "Animal friendship constraints",
+      "current": 0,
+      "maximum": 0,
+      "description": "You can cast Animal Friendship an unlimited number of times with this trait, but you can target only snakes with it"
+    },
+    {
+      "name": "Suggestion constraints",
+      "current": 1,
+      "maximum": 1,
+      "description": "Once you cast it, you can’t do so again until you finish a long rest. You can also cast it using any spell slots you have of 2nd level or higher."
+    }
+  ],
+  "equipment": {
+    "currency": {
+      "cp": 7,
+      "sp": 7,
+      "ep": 0,
+      "gp": 35,
+      "pp": 0
+    },
+    "items": [
+      "Calligrapher's supplies",
+      "Book (prayers)",
+      "Holy symbol",
+      "parchment (10 sheets)",
+      "robe",
+      "spear",
+      "2 daggers",
+      "arcane focus (crystal)",
+      "dungeoneer's pack",
+      "diamond (50 gp)",
+      "gertrude's diary"
+    ]
+  },
+  "personality": {
+    "traits": "",
+    "ideals": "",
+    "bonds": "",
+    "flaws": "",
+    "appearance": "",
+    "backstory": ""
+  },
+  "notes": ""
+}

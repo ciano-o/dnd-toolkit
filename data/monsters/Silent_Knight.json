@@ -1,0 +1,90 @@
+{
+  "name": "Silent Knight",
+  "size": "Medium",
+  "type": "Humanoid",
+  "alignment": "Neutral",
+  "source": "Homebrew",
+  "ac": 18,
+  "hp": 75,
+  "hitDice": "10d8 + 30",
+  "initiative": "+1 (11)",
+  "speed": "30 ft.",
+  "cr": "4 (1100 XP; PB +2)",
+  "abilities": {
+    "str": {
+      "score": 16,
+      "save": 5
+    },
+    "dex": {
+      "score": 12,
+      "save": 3
+    },
+    "con": {
+      "score": 16,
+      "save": null
+    },
+    "int": {
+      "score": 14,
+      "save": null
+    },
+    "wis": {
+      "score": 10,
+      "save": null
+    },
+    "cha": {
+      "score": 8,
+      "save": null
+    }
+  },
+  "skills": "Athletics +5, History +4, Perception +4",
+  "resistances": "",
+  "immunities": "",
+  "vulnerabilities": "",
+  "conditionImmunities": "",
+  "senses": "Blindsight 10 ft., Passive Perception 14",
+  "languages": "Common, Common Sign Language",
+  "traits": [
+    {
+      "name": "Hushed Edge",
+      "description": "The knight wields a magic greatsword that radiates silence. While the knight holds the weapon, no sound can be created within or pass through a 20-foot-radius Sphere centered on it. Any creature entirely inside the sphere is immune to Thunder damage and has the Deafened condition. Casting a spell that has a Verbal component is impossible within the sphere."
+    },
+    {
+      "name": "Magic Absorption",
+      "description": "Once per turn, when the knight takes damage from a spell or magical effect, it reduces the total damage by 2."
+    },
+    {
+      "name": "Psionic Resilience",
+      "description": "The knight has Advantage on saving throws against spells."
+    }
+  ],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "The knight makes two Hushed Greatsword attacks."
+    },
+    {
+      "name": "Hushed Greatsword",
+      "description": "Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Slashing damage damage."
+    }
+  ],
+  "bonusActions": [
+    {
+      "name": "Psionic Strike (3/Day)",
+      "description": "Immediately after hitting a target within 30 feet with the Hushed Greatsword and dealing damage, the knight deals an extra 11 (3d6) Force damage to the target."
+    }
+  ],
+  "reactions": [
+    {
+      "name": "Protective Field",
+      "description": "Trigger: The knight or a creature it can see within 30 feet takes damage. Response: The knight reduces the damage by 6 (1d6 + 3)."
+    }
+  ],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "Silent Knights are psionic warriors trained in an esoteric martial tradition that prizes discipline over bluster. They wield enchanted blades that project a field of absolute silence, making them devastating opponents for spellcasters and ideal sentinels for places where magic must be suppressed. They communicate entirely through sign language and psionic intuition, and their eerie, soundless combat style unnerves even seasoned fighters.",
+  "habitat": "Urban, Underground",
+  "treasure": "Armaments"
+}

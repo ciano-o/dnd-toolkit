@@ -1,0 +1,582 @@
+{
+  "meta": {
+    "version": "1.0",
+    "name": "Eyo Pett",
+    "lastModified": "2026-01-29T14:06:11.643Z"
+  },
+  "basic": {
+    "name": "Eyo Pett",
+    "class": "Warlock",
+    "level": 4,
+    "race": "Tiefling (Chthonic)",
+    "background": "Wasteland Wanderer (Rashemi Wanderer)",
+    "alignment": "Neutral",
+    "experiencePoints": 2700
+  },
+  "abilities": {
+    "str": 10,
+    "dex": 14,
+    "con": 16,
+    "int": 10,
+    "wis": 10,
+    "cha": 16
+  },
+  "combat": {
+    "armorClass": 15,
+    "currentHP": 43,
+    "maxHP": 43,
+    "temporaryHP": 0,
+    "initiative": 2,
+    "speed": "9 m",
+    "hitDice": {
+      "current": 4,
+      "total": 4,
+      "type": "d8"
+    },
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    }
+  },
+  "proficiencies": {
+    "proficiencyBonus": 2,
+    "armor": [
+      "Light armor"
+    ],
+    "weapons": [
+      "Simple Weapons"
+    ],
+    "tools": [],
+    "languages": [
+      "Common",
+      "Abyssal"
+    ],
+    "savingThrows": [
+      "cha",
+      "wis"
+    ],
+    "skills": {
+      "acrobatics": false,
+      "animalHandling": false,
+      "arcana": true,
+      "athletics": false,
+      "deception": false,
+      "history": true,
+      "insight": false,
+      "intimidation": true,
+      "investigation": false,
+      "medicine": false,
+      "nature": false,
+      "perception": true,
+      "performance": false,
+      "persuasion": false,
+      "religion": false,
+      "sleightOfHand": false,
+      "stealth": false,
+      "survival": false
+    },
+    "expertise": []
+  },
+  "attacks": [
+    {
+      "name": "Pact Weapon: Scythe",
+      "attackBonus": 5,
+      "damageFormula": "1d12+3",
+      "damageType": "Radiant/Necrotic/Slashing",
+      "notes": "Two handed"
+    },
+    {
+      "name": "Pact Weapon: Crescent Moon Blade",
+      "attackBonus": 5,
+      "damageFormula": "1d8+3",
+      "damageType": "Radiant/Necrotic/Slashing",
+      "notes": "One handed"
+    },
+    {
+      "name": "Eldritch Blast",
+      "attackBonus": 5,
+      "damageFormula": "1d10",
+      "damageType": "Force ",
+      "notes": "Cantrip 36m"
+    },
+    {
+      "name": "Sacred Flame",
+      "attackBonus": 0,
+      "damageFormula": "1d8",
+      "damageType": "Radiant",
+      "notes": "DC 13 DEX"
+    },
+    {
+      "name": "Chill Touch",
+      "attackBonus": 5,
+      "damageFormula": "1d10",
+      "damageType": "Necrotic",
+      "notes": "Cantrip, touch. Negates heals"
+    }
+  ],
+  "spellcasting": {
+    "ability": "cha",
+    "saveDC": 13,
+    "attackBonus": 5,
+    "spellSlots": {
+      "1": 0,
+      "2": 2,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0
+    },
+    "slotUsage": {
+      "2": 0
+    }
+  },
+  "spells": {
+    "cantrips": [
+      {
+        "name": "Eldritch Blast",
+        "source": "Player's Handbook",
+        "level": "Evocation Cantrip",
+        "classes": "Warlock",
+        "castingTime": "1 action",
+        "range": "36 m",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "You hurl a beam of crackling energy. Make a ranged spell attack against one creature or object in range. On a hit, the target takes 1d10 Force damage.",
+        "prepared": true,
+        "cantripUpgrade": "The spell creates two beams at level 5, three beams at level 11, and four beams at level 17. You can direct the beams at the same target or at different ones. Make a separate attack roll for each beam."
+      },
+      {
+        "name": "Blade Ward",
+        "source": "Player's Handbook",
+        "level": "Abjuration Cantrip",
+        "classes": "Warlock",
+        "castingTime": "1 action",
+        "range": "Self",
+        "components": "V, S",
+        "duration": "Concentration, up to 1 minute",
+        "description": "Whenever a creature makes an attack roll against you before the spell ends, the attacker subtracts 1d4 from the attack roll.",
+        "prepared": true
+      },
+      {
+        "name": "Sacred Flame",
+        "source": "Player's Handbook",
+        "level": "Evocation Cantrip",
+        "classes": "Cleric",
+        "castingTime": "1 action",
+        "range": "18 m",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "Flame-like radiance descends on a creature that you can see within range. The target must succeed on a Dexterity saving throw or take 1d8 Radiant damage. The target gains no benefit from Half Cover or Three-Quarters Cover for this save.",
+        "prepared": true,
+        "cantripUpgrade": "The damage increases by 1d8 when you reach levels 5 (2d8), 11 (3d8), and 17 (4d8)."
+      },
+      {
+        "name": "Light",
+        "source": "Player's Handbook",
+        "level": "Evocation Cantrip",
+        "classes": "",
+        "castingTime": "1 action",
+        "range": "Touch",
+        "components": "V, M (a firefly or phosphorescent moss)",
+        "duration": "1 hour",
+        "description": "You touch one Large or smaller object that isn’t being worn or carried by someone else. Until the spell ends, the object sheds Bright Light in a 20-foot radius and Dim Light for an additional 20 feet. The light can be colored as you like.\n\nCovering the object with something opaque blocks the light. The spell ends if you cast it again.",
+        "prepared": true
+      },
+      {
+        "name": "Guidance",
+        "source": "Player's Handbook",
+        "level": "Divination Cantrip",
+        "classes": "Artificer, Cleric, Druid",
+        "castingTime": "1 action",
+        "range": "Touch",
+        "components": "V, S",
+        "duration": "Concentration, up to 1 minute",
+        "description": "You touch a willing creature and choose a skill. Until the spell ends, the creature adds 1d4 to any ability check using the chosen skill.",
+        "prepared": true
+      },
+      {
+        "name": "Thaumaturgy",
+        "source": "Player's Handbook",
+        "level": "Transmutation Cantrip",
+        "classes": "Cleric",
+        "castingTime": "1 action",
+        "range": "9 m",
+        "components": "V",
+        "duration": "Up to 1 minute",
+        "description": "You manifest a minor wonder within range. You create one of the effects below within range. If you cast this spell multiple times, you can have up to three of its 1-minute effects active at a time.\n\nAltered Eyes. You alter the appearance of your eyes for 1 minute.\n\nBooming Voice. Your voice booms up to three times as loud as normal for 1 minute. For the duration, you have Advantage on Charisma (Intimidation) checks.\n\nFire Play. You cause flames to flicker, brighten, dim, or change color for 1 minute.\n\nInvisible Hand. You instantaneously cause an unlocked door or window to fly open or slam shut.\n\nPhantom Sound. You create an instantaneous sound that originates from a point of your choice within range, such as a rumble of thunder, the cry of a raven, or ominous whispers.\n\nTremors. You cause harmless tremors in the ground for 1 minute.",
+        "prepared": true
+      },
+      {
+        "name": "Chill Touch",
+        "source": "Player's Handbook",
+        "level": "Necromancy Cantrip",
+        "classes": "Sorcerer, Warlock, Wizard",
+        "castingTime": "1 action",
+        "range": "Touch",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "Channeling the chill of the grave, make a melee spell attack against a target within reach. On a hit, the target takes 1d10 Necrotic damage, and it can’t regain Hit Points until the end of your next turn.",
+        "prepared": true,
+        "cantripUpgrade": "The damage increases by 1d10 when you reach levels 5 (2d10), 11 (3d10), and 17 (4d10)."
+      }
+    ],
+    "level1": [
+      {
+        "name": "Detect Magic",
+        "source": "Player's Handbook",
+        "level": "Level 1 Divination",
+        "classes": "Warlock",
+        "castingTime": "Action or Ritual",
+        "range": "Self",
+        "components": "V, S",
+        "duration": "Concentration, up to 10 minutes",
+        "description": "For the duration, you sense the presence of magical effects within 30 feet of yourself. If you sense such effects, you can take the Magic action to see a faint aura around any visible creature or object in the area that bears the magic, and if an effect was created by a spell, you learn the spell's school of magic.\n\nThe spell is blocked by 1 foot of stone, dirt, or wood; 1 inch of metal; or a thin sheet of lead.",
+        "prepared": true
+      },
+      {
+        "name": "Protection from Evil and Good",
+        "source": "Player's Handbook",
+        "level": "Level 1 Abjuration",
+        "classes": "Warlock",
+        "castingTime": "1 action",
+        "range": "Touch",
+        "components": "V, S, M (a flask of Holy Water worth 25+ GP, which the spell consumes)",
+        "duration": "Concentration up to 10 minutes",
+        "description": "Until the spell ends, one willing creature you touch is protected against creatures that are Aberrations, Celestials, Elementals, Fey, Fiends, or Undead. The protection grants several benefits. Creatures of those types have Disadvantage on attack rolls against the target. The target also can’t be possessed by or gain the Charmed or Frightened conditions from them. If the target is already possessed, Charmed, or Frightened by such a creature, the target has Advantage on any new saving throw against the relevant effect.",
+        "prepared": true
+      },
+      {
+        "name": "Lesser Restoration",
+        "source": "Player's Handbook",
+        "level": "Level 2 Abjuration",
+        "classes": "Artificer, Bard, Cleric, Druid, Paladin, Ranger",
+        "castingTime": "1 action",
+        "range": "Touch",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "You touch a creature and end one condition on it: Blinded, Deafened, Paralyzed, or Poisoned.",
+        "prepared": true
+      },
+      {
+        "name": "Guiding Bolt",
+        "source": "Player's Handbook",
+        "level": "Level 1 Evocation",
+        "classes": "Cleric",
+        "castingTime": "1 action",
+        "range": "36 m",
+        "components": "V, S",
+        "duration": "1 round",
+        "description": "You hurl a bolt of light toward a creature within range. Make a ranged spell attack against the target. On a hit, it takes 4d6 Radiant damage, and the next attack roll made against it before the end of your next turn has Advantage.",
+        "prepared": true,
+        "higherLevel": "The damage increases by 1d6 for each spell slot level above 1."
+      },
+      {
+        "name": "Cure Wounds",
+        "source": "Player's Handbook",
+        "level": "Level 1 Abjuration",
+        "classes": "Artificer, Bard, Cleric, Druid, Paladin, Ranger",
+        "castingTime": "1 action",
+        "range": "Touch",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "A creature you touch regains a number of Hit Points equal to 2d8 plus your spellcasting ability modifier.",
+        "prepared": true,
+        "higherLevel": "The healing increases by 2d8 for each spell slot level above 1."
+      },
+      {
+        "name": "False Life",
+        "source": "Player's Handbook",
+        "level": "Level 1 Necromancy",
+        "classes": "Artificer, Sorcerer, Wizard",
+        "castingTime": "1 action",
+        "range": "Self",
+        "components": "V, S, M (a drop of alcohol)",
+        "duration": "Instantaneous",
+        "description": "You gain 2d4 + 4 Temporary Hit Points.",
+        "prepared": true,
+        "higherLevel": "You gain 5 additional Temporary Hit Points for each spell slot level above 1."
+      }
+    ],
+    "level2": [
+      {
+        "name": "Darkness",
+        "source": "Player's Handbook",
+        "level": "Level 2 Evocation",
+        "classes": "Warlock",
+        "castingTime": "1 action",
+        "range": "18 m",
+        "components": "V, M (bat fur and a piece of coal)",
+        "duration": "Concentration, up to 10 minutes",
+        "description": "For the duration, magical Darkness spreads from a point within range and fills a 15-foot-radius Sphere. Darkvision can’t see through it, and nonmagical light can’t illuminate it.\n\nAlternatively, you cast the spell on an object that isn’t being worn or carried, causing the Darkness to fill a 15-foot Emanation originating from that object. Covering that object with something opaque, such as a bowl or helm, blocks the Darkness.\n\nIf any of this spell’s area overlaps with an area of Bright Light or Dim Light created by a spell of level 2 or lower, that other spell is dispelled.",
+        "prepared": true
+      },
+      {
+        "name": "Suggestion",
+        "source": "Player's Handbook",
+        "level": "Level 2 Enchantment",
+        "classes": "Warlock",
+        "castingTime": "1 action",
+        "range": "9 m",
+        "components": "V, M (a drop of honey)",
+        "duration": "Concentration, up to 8 hours",
+        "description": "You suggest a course of activity—described in no more than 25 words—to one creature you can see within range that can hear and understand you. The suggestion must sound achievable and not involve anything that would obviously deal damage to the target or its allies. For example, you could say, “Fetch the key to the cult’s treasure vault, and give the key to me.” Or you could say, “Stop fighting, leave this library peacefully, and don’t return.”\n\nThe target must succeed on a Wisdom saving throw or have the Charmed condition for the duration or until you or your allies deal damage to the target. The Charmed target pursues the suggestion to the best of its ability. The suggested activity can continue for the entire duration, but if the suggested activity can be completed in a shorter time, the spell ends for the target upon completing it.",
+        "prepared": true
+      },
+      {
+        "name": "Hold Person",
+        "source": "Player's Handbook",
+        "level": "Level 2 Enchantment",
+        "classes": "",
+        "castingTime": "1 action",
+        "range": "18 m",
+        "components": "V, S, M (a straight piece of iron)",
+        "duration": "Concentration, up to 1 minute",
+        "description": "Choose a Humanoid that you can see within range. The target must succeed on a Wisdom saving throw or have the Paralyzed condition for the duration. At the end of each of its turns, the target repeats the save, ending the spell on itself on a success.",
+        "prepared": true,
+        "higherLevel": "You can target one additional Humanoid for each spell slot level above 2."
+      },
+      {
+        "name": "Invisibility",
+        "source": "Player's Handbook",
+        "level": "Level 2 Illusion",
+        "classes": "Warlock",
+        "castingTime": "1 action",
+        "range": "Touch",
+        "components": "V, S, M (an eyelash in gum arabic)",
+        "duration": "Concentration, up to 1 hour",
+        "description": "A creature you touch has the Invisible condition until the spell ends. The spell ends early immediately after the target makes an attack roll, deals damage, or casts a spell.",
+        "prepared": true,
+        "higherLevel": "You can target one additional creature for each spell slot level above 2."
+      },
+      {
+        "name": "Aid",
+        "source": "Player's Handbook",
+        "level": "Level 2 Abjuration",
+        "classes": "Artificer, Bard, Cleric, Druid, Paladin, Ranger",
+        "castingTime": "1 action",
+        "range": "9m",
+        "components": "V, S, M (a strip of white cloth)",
+        "duration": "8 hours",
+        "description": "Choose up to three creatures within range. Each target’s Hit Point maximum and current Hit Points increase by 5 for the duration.",
+        "prepared": true,
+        "higherLevel": "Each target’s Hit Points increase by 5 for each spell slot level above 2."
+      }
+    ],
+    "level3": [],
+    "level4": [],
+    "level5": [],
+    "level6": [],
+    "level7": [],
+    "level8": [],
+    "level9": []
+  },
+  "features": [
+    {
+      "name": "Magical Cunning",
+      "source": "Warlock 2",
+      "type": "active",
+      "description": "You can perform an esoteric rite for 1 minute. At the end of it, you regain expended Pact Magic spell slots but no more than a number equal to half your maximum (round up). Once you use this feature, you can’t do so again until you finish a Long Rest.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Healing Light",
+      "source": "Warlock 3, Celestial Patron",
+      "type": "active",
+      "description": "You gain the ability to channel celestial energy to heal wounds. You have a pool of d6s to fuel this healing. The number of dice in the pool equals 1 plus your Warlock level.\n\nAs a Bonus Action, you can heal yourself or one creature you can see within 60 feet of yourself, expending dice from the pool. The maximum number of dice you can expend at once equals your Charisma modifier (minimum of one die). Roll the dice you expend, and restore a number of Hit Points equal to the roll’s total. Your pool regains all expended dice when you finish a Long Rest.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Armor of Shadows",
+      "source": "Warlock, Eldritch Invocation",
+      "type": "active",
+      "description": "You can cast Mage Armor on yourself without expending a spell slot.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Pact of the Blade",
+      "source": "Warlock, Eldritch Invocation",
+      "type": "active",
+      "description": "As a Bonus Action, you can conjure a pact weapon in your hand—a Simple or Martial Melee weapon of your choice with which you bond—or create a bond with a magic weapon you touch; you can’t bond with a magic weapon if someone else is attuned to it or another Warlock is bonded with it. Until the bond ends, you have proficiency with the weapon, and you can use it as a Spellcasting Focus.\n\nWhenever you attack with the bonded weapon, you can use your Charisma modifier for the attack and damage rolls instead of using Strength or Dexterity; and you can cause the weapon to deal Necrotic, Psychic, or Radiant damage or its normal damage type.\n\nYour bond with the weapon ends if you use this feature’s Bonus Action again, if the weapon is more than 5 feet away from you for 1 minute or more, or if you die. A conjured weapon disappears when the bond ends.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Devil’s Sight",
+      "source": "Warlock, Eldritch Invocation",
+      "type": "passive",
+      "description": "You can see normally in Dim Light and Darkness—both magical and nonmagical—within 120 feet of yourself.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Darkvision",
+      "source": "Tiefling",
+      "type": "passive",
+      "description": "You have Darkvision with a range of 60 feet.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Necrotic Resistance",
+      "source": "Tiefling",
+      "type": "passive",
+      "description": "You have Resistance to Necrotic damage.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Tough",
+      "source": "Origin Feat",
+      "type": "passive",
+      "description": "Your Hit Point maximum increases by an amount equal to twice your character level when you gain this feat. Whenever you gain a character level thereafter, your Hit Point maximum increases by an additional 2 Hit Points.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Light Bringer",
+      "source": "Feat, lv 4",
+      "type": "passive",
+      "description": "\nSource: Astarion's Book of Hungers\n\nGeneral Feat (Prerequisite: Level 4+)\n\nYou gain the following benefits.\n\nAbility Score Increase. Increase your Intelligence, Wisdom, or Charisma score by 1, to a maximum of 20.\n\nSacred Magic. You learn the Light spell and can cast it without Material components. If you already know that cantrip, you learn a different Cleric cantrip of your choice. The spell’s spellcasting ability is the ability increased by this feat.\n\nSolar Luminance. When you cast Light, you can have the light from the spell be sunlight. Once you use this benefit, you can’t use it again until you finish a Long Rest.\n\nSun’s Healing. As a Bonus Action while within sunlight, you can expend one of your Hit Point Dice, roll the die, and regain a number of Hit Points equal to the roll. Once you use this benefit, you can’t use it again until you finish a Short or Long Rest.\n\nUsed to learn Guidance\n",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    }
+  ],
+  "resources": [
+    {
+      "name": "Magical Cunning effect",
+      "current": 1,
+      "maximum": 1,
+      "description": "Recharges on Long Rest"
+    },
+    {
+      "name": "Healing Light",
+      "current": 5,
+      "maximum": 5,
+      "description": "You gain the ability to channel celestial energy to heal wounds. You have a pool of d6s to fuel this healing. The number of dice in the pool equals 1 plus your Warlock level.\n\nAs a Bonus Action, you can heal yourself or one creature you can see within 60 feet of yourself, expending dice from the pool. The maximum number of dice you can expend at once equals your Charisma modifier (minimum of one die). Roll the dice you expend, and restore a number of Hit Points equal to the roll’s total. Your pool regains all expended dice when you finish a Long Rest."
+    },
+    {
+      "name": "Fiendish Legacy: False life (lv 1, free)",
+      "current": 1,
+      "maximum": 1,
+      "description": "You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest."
+    }
+  ],
+  "equipment": {
+    "currency": {
+      "cp": 0,
+      "sp": 0,
+      "ep": 0,
+      "gp": 123,
+      "pp": 0
+    },
+    "items": [
+      {
+        "name": "Cartographer’s Tools",
+        "weight": 0,
+        "equipped": false,
+        "notes": "",
+        "consumable": false
+      },
+      {
+        "name": "Backpack",
+        "weight": 0,
+        "equipped": false,
+        "notes": "",
+        "consumable": false
+      },
+      {
+        "name": "Bedroll",
+        "weight": 0,
+        "equipped": false,
+        "notes": "",
+        "consumable": false
+      },
+      {
+        "name": "Hooded Lantern",
+        "weight": 0,
+        "equipped": false,
+        "notes": "",
+        "consumable": false
+      },
+      {
+        "name": "Oil (3 flasks)",
+        "weight": 0,
+        "equipped": false,
+        "notes": "",
+        "consumable": false
+      },
+      {
+        "name": "Rope",
+        "weight": 0,
+        "equipped": false,
+        "notes": "",
+        "consumable": false
+      },
+      {
+        "name": "Tinderbox",
+        "weight": 0,
+        "equipped": false,
+        "notes": "",
+        "consumable": false
+      },
+      {
+        "name": "Traveler’s Clothes, Waterskin",
+        "weight": 0,
+        "equipped": false,
+        "notes": "",
+        "consumable": false
+      }
+    ]
+  },
+  "personality": {
+    "traits": "",
+    "ideals": "",
+    "bonds": "",
+    "flaws": "",
+    "appearance": "",
+    "backstory": ""
+  },
+  "notes": ""
+}

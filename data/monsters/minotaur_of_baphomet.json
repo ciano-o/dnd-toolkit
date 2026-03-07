@@ -1,0 +1,50 @@
+{
+  "name": "Minotaur of Baphomet",
+  "size": "Large",
+  "type": "Monstrosity",
+  "alignment": "Chaotic Evil",
+  "source": "D&D 2024 Basic Rules",
+  "ac": 14,
+  "hp": 85,
+  "hitDice": "10d10 + 30",
+  "initiative": "+0 (10)",
+  "speed": "40 ft.",
+  "cr": "3 (XP 700; PB +2)",
+  "abilities": {
+    "str": { "score": 18, "save": null },
+    "dex": { "score": 11, "save": null },
+    "con": { "score": 16, "save": null },
+    "int": { "score": 6, "save": null },
+    "wis": { "score": 16, "save": null },
+    "cha": { "score": 9, "save": null }
+  },
+  "skills": "Perception +7, Survival +7",
+  "resistances": "",
+  "immunities": "",
+  "vulnerabilities": "",
+  "conditionImmunities": "",
+  "senses": "Darkvision 60 ft., Passive Perception 17",
+  "languages": "Abyssal",
+  "gear": "",
+  "traits": [],
+  "actions": [
+    {
+      "name": "Abyssal Glaive",
+      "description": "Melee Attack Roll: +6, reach 10 ft. Hit: 10 (1d12 + 4) Slashing damage plus 10 (3d6) Necrotic damage."
+    },
+    {
+      "name": "Gore (Recharge 5–6)",
+      "description": "Melee Attack Roll: +6, reach 5 ft. Hit: 18 (4d6 + 4) Piercing damage. If the target is a Large or smaller creature and the minotaur moved 10+ feet straight toward it immediately before the hit, the target takes an extra 10 (3d6) Piercing damage and has the Prone condition."
+    }
+  ],
+  "bonusActions": [],
+  "reactions": [],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "",
+  "habitat": "",
+  "treasure": ""
+}

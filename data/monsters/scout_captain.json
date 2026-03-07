@@ -1,0 +1,64 @@
+{
+  "name": "Scout Captain",
+  "size": "Medium or Small",
+  "type": "Humanoid",
+  "alignment": "Neutral",
+  "source": "D&D 2024 Basic Rules",
+  "ac": 15,
+  "hp": 66,
+  "hitDice": "12d8 + 12",
+  "initiative": "+5 (15)",
+  "speed": "30 ft., Climb 30 ft.",
+  "cr": "3 (XP 700; PB +2)",
+  "abilities": {
+    "str": { "score": 11, "save": null },
+    "dex": { "score": 16, "save": 5 },
+    "con": { "score": 12, "save": null },
+    "int": { "score": 14, "save": 4 },
+    "wis": { "score": 15, "save": null },
+    "cha": { "score": 11, "save": null }
+  },
+  "skills": "Perception +6, Stealth +7, Survival +6",
+  "resistances": "",
+  "immunities": "",
+  "vulnerabilities": "",
+  "conditionImmunities": "",
+  "senses": "Passive Perception 16",
+  "languages": "Common plus one other language",
+  "gear": "Longbow, Shortsword, Studded Leather Armor",
+  "traits": [],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "The scout makes two attacks, using Shortsword or Longbow in any combination."
+    },
+    {
+      "name": "Shortsword",
+      "description": "Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Piercing damage, plus 10 (3d6) Piercing damage if the attack was made with Advantage."
+    },
+    {
+      "name": "Longbow",
+      "description": "Ranged Attack Roll: +5, range 150/600 ft. Hit: 7 (1d8 + 3) Piercing damage, plus 10 (3d6) Piercing damage if the attack was made with Advantage."
+    }
+  ],
+  "bonusActions": [
+    {
+      "name": "Aim",
+      "description": "The scout has Advantage on the next attack roll it makes during the current turn."
+    }
+  ],
+  "reactions": [
+    {
+      "name": "Uncanny Dodge",
+      "description": "Trigger: The scout is hit by an attack roll. Response: The scout halves the damage (round down) it takes from that attack."
+    }
+  ],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "",
+  "habitat": "",
+  "treasure": ""
+}

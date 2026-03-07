@@ -1,0 +1,658 @@
+{
+  "meta": {
+    "version": "1.0",
+    "name": "Krusko",
+    "lastModified": "2026-02-08T20:49:33.996Z",
+    "playerName": "",
+    "created": "2026-01-11T13:30:00.000Z"
+  },
+  "basic": {
+    "name": "Krusko",
+    "class": "Warlock (Wyrm Patron)",
+    "level": 5,
+    "race": "Goblin",
+    "background": "Farmer",
+    "alignment": "Chaotic Neutral",
+    "experiencePoints": 6500
+  },
+  "abilities": {
+    "str": 8,
+    "dex": 14,
+    "con": 16,
+    "int": 10,
+    "wis": 11,
+    "cha": 16
+  },
+  "combat": {
+    "armorClass": 15,
+    "currentHP": 53,
+    "maxHP": 53,
+    "temporaryHP": 0,
+    "initiative": 2,
+    "speed": "30 ft",
+    "hitDice": {
+      "current": 4,
+      "total": 4,
+      "type": "d8",
+      "remaining": 4
+    },
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    },
+    "hitPoints": {
+      "maximum": 53,
+      "current": 53,
+      "temporary": 0
+    }
+  },
+  "proficiencies": {
+    "proficiencyBonus": 3,
+    "armor": [
+      "Light armor"
+    ],
+    "weapons": [],
+    "tools": [
+      "Farmer's tools"
+    ],
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "savingThrows": [
+      "WIS",
+      "CHA",
+      "wis",
+      "cha"
+    ],
+    "skills": {
+      "acrobatics": false,
+      "animalHandling": true,
+      "arcana": false,
+      "athletics": false,
+      "deception": true,
+      "history": false,
+      "insight": false,
+      "intimidation": true,
+      "investigation": false,
+      "medicine": false,
+      "nature": true,
+      "perception": false,
+      "performance": false,
+      "persuasion": false,
+      "religion": false,
+      "sleightOfHand": false,
+      "stealth": false,
+      "survival": false,
+      "Acrobatics": {
+        "proficient": false
+      },
+      "Animal Handling": {
+        "proficient": true
+      },
+      "Arcana": {
+        "proficient": false
+      },
+      "Athletics": {
+        "proficient": false
+      },
+      "Deception": {
+        "proficient": true
+      },
+      "History": {
+        "proficient": false
+      },
+      "Insight": {
+        "proficient": false
+      },
+      "Intimidation": {
+        "proficient": true
+      },
+      "Investigation": {
+        "proficient": false
+      },
+      "Medicine": {
+        "proficient": false
+      },
+      "Nature": {
+        "proficient": true
+      },
+      "Perception": {
+        "proficient": false
+      },
+      "Performance": {
+        "proficient": false
+      },
+      "Persuasion": {
+        "proficient": false
+      },
+      "Religion": {
+        "proficient": false
+      },
+      "Sleight of Hand": {
+        "proficient": false
+      },
+      "Stealth": {
+        "proficient": false
+      },
+      "Survival": {
+        "proficient": false
+      }
+    },
+    "expertise": [],
+    "weapon": [
+      "Simple weapons"
+    ]
+  },
+  "attacks": [
+    {
+      "name": "Eldritch Blast",
+      "attackBonus": 6,
+      "damageFormula": "1d10+3 per beam",
+      "damageType": "force",
+      "notes": "120 ft range, 2 beams (adds CHA mod from Agonizing Blast)"
+    },
+    {
+      "name": "Dagger",
+      "attackBonus": 5,
+      "damageFormula": "1d4+2",
+      "damageType": "piercing",
+      "notes": "Finesse, Light, Thrown (20/60)"
+    }
+  ],
+  "spellcasting": {
+    "ability": "cha",
+    "saveDC": 14,
+    "attackBonus": 6,
+    "spellSlots": {
+      "1": 0,
+      "2": 0,
+      "3": 2,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0
+    },
+    "slotUsage": {},
+    "spellSaveDC": 14,
+    "spellAttackBonus": 6
+  },
+  "spells": {
+    "cantrips": [
+      {
+        "name": "Eldritch Blast",
+        "source": "Player's Handbook",
+        "level": "Evocation Cantrip",
+        "classes": "Warlock",
+        "castingTime": "1 Action",
+        "range": "120 feet",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "A beam of crackling energy streaks toward a creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 force damage.",
+        "cantripUpgrade": "The spell creates more than one beam when you reach higher levels: two beams at 5th level, three beams at 11th level, and four beams at 17th level.",
+        "prepared": true
+      },
+      {
+        "name": "True Strike",
+        "source": "Player's Handbook 2024",
+        "level": "Cantrip Divination",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "castingTime": "1 Action",
+        "range": "Weapon Range",
+        "components": "S, M (a weapon)",
+        "duration": "Instantaneous",
+        "description": "Guided by insight, you make one attack with the weapon used in the casting. You use your spellcasting ability (Charisma) for the attack and damage rolls. On a hit, the target takes its normal damage plus 1d6 Radiant damage.",
+        "higherLevel": "Radiant damage increases by 1d6 at levels 5, 11, and 17.",
+        "prepared": true
+      },
+      {
+        "name": "Blade Ward",
+        "source": "Player's Handbook 2024",
+        "level": "Cantrip Abjuration",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "castingTime": "1 Reaction",
+        "range": "Self",
+        "components": "V, S",
+        "duration": "Concentration, up to 1 minute",
+        "description": "Whenever a creature makes an attack roll against you before the spell ends, the attacker subtracts 1d4 from the attack roll.",
+        "higherLevel": "",
+        "prepared": true
+      }
+    ],
+    "level1": [
+      {
+        "name": "Armor of Agathys",
+        "source": "Player's Handbook",
+        "level": "Level 1 Abjuration",
+        "classes": "Warlock",
+        "castingTime": "1 Action",
+        "range": "Self",
+        "components": "V, S, M (a cup of water)",
+        "duration": "1 hour",
+        "description": "A protective magical frost surrounds you. You gain 5 temporary hit points for the duration. If a creature hits you with a melee attack while you have these hit points, the creature takes 5 cold damage.",
+        "higherLevel": "When you cast this spell using a spell slot of 2nd level or higher, both the temporary hit points and the cold damage increase by 5 for each slot level above 1st.",
+        "prepared": true
+      },
+      {
+        "name": "Expeditious Retreat",
+        "source": "Player's Handbook",
+        "level": "Level 1 Transmutation",
+        "classes": "Sorcerer, Warlock, Wizard",
+        "castingTime": "1 Bonus Action",
+        "range": "Self",
+        "components": "V, S",
+        "duration": "Concentration, up to 10 minutes",
+        "description": "This spell allows you to move at an incredible pace. When you cast this spell, and then as a bonus action on each of your turns until the spell ends, you can take the Dash action.",
+        "higherLevel": "",
+        "prepared": true
+      },
+      {
+        "name": "Command",
+        "source": "Player's Handbook 2024 (Wyrm Patron)",
+        "level": "Level 1 Enchantment",
+        "classes": "Cleric, Paladin, Warlock",
+        "castingTime": "1 Action",
+        "range": "60 feet",
+        "components": "V",
+        "duration": "1 round",
+        "description": "You speak a one-word command (Approach, Drop, Flee, Grovel, or Halt) to a creature you can see. The target must succeed on a Wisdom saving throw or follow the command on its next turn.",
+        "higherLevel": "Target one additional creature for each slot level above 1st.",
+        "prepared": true
+      },
+      {
+        "name": "Hex",
+        "source": "Player's Handbook 2024 (Innate)",
+        "level": "Level 1 Enchantment",
+        "classes": "Warlock",
+        "castingTime": "1 Bonus Action",
+        "range": "90 feet",
+        "components": "V, S, M (petrified eye of a newt)",
+        "duration": "Concentration, up to 1 hour",
+        "description": "You deal an extra 1d6 necrotic damage to the target whenever you hit it with an attack. Also, choose one ability; the target has disadvantage on ability checks made with that ability. If the target drops to 0 HP, you can move the hex to a new creature as a bonus action on a subsequent turn.",
+        "higherLevel": "Duration increases with higher slot levels.",
+        "prepared": true
+      },
+      {
+        "name": "Mage Armor",
+        "source": "Player's Handbook 2024 (At-Will)",
+        "level": "Level 1 Abjuration",
+        "classes": "Sorcerer, Wizard, Warlock",
+        "castingTime": "1 Action",
+        "range": "Touch",
+        "components": "V, S, M (a piece of cured leather)",
+        "duration": "8 hours",
+        "description": "You touch a willing creature who isn't wearing armor, and a protective magical force surrounds it until the spell ends. The target's base AC becomes 13 + its Dexterity modifier.",
+        "higherLevel": "",
+        "prepared": true
+      },
+      {
+        "name": "Burning Hands",
+        "source": "Player's Handbook",
+        "level": "Level 1 Evocation",
+        "classes": "Sorcerer, Wizard",
+        "castingTime": "Action",
+        "range": "Self",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "A thin sheet of flames shoots forth from you. Each creature in a 15-foot Cone makes a Dexterity saving throw, taking 3d6 Fire damage on a failed save or half as much damage on a successful one.\n\nFlammable objects in the Cone that aren’t being worn or carried start burning.",
+        "prepared": true,
+        "higherLevel": "The damage increases by 1d6 for each spell slot level above 1."
+      }
+    ],
+    "level2": [
+      {
+        "name": "Hold Person",
+        "source": "Player's Handbook",
+        "level": "Level 2 Enchantment",
+        "classes": "Bard, Cleric, Druid, Sorcerer, Warlock, Wizard",
+        "castingTime": "1 Action",
+        "range": "60 feet",
+        "components": "V, S, M (a small, straight piece of iron)",
+        "duration": "Concentration, up to 1 minute",
+        "description": "Choose a humanoid that you can see within range. The target must succeed on a Wisdom saving throw or be paralyzed for the duration. At the end of each of its turns, the target can make another Wisdom saving throw. On a success, the spell ends on the target.",
+        "higherLevel": "When you cast this spell using a spell slot of 3rd level or higher, you can target one additional humanoid for each slot level above 2nd.",
+        "prepared": true
+      },
+      {
+        "name": "Misty Step",
+        "source": "Player's Handbook 2024 (Innate)",
+        "level": "Level 2 Conjuration",
+        "classes": "Sorcerer, Warlock, Wizard",
+        "castingTime": "1 Bonus Action",
+        "range": "Self",
+        "components": "V",
+        "duration": "Instantaneous",
+        "description": "Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space that you can see.",
+        "higherLevel": "",
+        "prepared": true
+      },
+      {
+        "name": "Darkness",
+        "source": "Player's Handbook",
+        "level": "Level 2 Evocation",
+        "classes": "Sorcerer, Warlock, Wizard",
+        "castingTime": "1 Action",
+        "range": "60 feet",
+        "components": "V, M (bat fur and a drop of pitch or piece of coal)",
+        "duration": "Concentration, up to 10 minutes",
+        "description": "Magical darkness spreads from a point you choose to fill a 15-foot-radius sphere for the duration. The darkness spreads around corners. A creature with darkvision can't see through this darkness, and nonmagical light can't illuminate it.",
+        "higherLevel": "",
+        "prepared": true
+      },
+      {
+        "name": "Alter Self",
+        "source": "Player's Handbook 2024 (At-Will)",
+        "level": "Level 2 Transmutation",
+        "classes": "Sorcerer, Wizard, Warlock",
+        "castingTime": "1 Action",
+        "range": "Self",
+        "components": "V, S",
+        "duration": "Concentration, up to 1 hour",
+        "description": "You assume a different form. Choose Aquatic Adaptation (breathe underwater/swim speed), Change Appearance (alter height/weight/features), or Natural Weapons (claws/fangs/horns dealing 1d6 + 1 magical damage).",
+        "higherLevel": "",
+        "prepared": true
+      },
+      {
+        "name": "Levitate",
+        "source": "Player's Handbook 2024 (At-Will)",
+        "level": "Level 2 Transmutation",
+        "classes": "Sorcerer, Wizard, Warlock",
+        "castingTime": "1 Action",
+        "range": "60 feet",
+        "components": "V, S, M (a small leather loop or a piece of golden wire)",
+        "duration": "Concentration, up to 10 minutes",
+        "description": "One creature or object of your choice that you can see within range rises vertically, up to 20 feet, and remains suspended there for the duration.",
+        "higherLevel": "",
+        "prepared": true
+      },
+      {
+        "name": "Scorching Ray",
+        "source": "Player's Handbook",
+        "level": "Level 2 Evocation",
+        "classes": "Sorcerer, Wizard",
+        "castingTime": "Action",
+        "range": "120 feet",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "You hurl three fiery rays. You can hurl them at one target within range or at several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 Fire damage.",
+        "prepared": true,
+        "higherLevel": "You create one additional ray for each spell slot level above 2."
+      },
+      {
+        "name": "Suggestion",
+        "source": "Player's Handbook",
+        "level": "Level 2 Enchantment",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "components": "V, M (a drop of honey)",
+        "duration": "Concentration, up to 8 hours",
+        "description": "You suggest a course of activity—described in no more than 25 words—to one creature you can see within range that can hear and understand you. The suggestion must sound achievable and not involve anything that would obviously deal damage to the target or its allies. For example, you could say, “Fetch the key to the cult’s treasure vault, and give the key to me.” Or you could say, “Stop fighting, leave this library peacefully, and don’t return.”\n\nThe target must succeed on a Wisdom saving throw or have the Charmed condition for the duration or until you or your allies deal damage to the target. The Charmed target pursues the suggestion to the best of its ability. The suggested activity can continue for the entire duration, but if the suggested activity can be completed in a shorter time, the spell ends for the target upon completing it.",
+        "prepared": true,
+        "higherLevel": ""
+      }
+    ],
+    "level3": [
+      {
+        "name": "Hunger of Hadar",
+        "source": "Player's Handbook",
+        "level": "Level 3 Conjuration",
+        "classes": "Warlock",
+        "castingTime": "1 Action",
+        "range": "150 feet",
+        "components": "V, S, M (a pickled octopus tentacle)",
+        "duration": "Concentration, up to 1 minute",
+        "description": "You open a gateway to the dark between the stars. A 20-foot-radius sphere of blackness and bitter cold appears. The area is difficult terrain and blinded. Any creature that starts its turn in the area takes 2d6 cold damage. Any creature that ends its turn in the area must succeed on a Dexterity saving throw or take 2d6 acid damage.",
+        "higherLevel": "",
+        "prepared": true
+      },
+      {
+        "name": "Remove Curse",
+        "source": "Player's Handbook",
+        "level": "Level 3 Abjuration",
+        "classes": "Cleric, Paladin, Warlock, Wizard",
+        "castingTime": "1 Action",
+        "range": "Touch",
+        "components": "V, S",
+        "duration": "Instantaneous",
+        "description": "At your touch, all curses affecting one creature or object end. If the object is a cursed magic item, its curse remains, but the spell allows its wielder to abandon the item.",
+        "higherLevel": "",
+        "prepared": true
+      },
+      {
+        "name": "Fireball",
+        "source": "Player's Handbook",
+        "level": "Level 3 Evocation",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "castingTime": "1 Action",
+        "range": "150 feet",
+        "components": "V, S, M (a ball of bat guano and sulfur)",
+        "duration": "Instantaneous",
+        "description": "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion. Each creature in a 20-foot-radius Sphere centered on that point makes a Dexterity saving throw, taking 8d6 Fire damage on a failed save or half as much damage on a successful one.\n\nFlammable objects in the area that aren’t being worn or carried start burning.",
+        "higherLevel": "The damage increases by 1d6 for each spell slot level above 3.",
+        "prepared": true
+      },
+      {
+        "name": "Stinking Cloud",
+        "source": "Player's Handbook",
+        "level": "Level 3 Conjuration",
+        "classes": "Bard, Sorcerer, Wizard",
+        "castingTime": "Action",
+        "range": "90 feet",
+        "components": "V, S, M (a rotten egg)",
+        "duration": "Concentration, up to 1 minute",
+        "description": "You create a 20-foot-radius Sphere of yellow, nauseating gas centered on a point within range. The cloud is Heavily Obscured. The cloud lingers in the air for the duration or until a strong wind (such as the one created by Gust of Wind) disperses it.\n\nEach creature that starts its turn in the Sphere must succeed on a Constitution saving throw or have the Poisoned condition until the end of the current turn. While Poisoned in this way, the creature can’t take an action or a Bonus Action.",
+        "higherLevel": "",
+        "prepared": true
+      }
+    ],
+    "level4": [],
+    "level5": [],
+    "level6": [],
+    "level7": [],
+    "level8": [],
+    "level9": []
+  },
+  "features": [
+    {
+      "name": "Fey Ancestry",
+      "source": "Goblin",
+      "category": "Racial Trait",
+      "type": "passive",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "description": "You have advantage on saving throws you make to avoid or end the charmed condition on yourself.",
+      "requirements": ""
+    },
+    {
+      "name": "Fury of the Small",
+      "source": "Goblin",
+      "category": "Racial Trait",
+      "type": "active",
+      "actionType": "Free Action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": {
+        "resourceName": "Fury of the Small",
+        "amount": 1
+      },
+      "description": "When you damage a creature with an attack or a spell and the creature's size is larger than yours, you can cause the attack or spell to deal extra damage to the creature. The extra damage equals your proficiency bonus.",
+      "requirements": "Target must be larger than you"
+    },
+    {
+      "name": "Nimble Escape",
+      "source": "Goblin",
+      "category": "Racial Trait",
+      "type": "active",
+      "actionType": "bonus action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "description": "You can take the Disengage or Hide action as a bonus action on each of your turns.",
+      "requirements": ""
+    },
+    {
+      "name": "Agonizing Blast",
+      "source": "Warlock 2",
+      "category": "Eldritch Invocation",
+      "type": "passive",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "description": "When you cast eldritch blast, add your Charisma modifier to the damage it deals on a hit.",
+      "requirements": ""
+    },
+    {
+      "name": "Armor of Shadows",
+      "source": "Warlock 2",
+      "category": "Eldritch Invocation",
+      "type": "active",
+      "actionType": "Action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "description": "You can cast mage armor on yourself at will, without expending a spell slot or material components.",
+      "requirements": ""
+    },
+    {
+      "name": "Devil's Sight",
+      "source": "Warlock 2",
+      "category": "Eldritch Invocation",
+      "type": "passive",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "description": "You can see normally in darkness, both magical and nonmagical, to a distance of 120 feet.",
+      "requirements": ""
+    },
+    {
+      "name": "Alter Self",
+      "source": "Warlock 2",
+      "category": "Eldritch Invocation",
+      "type": "active",
+      "actionType": "Action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "description": "You can cast alter self at will, without expending a spell slot.",
+      "requirements": ""
+    },
+    {
+      "name": "Ascendant Step",
+      "source": "Warlock 2",
+      "category": "Eldritch Invocation",
+      "type": "active",
+      "actionType": "action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "description": "You can cast levitate on yourself at will, without expending a spell slot or material components.",
+      "requirements": ""
+    },
+    {
+      "name": "Feat: Tough",
+      "source": "Background",
+      "category": "Feat",
+      "type": "passive",
+      "description": "Your hit point maximum increases by an amount equal to twice your level when you gain this feat. Whenever you gain a level thereafter, your hit point maximum increases by an additional 2 hit points.",
+      "requirements": ""
+    },
+    {
+      "name": "Feat: Fey Touched",
+      "source": "Warlock level 4",
+      "category": "Feat",
+      "type": "passive",
+      "description": "Your exposure to the Feywild's magic grants you the following benefits.\n\nAbility Score Increase. Increase your Intelligence, Wisdom, or Charisma score by 1, to a maximum of 20.\n\nFey Magic. Choose one level 1 spell from the Divination or Enchantment school of magic. You always have that spell and the Misty Step spell prepared. You can cast each of these spells without expending a spell slot. Once you cast either spell in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+      "requirements": ""
+    },
+    {
+      "name": "Magical Cunning",
+      "source": "Warlock",
+      "category": "Class Feature",
+      "type": "active",
+      "description": "You can perform an esoteric rite for 1 minute. At the end of it, you regain expended Pact Magic spell slots but no more than a number equal to half your maximum (round up). Once you use this feature, you can’t do so again until you finish a Long Rest.",
+      "requirements": "",
+      "isMovement": false
+    },
+    {
+      "name": "Dark One’s Blessing",
+      "source": "Warlock Fiend Patron",
+      "type": "passive",
+      "description": "When you reduce an enemy to 0 Hit Points, you gain Temporary Hit Points equal to your Charisma modifier plus your Warlock level (minimum of 1 Temporary Hit Point). You also gain this benefit if someone else reduces an enemy within 10 feet of you to 0 Hit Points.",
+      "category": "Class feature",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    }
+  ],
+  "resources": [
+    {
+      "name": "Magical Cunning",
+      "description": "Perform 1-min ritual to regain half slots (once per long rest)",
+      "current": 1,
+      "maximum": 1
+    },
+    {
+      "name": "Fury of the Small",
+      "description": "Damage bonus against larger creatures (PB times per long rest)",
+      "current": 3,
+      "maximum": 3
+    }
+  ],
+  "equipment": {
+    "currency": {
+      "cp": 0,
+      "sp": 0,
+      "ep": 0,
+      "gp": 15,
+      "pp": 0
+    },
+    "items": [
+      {
+        "name": "Leather Armor",
+        "weight": 10,
+        "equipped": true,
+        "notes": "AC 11 + Dex",
+        "consumable": false
+      },
+      {
+        "name": "Sickle",
+        "weight": 2,
+        "equipped": true,
+        "notes": "",
+        "consumable": false
+      },
+      {
+        "name": "Dagger",
+        "weight": 1,
+        "equipped": true,
+        "notes": "",
+        "consumable": false
+      },
+      {
+        "name": "Arcane Focus (Dragon Tooth)",
+        "weight": 1,
+        "equipped": true,
+        "notes": "Hollow dragon's tooth fashioned as a horn",
+        "consumable": false
+      }
+    ]
+  },
+  "personality": {
+    "traits": "",
+    "ideals": "",
+    "bonds": "",
+    "flaws": "",
+    "appearance": "",
+    "backstory": ""
+  },
+  "notes": "[object Object]"
+}

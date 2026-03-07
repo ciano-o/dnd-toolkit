@@ -1,0 +1,64 @@
+{
+  "name": "Mage",
+  "size": "Medium or Small",
+  "type": "Humanoid (Wizard)",
+  "alignment": "Neutral",
+  "source": "D&D 2024 Basic Rules",
+  "ac": 15,
+  "hp": 81,
+  "hitDice": "18d8",
+  "initiative": "+2 (12)",
+  "speed": "30 ft.",
+  "cr": "6 (XP 2,300; PB +3)",
+  "abilities": {
+    "str": { "score": 9, "save": null },
+    "dex": { "score": 14, "save": null },
+    "con": { "score": 11, "save": null },
+    "int": { "score": 17, "save": 6 },
+    "wis": { "score": 12, "save": 4 },
+    "cha": { "score": 11, "save": null }
+  },
+  "skills": "Arcana +6, History +6, Perception +4",
+  "resistances": "",
+  "immunities": "",
+  "vulnerabilities": "",
+  "conditionImmunities": "",
+  "senses": "Passive Perception 14",
+  "languages": "Common plus three other languages",
+  "gear": "Wand",
+  "traits": [],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "The mage makes three Arcane Burst attacks."
+    },
+    {
+      "name": "Arcane Burst",
+      "description": "Melee or Ranged Attack Roll: +6, reach 5 ft. or range 120 ft. Hit: 16 (3d8 + 3) Force damage."
+    },
+    {
+      "name": "Spellcasting",
+      "description": "The mage casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 14):\n\nAt Will: Detect Magic, Light, Mage Armor (included in AC), Mage Hand, Prestidigitation\n\n2/Day Each: Fireball (level 4 version), Invisibility\n\n1/Day Each: Cone of Cold, Fly"
+    }
+  ],
+  "bonusActions": [
+    {
+      "name": "Misty Step (3/Day)",
+      "description": "The mage casts Misty Step, using the same spellcasting ability as Spellcasting."
+    }
+  ],
+  "reactions": [
+    {
+      "name": "Protective Magic (3/Day)",
+      "description": "The mage casts Counterspell or Shield in response to the spell's trigger, using the same spellcasting ability as Spellcasting."
+    }
+  ],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "",
+  "habitat": "",
+  "treasure": ""
+}

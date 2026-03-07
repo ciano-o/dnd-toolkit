@@ -1,0 +1,63 @@
+{
+  "name": "Displacer Beast",
+  "size": "Large",
+  "type": "Monstrosity",
+  "alignment": "Lawful Evil",
+  "source": "D&D 2024 Basic Rules",
+  "ac": 13,
+  "hp": 76,
+  "hitDice": "9d10 + 27",
+  "initiative": "+4 (14)",
+  "speed": "40 ft.",
+  "cr": "3 (XP 700; PB +2)",
+  "abilities": {
+    "str": { "score": 18, "save": null },
+    "dex": { "score": 15, "save": null },
+    "con": { "score": 16, "save": null },
+    "int": { "score": 6, "save": null },
+    "wis": { "score": 12, "save": null },
+    "cha": { "score": 8, "save": null }
+  },
+  "skills": "",
+  "resistances": "",
+  "immunities": "",
+  "vulnerabilities": "",
+  "conditionImmunities": "",
+  "senses": "Darkvision 60 ft., Passive Perception 11",
+  "languages": "Understands Sylvan but can't speak",
+  "gear": "",
+  "traits": [
+    {
+      "name": "Avoidance",
+      "description": "If the displacer beast is subjected to an effect that allows it to make a saving throw to take only half damage, it instead takes no damage if it succeeds on the save and half damage if it fails. It can't use this trait if it has the Incapacitated condition."
+    },
+    {
+      "name": "Displacement",
+      "description": "Attack rolls against the displacer beast have Disadvantage, since it projects an illusion that makes it appear to be near its actual location. This trait is suppressed while the displacer beast has the Incapacitated condition."
+    }
+  ],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "The displacer beast makes one Rend attack and one Tentacle attack."
+    },
+    {
+      "name": "Rend",
+      "description": "Melee Attack Roll: +6, reach 5 ft. Hit: 9 (1d10 + 4) Slashing damage. If the target is a Large or smaller creature, it has the Prone condition."
+    },
+    {
+      "name": "Tentacle",
+      "description": "Melee Attack Roll: +6, reach 10 ft. Hit: 11 (2d6 + 4) Piercing damage."
+    }
+  ],
+  "bonusActions": [],
+  "reactions": [],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "",
+  "habitat": "",
+  "treasure": ""
+}

@@ -1,0 +1,94 @@
+{
+  "name": "Celentan",
+  "size": "Medium",
+  "type": "Fey (Elf)",
+  "alignment": "Chaotic Good",
+  "source": "Matt",
+  "ac": 19,
+  "hp": 197,
+  "hitDice": "26d8 + 80",
+  "initiative": "+4 (14)",
+  "speed": "50 ft.",
+  "cr": "12 (8400 XP; PB +4)",
+  "abilities": {
+    "str": {
+      "score": 18,
+      "save": 8
+    },
+    "dex": {
+      "score": 20,
+      "save": 9
+    },
+    "con": {
+      "score": 19,
+      "save": 8
+    },
+    "int": {
+      "score": 16,
+      "save": 3
+    },
+    "wis": {
+      "score": 17,
+      "save": 3
+    },
+    "cha": {
+      "score": 19,
+      "save": 4
+    }
+  },
+  "skills": "Deception +8, Perception +7, Athletics +8, Arcana +7",
+  "resistances": "Fire, Cold or Psychic (based on aspect)",
+  "immunities": "",
+  "vulnerabilities": "",
+  "conditionImmunities": "Charmed, Frightened",
+  "senses": "Darkvision 60 ft., Passive Perception 17",
+  "languages": "Common, Elvish, Sylvan",
+  "traits": [
+    {
+      "name": "Fey Presence",
+      "description": "Any non-eladrin creature that starts its turn within 60 feet of the eladrin must make a DC 16 Wisdom saving throw. On a failed save, the creature becomes frightened of or charmed by the eladrin for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to this eladrin's Fey Presence for the next 24 hours."
+    },
+    {
+      "name": "Magic Resistance",
+      "description": "The eladrin has advantage on saving throws against spells and other magical effects."
+    }
+  ],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "The eladrin makes two Curved sword attacks or two Magic surge attacks."
+    },
+    {
+      "name": "Longsword",
+      "description": "*Melee Weapon Attack*: +10 to hit, reach 5 ft., one target. *Hit*: 14 (2d8 + 4) slashing damage, or 16 (2d10 + 5) slashing damage if used with two hands, plus 9 (2d8) cold/fire/psychic damage, based on form."
+    },
+    {
+      "name": "Magic surge",
+      "description": "*Ranged Spell Attack*: +8 to hit, reach 120 ft., one target. *Hit*: 18 (4d8) cold/fire/psychic damage, based on form."
+    },
+    {
+      "name": "Spellcasting",
+      "description": "The eladrin casts one of the following spells, requiring no material components and using Intelligence as the spellcasting ability (spell save DC 16):\n\nAt will: *hold person, suggestion, minor restoration*\n\n 2/Day each: Greater restoration, Fire Ball (level 5 version), Wall of fire"
+    }
+  ],
+  "bonusActions": [
+    {
+      "name": "Fey Step (Recharge 4–6)",
+      "description": "The eladrin teleports, along with any equipment it is wearing or carrying, up to 30 feet to an unoccupied space it can see."
+    }
+  ],
+  "reactions": [
+    {
+      "name": "Arcane rebuke",
+      "description": "When the eladrin takes damage from a creature the eladrin can see within 60 feet of it, the eladrin can force that creature to make a DC 16 Constitution saving throw. On a failed save, the creature takes 11 (2d10) cold/fire/psychic damage, based on form."
+    }
+  ],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "",
+  "habitat": "",
+  "treasure": ""
+}

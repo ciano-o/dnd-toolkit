@@ -1,0 +1,63 @@
+{
+  "name": "Wight",
+  "size": "Medium",
+  "type": "Undead",
+  "alignment": "Neutral Evil",
+  "source": "D&D 2024 Basic Rules",
+  "ac": 14,
+  "hp": 82,
+  "hitDice": "11d8 + 33",
+  "initiative": "+4 (14)",
+  "speed": "30 ft.",
+  "cr": "3 (XP 700; PB +2)",
+  "abilities": {
+    "str": { "score": 15, "save": null },
+    "dex": { "score": 14, "save": null },
+    "con": { "score": 16, "save": null },
+    "int": { "score": 10, "save": null },
+    "wis": { "score": 13, "save": null },
+    "cha": { "score": 15, "save": null }
+  },
+  "skills": "Perception +3, Stealth +4",
+  "resistances": "Necrotic",
+  "immunities": "Poison; Exhaustion, Poisoned",
+  "vulnerabilities": "",
+  "conditionImmunities": "",
+  "senses": "Darkvision 60 ft., Passive Perception 13",
+  "languages": "Common plus one other language",
+  "gear": "Studded Leather Armor",
+  "traits": [
+    {
+      "name": "Sunlight Sensitivity",
+      "description": "While in sunlight, the wight has Disadvantage on ability checks and attack rolls."
+    }
+  ],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "The wight makes two attacks, using Necrotic Sword or Necrotic Bow in any combination. It can replace one attack with a use of Life Drain."
+    },
+    {
+      "name": "Necrotic Sword",
+      "description": "Melee Attack Roll: +4, reach 5 ft. Hit: 6 (1d8 + 2) Slashing damage plus 4 (1d8) Necrotic damage."
+    },
+    {
+      "name": "Necrotic Bow",
+      "description": "Ranged Attack Roll: +4, range 150/600 ft. Hit: 6 (1d8 + 2) Piercing damage plus 4 (1d8) Necrotic damage."
+    },
+    {
+      "name": "Life Drain",
+      "description": "Constitution Saving Throw: DC 13, one creature within 5 feet. Failure: 6 (1d8 + 2) Necrotic damage, and the target's Hit Point maximum decreases by an amount equal to the damage taken. A Humanoid slain by this attack rises 24 hours later as a Zombie under the wight's control, unless the Humanoid is restored to life or its body is destroyed. The wight can have no more than twelve zombies under its control at a time."
+    }
+  ],
+  "bonusActions": [],
+  "reactions": [],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "",
+  "habitat": "",
+  "treasure": ""
+}

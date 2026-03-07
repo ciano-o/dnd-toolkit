@@ -1,0 +1,59 @@
+{
+  "name": "Bearded Devil",
+  "size": "Medium",
+  "type": "Fiend (Devil)",
+  "alignment": "Lawful Evil",
+  "source": "D&D 2024 Basic Rules",
+  "ac": 13,
+  "hp": 58,
+  "hitDice": "9d8 + 18",
+  "initiative": "+2 (12)",
+  "speed": "30 ft.",
+  "cr": "3 (XP 700; PB +2)",
+  "abilities": {
+    "str": { "score": 16, "save": 5 },
+    "dex": { "score": 15, "save": null },
+    "con": { "score": 15, "save": 4 },
+    "int": { "score": 9, "save": null },
+    "wis": { "score": 11, "save": null },
+    "cha": { "score": 14, "save": 4 }
+  },
+  "skills": "",
+  "resistances": "Cold",
+  "immunities": "Fire, Poison; Frightened, Poisoned",
+  "vulnerabilities": "",
+  "conditionImmunities": "",
+  "senses": "Darkvision 120 ft. (unimpeded by magical Darkness), Passive Perception 10",
+  "languages": "Infernal; telepathy 120 ft.",
+  "gear": "",
+  "traits": [
+    {
+      "name": "Magic Resistance",
+      "description": "The devil has Advantage on saving throws against spells and other magical effects."
+    }
+  ],
+  "actions": [
+    {
+      "name": "Multiattack",
+      "description": "The devil makes one Beard attack and one Infernal Glaive attack."
+    },
+    {
+      "name": "Beard",
+      "description": "Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Piercing damage, and the target has the Poisoned condition until the start of the devil's next turn. Until this poison ends, the target can't regain Hit Points."
+    },
+    {
+      "name": "Infernal Glaive",
+      "description": "Melee Attack Roll: +5, reach 10 ft. Hit: 8 (1d10 + 3) Slashing damage. If the target is a creature and doesn't already have an infernal wound, it is subjected to the following effect. Constitution Saving Throw: DC 12. Failure: The target receives an infernal wound. While wounded, the target loses 5 (1d10) Hit Points at the start of each of its turns. The wound closes after 1 minute, after a spell restores Hit Points to the target, or after the target or a creature within 5 feet of it takes an action to stanch the wound, doing so by succeeding on a DC 12 Wisdom (Medicine) check."
+    }
+  ],
+  "bonusActions": [],
+  "reactions": [],
+  "legendaryPreamble": "",
+  "legendaryActions": [],
+  "mythicPreamble": "",
+  "mythicActions": [],
+  "lairActions": [],
+  "description": "",
+  "habitat": "",
+  "treasure": ""
+}
