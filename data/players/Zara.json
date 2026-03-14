@@ -1,0 +1,521 @@
+{
+  "meta": {
+    "version": "1.0",
+    "name": "Zara",
+    "lastModified": "2026-03-12T22:53:45.512Z"
+  },
+  "basic": {
+    "name": "Zara",
+    "class": "Sorcerer",
+    "level": 3,
+    "race": "Flamekin",
+    "background": "Genie Touched",
+    "alignment": "",
+    "experiencePoints": 900
+  },
+  "abilities": {
+    "str": 8,
+    "dex": 14,
+    "con": 14,
+    "int": 10,
+    "wis": 12,
+    "cha": 17
+  },
+  "combat": {
+    "armorClass": 12,
+    "currentHP": 20,
+    "maxHP": 20,
+    "temporaryHP": 0,
+    "initiative": 2,
+    "speed": "30 ft",
+    "hitDice": {
+      "current": 3,
+      "total": 3,
+      "type": "d6"
+    },
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    }
+  },
+  "proficiencies": {
+    "proficiencyBonus": 2,
+    "armor": [],
+    "weapons": [
+      "Simple Weapons"
+    ],
+    "tools": [
+      "Glassblower’s Tools"
+    ],
+    "languages": [
+      "Common"
+    ],
+    "savingThrows": [
+      "con",
+      "cha"
+    ],
+    "skills": {
+      "acrobatics": false,
+      "animalHandling": false,
+      "arcana": true,
+      "athletics": false,
+      "deception": false,
+      "history": false,
+      "insight": true,
+      "intimidation": false,
+      "investigation": false,
+      "medicine": false,
+      "nature": false,
+      "perception": true,
+      "performance": false,
+      "persuasion": true,
+      "religion": false,
+      "sleightOfHand": false,
+      "stealth": false,
+      "survival": false
+    },
+    "expertise": []
+  },
+  "attacks": [
+    {
+      "name": "Sorcerous Burst",
+      "attackBonus": 5,
+      "damageFormula": "1d8",
+      "damageType": "Acid, Cold, Fire, Lightning, Poison, Psychic, or Thunder",
+      "notes": "120 feet,  (V, S)\nIf you roll an 8 on a d8 for this spell, you can roll another d8, and add it to the damage. When you cast this spell, the maximum number of these d8s you can add to the spell’s damage equals your spellcasting ability modifier."
+    },
+    {
+      "name": "Produce Flame",
+      "attackBonus": 5,
+      "damageFormula": "1d8",
+      "damageType": "Fire",
+      "notes": "Cantrip, 30 ft (Flamekin racial)"
+    },
+    {
+      "name": "Scorching Ray",
+      "attackBonus": 5,
+      "damageFormula": "3 x 2d6 ",
+      "damageType": "Fire",
+      "notes": "120 feet,  (V, S)"
+    },
+    {
+      "name": "Quarterstaff",
+      "attackBonus": 1,
+      "damageFormula": "1d8-1",
+      "damageType": "Bludgeoning",
+      "notes": ""
+    },
+    {
+      "name": "True Strike",
+      "attackBonus": 5,
+      "damageFormula": "1d8+3",
+      "damageType": "Bludgeoding or Radiant",
+      "notes": "S, M (a weapon with which you have proficiency and that is worth 1+ CP)\n"
+    }
+  ],
+  "spellcasting": {
+    "ability": "cha",
+    "saveDC": 13,
+    "attackBonus": 5,
+    "spellSlots": {
+      "1": 4,
+      "2": 2,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0
+    },
+    "slotUsage": {
+      "1": 0,
+      "2": 0
+    }
+  },
+  "spells": {
+    "cantrips": [
+      {
+        "name": "Sorcerous Burst",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "True Strike",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Prestidigitation",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Elementalism",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Mending",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "cantripUpgrade": ""
+      },
+      {
+        "name": "Mage Hand",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "cantripUpgrade": ""
+      }
+    ],
+    "level1": [
+      {
+        "name": "Burning Hands",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "higherLevel": ""
+      },
+      {
+        "name": "Tasha's Hideous Laughter",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "higherLevel": ""
+      },
+      {
+        "name": "Expeditious Retreat",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "higherLevel": ""
+      },
+      {
+        "name": "Mage Armor",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "higherLevel": ""
+      },
+      {
+        "name": "Shield",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "higherLevel": ""
+      },
+      {
+        "name": "Fog Cloud",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "higherLevel": ""
+      }
+    ],
+    "level2": [
+      {
+        "name": "Scorching Ray",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "higherLevel": ""
+      },
+      {
+        "name": "Mirror Image",
+        "source": "",
+        "level": "",
+        "classes": "",
+        "castingTime": "",
+        "range": "",
+        "components": "",
+        "duration": "",
+        "description": "",
+        "prepared": true,
+        "higherLevel": ""
+      }
+    ],
+    "level3": [],
+    "level4": [],
+    "level5": [],
+    "level6": [],
+    "level7": [],
+    "level8": [],
+    "level9": []
+  },
+  "features": [
+    {
+      "name": "Innate Sorcery",
+      "source": "Sorcerer 1",
+      "type": "active",
+      "description": "As a Bonus Action, you can unleash your simmering magic for 1 minute, during which you gain the following benefits:\n\n- The spell save DC of your Sorcerer spells increases by 1.\n- You have Advantage on the attack rolls of Sorcerer spells you cast.\n\nYou can use this feature twice, and you regain all expended uses of it when you finish a Long Rest.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Font of Magic",
+      "source": "Sorcerer 2",
+      "type": "active",
+      "description": "You can tap into the wellspring of magic within yourself. This wellspring is represented by Sorcery Points, which allow you to create a variety of magical effects.\n\nYou have 3 Sorcery Points. You regain all expended Sorcery Points when you finish a Long Rest.\n\nConverting Spell Slots to Sorcery Points. You can expend a spell slot to gain a number of Sorcery Points equal to the slot's level (no action required).\n\nCreating Spell Slots. As a Bonus Action, you can transform unexpended Sorcery Points into one spell slot. Level 1 costs 2 SP, Level 2 costs 3 SP. Any spell slot you create with this feature vanishes when you finish a Long Rest.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Metamagic: Subtle Spell",
+      "source": "Sorcerer 2, Metamagic",
+      "type": "active",
+      "description": "Cost: 1 Sorcery Point. When you cast a spell, you can spend 1 Sorcery Point to cast it without any Verbal, Somatic, or Material components, except Material components that are consumed by the spell or that have a cost specified in the spell.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Metamagic: Heightened Spell",
+      "source": "Sorcerer 2, Metamagic",
+      "type": "active",
+      "description": "Cost: 2 Sorcery Points. When you cast a spell that forces a creature to make a saving throw, you can spend 2 Sorcery Points to give one target of the spell Disadvantage on saves against the spell.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Wild Magic Surge",
+      "source": "Sorcerer 3, Wild Magic Sorcery",
+      "type": "active",
+      "description": "Your spellcasting can unleash surges of untamed magic. Once per turn, you can roll 1d20 immediately after you cast a Sorcerer spell with a spell slot. If you roll a 20, roll on the Wild Magic Surge table to create a magical effect.\n\nIf the magical effect is a spell, it is too wild to be affected by your Metamagic.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Tides of Chaos",
+      "source": "Sorcerer 3, Wild Magic Sorcery",
+      "type": "active",
+      "description": "You can manipulate chaos itself to give yourself Advantage on one D20 Test before you roll the d20. Once you do so, you must cast a Sorcerer spell with a spell slot or finish a Long Rest before you can use this feature again.\n\nIf you do cast a Sorcerer spell with a spell slot before you finish a Long Rest, you automatically roll on the Wild Magic Surge table.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Darkvision",
+      "source": "Flamekin",
+      "type": "passive",
+      "description": "You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You discern colors in that darkness only as shades of gray.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Fire Resistance",
+      "source": "Flamekin",
+      "type": "passive",
+      "description": "You have resistance to fire damage.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Reach to the Blaze",
+      "source": "Flamekin",
+      "type": "active",
+      "description": "You know the Produce Flame cantrip. Starting at 3rd level, you can cast the Burning Hands spell with this trait. Starting at 5th level, you can also cast the Flame Blade spell with this trait, without requiring a material component. Once you cast Burning Hands or Flame Blade with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level.\n\nCharisma is your spellcasting ability for these spells when you cast them with this trait.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    },
+    {
+      "name": "Magic Initiate",
+      "source": "",
+      "type": "passive",
+      "description": "You gain the following benefits.\n\nTwo Cantrips. You learn two cantrips of your choice from the Cleric, Druid, or Wizard spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\n\nLevel 1 Spell. Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.\n\nSpell Change. Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.\n\nRepeatable. You can take this feat more than once, but you must choose a different spell list each time.",
+      "category": "",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": ""
+    }
+  ],
+  "resources": [
+    {
+      "name": "Innate Sorcery",
+      "current": 2,
+      "maximum": 2,
+      "description": "Recharges on Long Rest"
+    },
+    {
+      "name": "Sorcery Points",
+      "current": 3,
+      "maximum": 3,
+      "description": "Recharges on Long Rest"
+    },
+    {
+      "name": "Tides of Chaos",
+      "current": 1,
+      "maximum": 1,
+      "description": "Recharges when you cast a Sorcerer spell with a spell slot (triggering Wild Magic Surge) or on Long Rest."
+    },
+    {
+      "name": "Reach to the Blaze: Burning Hands (free cast)",
+      "current": 1,
+      "maximum": 1,
+      "description": "You can cast Burning Hands once with this trait without expending a spell slot. Recharges on Long Rest."
+    },
+    {
+      "name": "Tasha's Hideous Laughter (free cast)",
+      "current": 1,
+      "maximum": 1,
+      "description": "You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have."
+    }
+  ],
+  "equipment": {
+    "currency": {
+      "cp": 0,
+      "sp": 0,
+      "ep": 0,
+      "gp": 50,
+      "pp": 0
+    },
+    "items": [
+      "Quarterstaff",
+      "Component's pouch",
+      {
+        "name": "Backpack",
+        "weight": 0,
+        "equipped": false,
+        "notes": "Dungeoneer's Pack",
+        "consumable": false
+      },
+      "Glassblower’s Tools",
+      "Fine Clothes",
+      "Lamp",
+      "Oil (3 flasks)",
+      "Waterskin"
+    ]
+  },
+  "personality": {
+    "traits": "",
+    "ideals": "",
+    "bonds": "",
+    "flaws": "",
+    "appearance": "",
+    "backstory": ""
+  },
+  "notes": ""
+}

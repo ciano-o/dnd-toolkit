@@ -263,6 +263,24 @@ const AB=['str','dex','con','int','wis','cha'];
 const ABN={str:'Str',dex:'Dex',con:'Con',int:'Int',wis:'Wis',cha:'Cha'};
 let C=[],selId=null,tIdx=-1,round=1,idN=0,pendCf=null;
 
+function saveCombatState(){
+  try{
+    const state={C:C.map(c=>({...c,conditions:[...c.conditions],saves:[...c.saves]})),selId,tIdx,round,idN};
+    localStorage.setItem('dnd-combat-state',JSON.stringify(state));
+  }catch(e){}
+}
+
+function loadCombatState(){
+  try{
+    const saved=localStorage.getItem('dnd-combat-state');
+    if(!saved)return;
+    const state=JSON.parse(saved);
+    C=state.C.map(c=>({...c,conditions:new Set(c.conditions),saves:new Set(c.saves)}));
+    selId=state.selId;tIdx=state.tIdx;round=state.round;idN=state.idN;
+    document.getElementById('rV').textContent=round;
+  }catch(e){}
+}
+
 const mod=s=>Math.floor((s-10)/2);
 const ms=v=>v>=0?'+'+v:''+v;
 const esc=s=>{if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML};
@@ -348,6 +366,7 @@ function render(){
     </div>`;
   }).join('');
   const s=gS();document.getElementById('qa').style.display=s?'':'none';if(s)renderQA(s);
+  saveCombatState();
 }
 
 function sel(id){selId=(selId===id)?null:id;render();renderPrev()}
@@ -363,7 +382,7 @@ function next(){
   C.forEach(c=>c.lastDmg=0);selId=C[tIdx]?.id;render();renderPrev()
 }
 function sortInit(){const aId=tIdx>=0?C[tIdx]?.id:null;C.sort((a,b)=>b.initiative-a.initiative);if(aId)tIdx=C.findIndex(c=>c.id===aId);render()}
-function reset(){C=[];selId=null;tIdx=-1;round=1;idN=0;document.getElementById('rV').textContent='1';render();renderPrev()}
+function reset(){C=[];selId=null;tIdx=-1;round=1;idN=0;document.getElementById('rV').textContent='1';localStorage.removeItem('dnd-combat-state');render();renderPrev()}
 
 // HP
 function heal(){const c=gS();if(!c)return;const v=parseInt(document.getElementById('qaHP').value)||0;c.hp=Math.min(c.maxHP,c.hp+v);if(c.hp>0)c.ds={s:0,f:0};render()}
@@ -505,7 +524,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){document.querySelectorAll('.ip').forEach(p=>p.classList.remove('show'));hideCf()}
 });
 
-render();renderPrev();
+loadCombatState();render();renderPrev();
 </script>
 </body>
 </html>

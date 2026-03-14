@@ -10,6 +10,7 @@
 <link rel="manifest" href="../manifest.json">
 <title>Character Creator — D&D 5e Toolkit</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
+<script src="../data/library.js"></script>
 <style>
 :root {
   --parchment: #f5f0e1;
@@ -348,27 +349,40 @@ body {
 .skills-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4px 20px;
+  gap: 2px 12px;
 }
 
 .skill-edit-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 0;
+  gap: 5px;
+  padding: 3px 0;
+  min-width: 0;
 }
 
-.skill-edit-row label {
-  font-size: 13px;
+.skill-edit-row .skill-prof-label {
+  font-size: 12.5px;
   color: var(--ink-light);
   cursor: pointer;
   flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .skill-edit-row .skill-ab {
   font-family: 'Alegreya SC', serif;
   font-size: 10px;
   color: var(--ink-faded);
+  flex-shrink: 0;
+}
+
+.skill-edit-row .skill-exp-cb {
+  flex-shrink: 0;
+  accent-color: var(--accent-gold);
+  width: 13px;
+  height: 13px;
 }
 
 /* ─── LIST ITEM CARDS (attacks, spells, features, resources) ─── */
@@ -664,6 +678,162 @@ body {
   transform: translateY(0);
   opacity: 1;
 }
+
+/* ─── SECTION HEADER ROW ─── */
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+.section-header-row .section-title {
+  margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.section-header-row .section-header-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ─── CARD GRID (features / resources) ─── */
+.card-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin: 0.4rem 0 0.8rem;
+}
+@media (max-width: 800px) { .card-grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .card-grid-3 { grid-template-columns: 1fr; } }
+.grid-card {
+  background: rgba(255,255,255,0.3);
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.grid-card:hover {
+  border-color: var(--accent-gold);
+  background: rgba(255,255,255,0.5);
+}
+.grid-card-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.grid-card-meta {
+  font-size: 0.72rem;
+  color: var(--ink-faded);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ─── MODAL OVERLAY ─── */
+#modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+}
+#modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--parchment);
+  background-image: radial-gradient(ellipse at 20% 50%, rgba(139,109,63,0.06) 0%, transparent 70%);
+  border: 2px solid var(--border-dark);
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 580px;
+  width: 92%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+.modal-title {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-red);
+  border-bottom: 2px solid var(--accent-red);
+  padding-bottom: 6px;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+.modal-title.gold {
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+}
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--parchment-shadow);
+}
+.modal-footer-split {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--parchment-shadow);
+}
+
+/* ─── LIBRARY SEARCH MODAL ─── */
+.lib-results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-top: 10px;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+@media (max-width: 500px) { .lib-results-grid { grid-template-columns: 1fr; } }
+.lib-result-card {
+  background: rgba(255,255,255,0.35);
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 5px;
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.lib-result-card:hover {
+  border-color: var(--accent-gold);
+  background: rgba(255,255,255,0.6);
+}
+.lib-result-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.lib-result-meta {
+  font-size: 0.7rem;
+  color: var(--ink-faded);
+  margin-top: 2px;
+}
+.lib-placeholder {
+  text-align: center;
+  padding: 20px;
+  color: var(--ink-faded);
+  font-style: italic;
+  font-size: 13px;
+}
 </style>
 </head>
 <body>
@@ -688,9 +858,7 @@ body {
 
   <!-- TAB NAVIGATION -->
   <nav class="tab-nav" id="tabNav">
-    <button class="tab-btn active" data-tab="basics">Basics</button>
-    <button class="tab-btn" data-tab="abilities">Abilities & Skills</button>
-    <button class="tab-btn" data-tab="combat">Combat</button>
+    <button class="tab-btn active" data-tab="character">Character</button>
     <button class="tab-btn" data-tab="attacks">Attacks</button>
     <button class="tab-btn" data-tab="spells">Spellcasting</button>
     <button class="tab-btn" data-tab="features">Features</button>
@@ -701,7 +869,10 @@ body {
   <!-- ═══════════════════════════════════════ -->
   <!-- TAB: BASICS -->
   <!-- ═══════════════════════════════════════ -->
-  <div class="tab-panel active" id="tab-basics">
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: CHARACTER (basics + abilities + combat) -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel active" id="tab-character">
     <div class="section-title">Character Information</div>
     <div class="form-row cols-2">
       <div class="form-group">
@@ -743,50 +914,14 @@ body {
       </div>
     </div>
 
-    <div class="section-title" style="margin-top:28px;">Proficiencies & Languages</div>
-    <div class="form-row cols-2">
-      <div class="form-group">
-        <label>Proficiency Bonus</label>
-        <input type="number" id="prof_bonus" min="2" max="6" value="2">
-      </div>
-    </div>
-
-    <div class="section-subtitle">Saving Throw Proficiencies</div>
-    <div class="saves-grid" id="savesGrid"></div>
-
-    <div class="section-subtitle" style="margin-top:16px;">Armor Proficiencies</div>
-    <div id="armorProfs"></div>
-
-    <div class="section-subtitle" style="margin-top:12px;">Weapon Proficiencies</div>
-    <div id="weaponProfs"></div>
-
-    <div class="section-subtitle" style="margin-top:12px;">Tool Proficiencies</div>
-    <div id="toolProfs"></div>
-
-    <div class="section-subtitle" style="margin-top:12px;">Languages</div>
-    <div id="langProfs"></div>
-  </div>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- TAB: ABILITIES & SKILLS -->
-  <!-- ═══════════════════════════════════════ -->
-  <div class="tab-panel" id="tab-abilities">
-    <div class="section-title">Ability Scores</div>
+    <div class="section-title" style="margin-top:24px;">Ability Scores</div>
     <div class="ability-editor-grid" id="abilityEditorGrid"></div>
 
-    <div class="section-title">Skill Proficiencies</div>
-    <div class="skills-grid" id="skillsGrid"></div>
+    <div class="section-title" style="margin-top:20px;">Ability Score Modifications</div>
+    <p style="font-size:12px;color:var(--ink-faded);margin-bottom:8px;">Temporary bonuses or penalties to ability scores (e.g. stat drain, magic items).</p>
+    <div id="abilityModificationsContainer"></div>
 
-    <div class="section-title" style="margin-top:20px;">Expertise</div>
-    <p style="font-size:12px;color:var(--ink-faded);margin-bottom:8px;">Type a skill name and press Enter to add expertise.</p>
-    <div id="expertiseContainer"></div>
-  </div>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- TAB: COMBAT -->
-  <!-- ═══════════════════════════════════════ -->
-  <div class="tab-panel" id="tab-combat">
-    <div class="section-title">Combat Statistics</div>
+    <div class="section-title" style="margin-top:24px;">Combat Statistics</div>
     <div class="form-row cols-4">
       <div class="form-group">
         <label>Armor Class</label>
@@ -822,26 +957,11 @@ body {
       </div>
     </div>
 
-    <div class="section-title">Hit Dice</div>
-    <div class="form-row cols-3">
-      <div class="form-group">
-        <label>Total Hit Dice</label>
-        <input type="number" id="hd_total" min="1" value="1">
-      </div>
-      <div class="form-group">
-        <label>Current Hit Dice</label>
-        <input type="number" id="hd_current" min="0" value="1">
-      </div>
-      <div class="form-group">
-        <label>Hit Die Type</label>
-        <select id="hd_type">
-          <option value="d6">d6</option>
-          <option value="d8" selected>d8</option>
-          <option value="d10">d10</option>
-          <option value="d12">d12</option>
-        </select>
-      </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="section-title" style="margin:0;">Hit Dice</div>
+      <button class="btn btn-sm" onclick="addHitDiceGroup()">+ Add</button>
     </div>
+    <div id="hitDiceList" style="margin-top:8px;"></div>
 
     <div class="section-title">Death Saves</div>
     <div class="form-row cols-2">
@@ -854,6 +974,40 @@ body {
         <input type="number" id="ds_failures" min="0" max="3" value="0">
       </div>
     </div>
+
+    <div class="section-title" style="margin-top:24px;">Proficiencies & Languages</div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Proficiency Bonus</label>
+        <input type="number" id="prof_bonus" min="2" max="6" value="2">
+      </div>
+    </div>
+
+    <div class="section-subtitle">Saving Throw Proficiencies</div>
+    <div class="saves-grid" id="savesGrid"></div>
+
+    <div class="section-subtitle" style="margin-top:14px;">Saving Throw Modifications</div>
+    <p style="font-size:12px;color:var(--ink-faded);margin-bottom:8px;">Flat bonuses to individual saving throws (e.g. Paladin's Aura, Cloak of Protection).</p>
+    <div id="saveModificationsContainer"></div>
+
+    <div class="section-subtitle" style="margin-top:16px;">Skill Proficiencies</div>
+    <div class="skills-grid" id="skillsGrid"></div>
+
+    <div class="section-subtitle" style="margin-top:14px;">Skill Modifications</div>
+    <p style="font-size:12px;color:var(--ink-faded);margin-bottom:8px;">Add arbitrary flat bonuses to skills (e.g. Bard's Jack of All Trades, racial bonuses).</p>
+    <div id="modificationsContainer"></div>
+
+    <div class="section-subtitle" style="margin-top:16px;">Armor Proficiencies</div>
+    <div id="armorProfs"></div>
+
+    <div class="section-subtitle" style="margin-top:12px;">Weapon Proficiencies</div>
+    <div id="weaponProfs"></div>
+
+    <div class="section-subtitle" style="margin-top:12px;">Tool Proficiencies</div>
+    <div id="toolProfs"></div>
+
+    <div class="section-subtitle" style="margin-top:12px;">Languages</div>
+    <div id="langProfs"></div>
   </div>
 
   <!-- ═══════════════════════════════════════ -->
@@ -897,7 +1051,8 @@ body {
 
     <div class="section-title gold" style="margin-top:24px;">Spells Known / Prepared</div>
     <div class="spell-level-tabs" id="spellLevelTabs"></div>
-    <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+    <div style="display:flex;justify-content:flex-end;gap:6px;margin-bottom:10px;">
+      <button class="btn btn-sm" onclick="showLibrarySearchModal('spells')">📚 Library</button>
       <button class="btn btn-primary btn-sm" onclick="addSpell()">+ Add Spell</button>
     </div>
     <div id="spellEditorArea"></div>
@@ -907,17 +1062,23 @@ body {
   <!-- TAB: FEATURES -->
   <!-- ═══════════════════════════════════════ -->
   <div class="tab-panel" id="tab-features">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="section-header-row">
       <div class="section-title" style="margin:0;">Features & Traits</div>
-      <button class="btn btn-primary btn-sm" onclick="addFeature()">+ Add Feature</button>
+      <div class="section-header-actions">
+        <button class="btn btn-sm" onclick="showLibrarySearchModal('features')">📚 Library</button>
+        <button class="btn btn-primary btn-sm" onclick="addFeature()">+ Add Feature</button>
+      </div>
     </div>
-    <div style="margin-top:12px;" id="featuresList"></div>
+    <div id="featuresList"></div>
 
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;">
+    <div class="section-header-row" style="margin-top:24px;">
       <div class="section-title gold" style="margin:0;">Resources</div>
-      <button class="btn btn-primary btn-sm" onclick="addResource()">+ Add Resource</button>
+      <div class="section-header-actions">
+        <button class="btn btn-sm" onclick="showLibrarySearchModal('resources')">📚 Library</button>
+        <button class="btn btn-primary btn-sm" onclick="addResource()">+ Add Resource</button>
+      </div>
     </div>
-    <div style="margin-top:12px;" id="resourcesList"></div>
+    <div id="resourcesList"></div>
   </div>
 
   <!-- ═══════════════════════════════════════ -->
@@ -927,9 +1088,12 @@ body {
     <div class="section-title gold">Currency</div>
     <div class="currency-edit-row" id="currencyEditor"></div>
 
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;">
+    <div class="section-header-row" style="margin-top:24px;">
       <div class="section-title" style="margin:0;">Items</div>
-      <button class="btn btn-primary btn-sm" onclick="addItem()">+ Add Item</button>
+      <div class="section-header-actions">
+        <button class="btn btn-sm" onclick="showLibrarySearchModal('equipment')">📚 Library</button>
+        <button class="btn btn-primary btn-sm" onclick="addItem()">+ Add Item</button>
+      </div>
     </div>
     <div style="margin-top:12px;" id="itemsList"></div>
   </div>
@@ -983,6 +1147,9 @@ body {
   </div>
 </div>
 
+<!-- MODAL OVERLAY -->
+<div id="modal-overlay"></div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -1021,7 +1188,7 @@ let activeSpellLevel = 'cantrips';
 
 function createBlankCharacter() {
   const skills = {};
-  Object.keys(skillMap).forEach(s => skills[s] = false);
+  Object.keys(skillMap).forEach(s => skills[s] = { proficiency: false, expertise: false });
   return {
     meta: { version: '1.0', name: '', lastModified: new Date().toISOString() },
     basic: { name: '', class: '', level: 1, race: '', background: '', alignment: '', experiencePoints: 0 },
@@ -1029,12 +1196,12 @@ function createBlankCharacter() {
     combat: {
       armorClass: 10, currentHP: 10, maxHP: 10, temporaryHP: 0,
       initiative: 0, speed: '30 ft',
-      hitDice: { current: 1, total: 1, type: 'd8' },
+      hitDice: [{ type: 'd8', total: 1, current: 1 }],
       deathSaves: { successes: 0, failures: 0 }
     },
     proficiencies: {
       proficiencyBonus: 2, armor: [], weapons: [], tools: [], languages: [],
-      savingThrows: [], skills: skills, expertise: []
+      savingThrows: [], savingThrowModifications: [], skills: skills, modifications: [], abilityModifications: []
     },
     attacks: [],
     spellcasting: {
@@ -1074,12 +1241,15 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 // ═══════════════════════════════════════════
 function initEditors() {
   initAbilityEditors();
+  initAbilityModifications();
   initSavesGrid();
+  initSaveModifications();
   initSkillsGrid();
-  initExpertise();
+  initModifications();
   initTagInputs();
   initSpellSlotsGrid();
   initSpellLevelTabs();
+  renderHitDiceList();
   initCurrencyEditor();
   renderAllLists();
   populateFieldsFromChar();
@@ -1102,6 +1272,28 @@ function updateAbilityMod(ab) {
   document.getElementById(`abmod_${ab}`).textContent = modStr(mod(char.abilities[ab]));
 }
 
+// ─── ABILITY SCORE MODIFICATIONS ───
+function initAbilityModifications() {
+  const container = document.getElementById('abilityModificationsContainer');
+  const mods = char.proficiencies.abilityModifications || [];
+  const inputStyle = `padding:5px 8px;border:1.5px solid var(--parchment-shadow);border-radius:4px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);`;
+  let html = '';
+  mods.forEach((m, i) => {
+    html += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+      <input type="text" placeholder="Name" value="${esc(m.name)}" style="flex:1;${inputStyle}"
+             onchange="char.proficiencies.abilityModifications[${i}].name=this.value;">
+      <select style="${inputStyle}padding:4px 6px;" onchange="char.proficiencies.abilityModifications[${i}].stat=this.value;">
+        ${abilityKeys.map(ab => `<option value="${ab}" ${m.stat===ab?'selected':''}>${abilityFull[ab]}</option>`).join('')}
+      </select>
+      <input type="number" placeholder="+0" value="${m.modifier}" style="width:55px;${inputStyle}"
+             onchange="char.proficiencies.abilityModifications[${i}].modifier=parseInt(this.value)||0;">
+      <button class="btn btn-danger btn-sm" onclick="char.proficiencies.abilityModifications.splice(${i},1); initAbilityModifications();">✕</button>
+    </div>`;
+  });
+  html += `<button class="btn btn-sm" onclick="char.proficiencies.abilityModifications.push({name:'',stat:'str',modifier:0}); initAbilityModifications();">+ Add</button>`;
+  container.innerHTML = html;
+}
+
 // ─── SAVING THROW CHECKBOXES ───
 function initSavesGrid() {
   const grid = document.getElementById('savesGrid');
@@ -1120,32 +1312,64 @@ function toggleSavingThrow(ab) {
   else char.proficiencies.savingThrows.push(ab);
 }
 
+// ─── SAVING THROW MODIFICATIONS ───
+function initSaveModifications() {
+  const container = document.getElementById('saveModificationsContainer');
+  const mods = char.proficiencies.savingThrowModifications || [];
+  const inputStyle = `padding:5px 8px;border:1.5px solid var(--parchment-shadow);border-radius:4px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);`;
+  let html = '';
+  mods.forEach((m, i) => {
+    html += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+      <input type="text" placeholder="Name" value="${esc(m.name)}" style="flex:1;${inputStyle}"
+             onchange="char.proficiencies.savingThrowModifications[${i}].name=this.value;">
+      <select style="${inputStyle}padding:4px 6px;" onchange="char.proficiencies.savingThrowModifications[${i}].stat=this.value;">
+        ${abilityKeys.map(ab => `<option value="${ab}" ${m.stat===ab?'selected':''}>${abilityFull[ab]}</option>`).join('')}
+      </select>
+      <input type="number" placeholder="+0" value="${m.modifier}" style="width:55px;${inputStyle}"
+             onchange="char.proficiencies.savingThrowModifications[${i}].modifier=parseInt(this.value)||0;">
+      <button class="btn btn-danger btn-sm" onclick="char.proficiencies.savingThrowModifications.splice(${i},1); initSaveModifications();">✕</button>
+    </div>`;
+  });
+  html += `<button class="btn btn-sm" onclick="char.proficiencies.savingThrowModifications.push({name:'',stat:'str',modifier:0}); initSaveModifications();">+ Add</button>`;
+  container.innerHTML = html;
+}
+
 // ─── SKILL PROFICIENCIES ───
 function initSkillsGrid() {
   const grid = document.getElementById('skillsGrid');
-  grid.innerHTML = Object.entries(skillMap).map(([skill, ab]) => `
+  grid.innerHTML = Object.entries(skillMap).map(([skill, ab]) => {
+    const s = char.proficiencies.skills[skill] || { proficiency: false, expertise: false };
+    return `
     <div class="skill-edit-row">
-      <input type="checkbox" id="skill_${skill}" ${char.proficiencies.skills[skill]?'checked':''}
-             onchange="char.proficiencies.skills['${skill}']=this.checked;">
-      <label for="skill_${skill}">${skillNames[skill]}</label>
+      <input type="checkbox" id="skill_prof_${skill}" ${s.proficiency?'checked':''}
+             onchange="char.proficiencies.skills['${skill}'].proficiency=this.checked;">
+      <label class="skill-prof-label" for="skill_prof_${skill}">${skillNames[skill]}</label>
       <span class="skill-ab">${abilityLabels[ab]}</span>
-    </div>
-  `).join('');
+      <input class="skill-exp-cb" type="checkbox" id="skill_exp_${skill}" ${s.expertise?'checked':''}
+             title="Expertise"
+             onchange="char.proficiencies.skills['${skill}'].expertise=this.checked;">
+    </div>`;
+  }).join('');
 }
 
-// ─── EXPERTISE TAG INPUT ───
-function initExpertise() {
-  const container = document.getElementById('expertiseContainer');
-  const arr = char.proficiencies.expertise;
+// ─── SKILL MODIFICATIONS ───
+function initModifications() {
+  const container = document.getElementById('modificationsContainer');
+  const mods = char.proficiencies.modifications || [];
+  const inputStyle = `padding:5px 8px;border:1.5px solid var(--parchment-shadow);border-radius:4px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);`;
   let html = '';
-  arr.forEach((item, i) => {
+  mods.forEach((m, i) => {
     html += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-      <input type="text" value="${esc(item)}" style="flex:1;padding:5px 8px;border:1.5px solid var(--parchment-shadow);border-radius:4px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);"
-             onchange="char.proficiencies.expertise[${i}]=this.value;">
-      <button class="btn btn-danger btn-sm" onclick="char.proficiencies.expertise.splice(${i},1); initExpertise();">✕</button>
+      <input type="text" placeholder="Name" value="${esc(m.name)}" style="flex:1;${inputStyle}"
+             onchange="char.proficiencies.modifications[${i}].name=this.value;">
+      <input type="text" placeholder="Skill" value="${esc(m.stat)}" style="width:110px;${inputStyle}"
+             onchange="char.proficiencies.modifications[${i}].stat=this.value;">
+      <input type="number" placeholder="+0" value="${m.modifier}" style="width:55px;${inputStyle}"
+             onchange="char.proficiencies.modifications[${i}].modifier=parseInt(this.value)||0;">
+      <button class="btn btn-danger btn-sm" onclick="char.proficiencies.modifications.splice(${i},1); initModifications();">✕</button>
     </div>`;
   });
-  html += `<button class="btn btn-sm" onclick="char.proficiencies.expertise.push(''); initExpertise();">+ Add</button>`;
+  html += `<button class="btn btn-sm" onclick="char.proficiencies.modifications.push({name:'',stat:'',modifier:0}); initModifications();">+ Add</button>`;
   container.innerHTML = html;
 }
 
@@ -1201,6 +1425,43 @@ function switchSpellLevel(key) {
   activeSpellLevel = key;
   document.querySelectorAll('.spell-level-tab').forEach(t => t.classList.toggle('active', t.dataset.level === key));
   renderSpellsList();
+}
+
+// ─── HIT DICE LIST ───
+const HD_TYPES = ['d6','d8','d10','d12'];
+
+function normaliseHitDice() {
+  const hd = char.combat.hitDice;
+  // migrate old single-object format
+  if (!Array.isArray(hd)) char.combat.hitDice = [{ type: hd.type || 'd8', total: hd.total || 1, current: hd.current || 1 }];
+}
+
+function renderHitDiceList() {
+  normaliseHitDice();
+  const el = document.getElementById('hitDiceList');
+  const iStyle = `padding:5px 8px;border:1.5px solid var(--parchment-shadow);border-radius:4px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);`;
+  el.innerHTML = char.combat.hitDice.map((hd, i) => `
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+      <select style="${iStyle}padding:4px 6px;width:70px;" onchange="char.combat.hitDice[${i}].type=this.value;">
+        ${HD_TYPES.map(t => `<option value="${t}" ${hd.type===t?'selected':''}>${t}</option>`).join('')}
+      </select>
+      <div class="form-group" style="margin:0;flex:1;">
+        <input type="number" placeholder="Total" min="1" value="${hd.total}" style="${iStyle}width:100%;"
+               onchange="char.combat.hitDice[${i}].total=parseInt(this.value)||1;">
+      </div>
+      <div class="form-group" style="margin:0;flex:1;">
+        <input type="number" placeholder="Current" min="0" value="${hd.current}" style="${iStyle}width:100%;"
+               onchange="char.combat.hitDice[${i}].current=parseInt(this.value)||0;">
+      </div>
+      ${char.combat.hitDice.length > 1 ? `<button class="btn btn-danger btn-sm" onclick="char.combat.hitDice.splice(${i},1); renderHitDiceList();">✕</button>` : ''}
+    </div>
+  `).join('') + `<div style="font-size:11px;color:var(--ink-faded);margin-top:2px;">Type &nbsp;·&nbsp; Total &nbsp;·&nbsp; Current</div>`;
+}
+
+function addHitDiceGroup() {
+  normaliseHitDice();
+  char.combat.hitDice.push({ type: 'd8', total: 1, current: 1 });
+  renderHitDiceList();
 }
 
 // ─── CURRENCY EDITOR ───
@@ -1382,91 +1643,126 @@ function updateSpellLevelCounts() {
 }
 
 // ─── FEATURES LIST ───
+const SOURCE_TYPES = ['species','background','class','item','other'];
+const SOURCE_TYPE_LABELS = { species:'Species', background:'Background', class:'Class', item:'Item', other:'Other' };
+
 function renderFeaturesList() {
   const el = document.getElementById('featuresList');
   if (!char.features.length) {
     el.innerHTML = '<div class="empty-state">No features yet. Click "+ Add Feature" to create one.</div>';
     return;
   }
-  el.innerHTML = char.features.map((feat, i) => `
-    <div class="list-item-card">
-      <div class="list-item-header">
-        <span class="collapse-toggle" onclick="toggleListItem(this)">▼</span>
-        <span class="item-title" onclick="toggleListItem(this)">${feat.name || 'Unnamed Feature'}</span>
-        <select style="font-size:11px;padding:2px 6px;border-radius:3px;border:1px solid var(--parchment-shadow);font-family:'Alegreya SC',serif;"
-                onchange="char.features[${i}].type=this.value;">
-          <option value="passive" ${feat.type==='passive'?'selected':''}>Passive</option>
-          <option value="active" ${feat.type==='active'?'selected':''}>Active</option>
-        </select>
-        <button class="btn btn-danger btn-sm" onclick="removeFeature(${i})">✕</button>
-      </div>
-      <div class="list-item-body open">
-        <div class="form-row cols-2">
-          <div class="form-group">
-            <label>Feature Name</label>
-            <input type="text" value="${esc(feat.name)}" onchange="char.features[${i}].name=this.value; renderFeaturesList();">
-          </div>
-          <div class="form-group">
-            <label>Source</label>
-            <input type="text" value="${esc(feat.source||'')}" placeholder="e.g. Monk 1, Feat" onchange="char.features[${i}].source=this.value;">
-          </div>
-        </div>
-        <div class="form-row cols-3">
-          <div class="form-group">
-            <label>Category</label>
-            <input type="text" value="${esc(feat.category||'')}" placeholder="e.g. Class, Race" onchange="char.features[${i}].category=this.value;">
-          </div>
-          <div class="form-group">
-            <label>Action Type</label>
-            <select onchange="char.features[${i}].actionType=this.value||null;">
-              <option value="" ${!feat.actionType?'selected':''}>None</option>
-              <option value="action" ${feat.actionType==='action'?'selected':''}>Action</option>
-              <option value="bonus action" ${feat.actionType==='bonus action'?'selected':''}>Bonus Action</option>
-              <option value="reaction" ${feat.actionType==='reaction'?'selected':''}>Reaction</option>
-              <option value="free" ${feat.actionType==='free'?'selected':''}>Free</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Resource Cost</label>
-            <input type="text" value="${esc(feat.resourceCost||'')}" placeholder="e.g. 1 Focus Point" onchange="char.features[${i}].resourceCost=this.value||null;">
-          </div>
-        </div>
-        <div class="form-row cols-3">
-          <div class="form-group">
-            <label>Requirements</label>
-            <input type="text" value="${esc(feat.requirements||'')}" onchange="char.features[${i}].requirements=this.value;">
-          </div>
-          <div class="form-group">
-            <label style="display:flex;align-items:center;gap:6px;">
-              <input type="checkbox" ${feat.isMovement?'checked':''} onchange="char.features[${i}].isMovement=this.checked;"> Uses Movement
-            </label>
-          </div>
-          <div class="form-group">
-            <label>Movement Cost (ft)</label>
-            <input type="number" min="0" value="${feat.movementCost||0}" onchange="char.features[${i}].movementCost=parseInt(this.value)||0;">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Description</label>
-          <textarea style="min-height:80px;" onchange="char.features[${i}].description=this.value;">${esc(feat.description||'')}</textarea>
-        </div>
-      </div>
+  el.innerHTML = '<div class="card-grid-3">' + char.features.map((feat, i) => `
+    <div class="grid-card" onclick="openFeatureModal(${i})">
+      <div class="grid-card-name">${esc(feat.name) || 'Unnamed Feature'}</div>
+      <div class="grid-card-meta">${SOURCE_TYPE_LABELS[feat.sourceType]||feat.sourceType||'—'}${feat.source ? ' · ' + esc(feat.source) : ''}</div>
+      <div class="grid-card-meta">${feat.type||'passive'}${feat.actionType ? ' · ' + feat.actionType : ''}</div>
     </div>
-  `).join('');
+  `).join('') + '</div>';
 }
 
-function addFeature() {
-  char.features.push({
-    name:'', source:'', type:'passive', description:'',
-    category:'', actionType:null, isMovement:false, movementCost:0,
-    resourceCost:null, requirements:''
-  });
-  renderFeaturesList();
-}
+function addFeature() { openFeatureModal(-1); }
 
 function removeFeature(i) {
   char.features.splice(i, 1);
+  closeModal();
   renderFeaturesList();
+  scheduleCharSave();
+}
+
+function openFeatureModal(i) {
+  const isNew = i === -1;
+  if (isNew) {
+    char.features.push({ name:'', sourceType:'class', source:'', type:'passive', description:'',
+      actionType:null, isMovement:false, movementCost:0, resourceCost:null, requirements:'' });
+    i = char.features.length - 1;
+  }
+  const feat = char.features[i];
+  const stOpts = SOURCE_TYPES.map(st => `<option value="${st}" ${feat.sourceType===st?'selected':''}>${SOURCE_TYPE_LABELS[st]}</option>`).join('');
+  const overlay = document.getElementById('modal-overlay');
+  overlay.innerHTML = `<div class="modal-box">
+    <div class="modal-title">✦ ${isNew ? 'New Feature' : 'Edit Feature'}</div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Feature Name</label>
+        <input type="text" id="fm_name" value="${esc(feat.name)}" placeholder="Feature name">
+      </div>
+      <div class="form-group">
+        <label>Type</label>
+        <select id="fm_type">
+          <option value="passive" ${feat.type==='passive'?'selected':''}>Passive</option>
+          <option value="active" ${feat.type==='active'?'selected':''}>Active</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Source Type</label>
+        <select id="fm_sourceType">${stOpts}</select>
+      </div>
+      <div class="form-group">
+        <label>Source Name</label>
+        <input type="text" id="fm_source" value="${esc(feat.source||'')}" placeholder="e.g. Elf, Druid, Fighter">
+      </div>
+    </div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Action Type</label>
+        <select id="fm_actionType">
+          <option value="" ${!feat.actionType?'selected':''}>None</option>
+          <option value="action" ${feat.actionType==='action'?'selected':''}>Action</option>
+          <option value="bonus action" ${feat.actionType==='bonus action'?'selected':''}>Bonus Action</option>
+          <option value="reaction" ${feat.actionType==='reaction'?'selected':''}>Reaction</option>
+          <option value="free" ${feat.actionType==='free'?'selected':''}>Free</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Resource Cost</label>
+        <input type="text" id="fm_resourceCost" value="${esc(feat.resourceCost||'')}" placeholder="e.g. 1 Ki Point">
+      </div>
+    </div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Requirements</label>
+        <input type="text" id="fm_requirements" value="${esc(feat.requirements||'')}" placeholder="e.g. Monk level 5+">
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:6px;">
+          <input type="checkbox" id="fm_isMovement" ${feat.isMovement?'checked':''}> Uses Movement
+        </label>
+        <input type="number" id="fm_movementCost" min="0" value="${feat.movementCost||0}" placeholder="Cost in ft" style="margin-top:4px;">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="fm_description" style="min-height:100px;">${esc(feat.description||'')}</textarea>
+    </div>
+    <div class="modal-footer-split">
+      <button class="btn btn-danger btn-sm" onclick="removeFeature(${i})">Delete</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-sm" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveFeatureModal(${i})">Save</button>
+      </div>
+    </div>
+  </div>`;
+  overlay.classList.add('open');
+}
+
+function saveFeatureModal(i) {
+  const f = char.features[i];
+  f.name = document.getElementById('fm_name').value;
+  f.type = document.getElementById('fm_type').value;
+  f.sourceType = document.getElementById('fm_sourceType').value;
+  f.source = document.getElementById('fm_source').value;
+  f.actionType = document.getElementById('fm_actionType').value || null;
+  f.resourceCost = document.getElementById('fm_resourceCost').value || null;
+  f.requirements = document.getElementById('fm_requirements').value;
+  f.isMovement = document.getElementById('fm_isMovement').checked;
+  f.movementCost = parseInt(document.getElementById('fm_movementCost').value) || 0;
+  f.description = document.getElementById('fm_description').value;
+  closeModal();
+  renderFeaturesList();
+  scheduleCharSave();
 }
 
 // ─── RESOURCES LIST ───
@@ -1476,66 +1772,145 @@ function renderResourcesList() {
     el.innerHTML = '<div class="empty-state">No resources yet. Click "+ Add Resource" to create one.</div>';
     return;
   }
-  el.innerHTML = char.resources.map((res, i) => `
-    <div class="list-item-card">
-      <div class="list-item-header">
-        <span class="item-title">${res.name || 'Unnamed Resource'}</span>
-        <button class="btn btn-danger btn-sm" onclick="removeResource(${i})">✕</button>
-      </div>
-      <div class="form-row cols-3">
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" value="${esc(res.name)}" onchange="char.resources[${i}].name=this.value; renderResourcesList();">
-        </div>
-        <div class="form-group">
-          <label>Maximum</label>
-          <input type="number" min="0" value="${res.maximum||0}" onchange="char.resources[${i}].maximum=parseInt(this.value)||0;">
-        </div>
-        <div class="form-group">
-          <label>Current</label>
-          <input type="number" min="0" value="${res.current||0}" onchange="char.resources[${i}].current=parseInt(this.value)||0;">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Description</label>
-        <textarea style="min-height:40px;" onchange="char.resources[${i}].description=this.value;">${esc(res.description||'')}</textarea>
-      </div>
+  el.innerHTML = '<div class="card-grid-3">' + char.resources.map((res, i) => `
+    <div class="grid-card" onclick="openResourceModal(${i})">
+      <div class="grid-card-name">${esc(res.name) || 'Unnamed Resource'}</div>
+      <div class="grid-card-meta">${SOURCE_TYPE_LABELS[res.sourceType]||res.sourceType||'—'}${res.source ? ' · ' + esc(res.source) : ''}</div>
+      <div class="grid-card-meta">${res.current||0} / ${res.maximum||0}</div>
     </div>
-  `).join('');
+  `).join('') + '</div>';
 }
 
-function addResource() {
-  char.resources.push({ name:'', current:0, maximum:0, description:'' });
-  renderResourcesList();
-}
+function addResource() { openResourceModal(-1); }
 
 function removeResource(i) {
   char.resources.splice(i, 1);
+  closeModal();
   renderResourcesList();
+  scheduleCharSave();
+}
+
+function openResourceModal(i) {
+  const isNew = i === -1;
+  if (isNew) {
+    char.resources.push({ name:'', sourceType:'class', source:'', current:0, maximum:0, description:'' });
+    i = char.resources.length - 1;
+  }
+  const res = char.resources[i];
+  const stOpts = SOURCE_TYPES.map(st => `<option value="${st}" ${res.sourceType===st?'selected':''}>${SOURCE_TYPE_LABELS[st]}</option>`).join('');
+  const overlay = document.getElementById('modal-overlay');
+  overlay.innerHTML = `<div class="modal-box">
+    <div class="modal-title gold">◈ ${isNew ? 'New Resource' : 'Edit Resource'}</div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Resource Name</label>
+        <input type="text" id="rm_name" value="${esc(res.name)}" placeholder="Resource name">
+      </div>
+      <div class="form-group">
+        <label>Source Type</label>
+        <select id="rm_sourceType">${stOpts}</select>
+      </div>
+    </div>
+    <div class="form-row cols-3">
+      <div class="form-group">
+        <label>Source Name</label>
+        <input type="text" id="rm_source" value="${esc(res.source||'')}" placeholder="e.g. Monk, Elf">
+      </div>
+      <div class="form-group">
+        <label>Maximum</label>
+        <input type="number" id="rm_maximum" min="0" value="${res.maximum||0}">
+      </div>
+      <div class="form-group">
+        <label>Current</label>
+        <input type="number" id="rm_current" min="0" value="${res.current||0}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="rm_description" style="min-height:80px;">${esc(res.description||'')}</textarea>
+    </div>
+    <div class="modal-footer-split">
+      <button class="btn btn-danger btn-sm" onclick="removeResource(${i})">Delete</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-sm" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveResourceModal(${i})">Save</button>
+      </div>
+    </div>
+  </div>`;
+  overlay.classList.add('open');
+}
+
+function saveResourceModal(i) {
+  const r = char.resources[i];
+  r.name = document.getElementById('rm_name').value;
+  r.sourceType = document.getElementById('rm_sourceType').value;
+  r.source = document.getElementById('rm_source').value;
+  r.maximum = parseInt(document.getElementById('rm_maximum').value) || 0;
+  r.current = parseInt(document.getElementById('rm_current').value) || 0;
+  r.description = document.getElementById('rm_description').value;
+  closeModal();
+  renderResourcesList();
+  scheduleCharSave();
+}
+
+// ─── MODAL UTILITY ───
+function closeModal() {
+  const overlay = document.getElementById('modal-overlay');
+  overlay.classList.remove('open');
+  overlay.innerHTML = '';
 }
 
 // ─── ITEMS LIST ───
+const RARITIES = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Legendary'];
+
+function normaliseItem(item) {
+  if (typeof item === 'string') return { name: item, weight: 0, quantity: 1, equipped: false, consumable: false, rarity: 'Common', description: '', notes: item };
+  return Object.assign({ weight: 0, quantity: 1, equipped: false, consumable: false, rarity: 'Common', description: '', notes: '' }, item);
+}
+
 function renderItemsList() {
   const el = document.getElementById('itemsList');
+  char.equipment.items = char.equipment.items.map(normaliseItem);
   const items = char.equipment.items;
   if (!items.length) {
     el.innerHTML = '<div class="empty-state">No items yet. Click "+ Add Item" to create one.</div>';
     return;
   }
+  const iStyle = `padding:5px 8px;border:1.5px solid var(--parchment-shadow);border-radius:4px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);`;
   el.innerHTML = items.map((item, i) => `
-    <div class="list-item-card" style="padding:8px 12px;">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <input type="text" value="${esc(typeof item === 'string' ? item : item.name || '')}"
-               style="flex:1;padding:5px 8px;border:1px solid var(--parchment-shadow);border-radius:3px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);"
-               onchange="char.equipment.items[${i}]=this.value;">
+    <div class="list-item-card" style="padding:10px 14px;margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <input type="text" placeholder="Item name" value="${esc(item.name)}" style="flex:1;${iStyle}"
+               onchange="char.equipment.items[${i}].name=this.value;">
+        <input type="number" placeholder="Wt" title="Weight" min="0" step="0.1" value="${item.weight}" style="width:52px;${iStyle}"
+               onchange="char.equipment.items[${i}].weight=parseFloat(this.value)||0;">
+        <input type="number" placeholder="Qty" title="Quantity" min="1" value="${item.quantity}" style="width:52px;${iStyle}"
+               onchange="char.equipment.items[${i}].quantity=parseInt(this.value)||1;">
         <button class="btn btn-danger btn-sm" onclick="removeItem(${i})">✕</button>
       </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap;">
+        <select style="${iStyle}padding:4px 6px;" onchange="char.equipment.items[${i}].rarity=this.value;">
+          ${RARITIES.map(r => `<option value="${r}" ${item.rarity===r?'selected':''}>${r}</option>`).join('')}
+        </select>
+        <label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer;">
+          <input type="checkbox" ${item.equipped?'checked':''} onchange="char.equipment.items[${i}].equipped=this.checked;">
+          Equipped
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer;">
+          <input type="checkbox" ${item.consumable?'checked':''} onchange="char.equipment.items[${i}].consumable=this.checked;">
+          Consumable
+        </label>
+      </div>
+      <input type="text" placeholder="Description" value="${esc(item.description)}" style="width:100%;margin-bottom:5px;${iStyle}"
+             onchange="char.equipment.items[${i}].description=this.value;">
+      <input type="text" placeholder="Notes" value="${esc(item.notes)}" style="width:100%;${iStyle}"
+             onchange="char.equipment.items[${i}].notes=this.value;">
     </div>
   `).join('');
 }
 
 function addItem() {
-  char.equipment.items.push('');
+  char.equipment.items.push({ name: '', weight: 0, quantity: 1, equipped: false, consumable: false, rarity: 'Common', description: '', notes: '' });
   renderItemsList();
 }
 
@@ -1579,9 +1954,7 @@ function populateFieldsFromChar() {
   document.getElementById('combat_maxhp').value = char.combat.maxHP;
   document.getElementById('combat_curhp').value = char.combat.currentHP;
   document.getElementById('combat_temphp').value = char.combat.temporaryHP;
-  document.getElementById('hd_total').value = char.combat.hitDice.total;
-  document.getElementById('hd_current').value = char.combat.hitDice.current;
-  document.getElementById('hd_type').value = char.combat.hitDice.type;
+  renderHitDiceList();
   document.getElementById('ds_successes').value = char.combat.deathSaves.successes;
   document.getElementById('ds_failures').value = char.combat.deathSaves.failures;
 
@@ -1629,9 +2002,7 @@ function collectFormData() {
   char.combat.maxHP = parseInt(document.getElementById('combat_maxhp').value) || 1;
   char.combat.currentHP = parseInt(document.getElementById('combat_curhp').value) || 0;
   char.combat.temporaryHP = parseInt(document.getElementById('combat_temphp').value) || 0;
-  char.combat.hitDice.total = parseInt(document.getElementById('hd_total').value) || 1;
-  char.combat.hitDice.current = parseInt(document.getElementById('hd_current').value) || 0;
-  char.combat.hitDice.type = document.getElementById('hd_type').value;
+  // hitDice array is mutated in-place by renderHitDiceList inputs
   char.combat.deathSaves.successes = parseInt(document.getElementById('ds_successes').value) || 0;
   char.combat.deathSaves.failures = parseInt(document.getElementById('ds_failures').value) || 0;
 
@@ -1697,10 +2068,37 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
   this.value = '';
 });
 
+// ═══════════════════════════════════════════
+// DATA MIGRATION (old format → new format)
+// ═══════════════════════════════════════════
+function migrateFeature(feat) {
+  if (feat.sourceType) return feat; // already new format
+  const catMap = {
+    'class':'class','subclass':'class','race':'species','species':'species',
+    'background':'background','item':'item','magic item':'item'
+  };
+  const cat = (feat.category || '').toLowerCase().trim();
+  const sourceType = catMap[cat] || 'other';
+  const source = feat.source || feat.category || '';
+  const { category, ...rest } = feat;
+  return { sourceType, source, ...rest };
+}
+
+function migrateResource(res) {
+  if (res.sourceType !== undefined) return res;
+  return { sourceType: 'other', source: '', ...res };
+}
+
+function migrateCharData() {
+  if (char.features?.length) char.features = char.features.map(migrateFeature);
+  if (char.resources?.length) char.resources = char.resources.map(migrateResource);
+}
+
 function loadCharacter(data) {
   // Merge loaded data onto blank character to fill any gaps
   const blank = createBlankCharacter();
   char = deepMerge(blank, data);
+  migrateCharData();
   // Reinit everything
   activeSpellLevel = 'cantrips';
   initEditors();
@@ -1724,6 +2122,7 @@ function deepMerge(target, source) {
 function resetAll() {
   char = createBlankCharacter();
   activeSpellLevel = 'cantrips';
+  localStorage.removeItem('dnd-character-draft');
   initEditors();
   showToast('Character reset');
 }
@@ -1743,6 +2142,260 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ═══════════════════════════════════════════
+// LIBRARY SEARCH MODAL
+// ═══════════════════════════════════════════
+let _libraryData = null;
+
+async function _ensureLibLoaded() {
+  if (_libraryData) return _libraryData;
+  if (!window.LIBRARY_DATA) throw new Error('library.js not loaded');
+  _libraryData = window.LIBRARY_DATA;
+  return _libraryData;
+}
+
+function showLibrarySearchModal(section) {
+  const configs = {
+    features: {
+      title: '📚 Load Feature from Library',
+      titleClass: '',
+      filterHTML: `
+        <div class="form-row cols-3" style="margin-bottom:0;">
+          <div class="form-group">
+            <label>Name contains</label>
+            <input type="text" id="lf_name" placeholder="Search name…">
+          </div>
+          <div class="form-group">
+            <label>Source Type</label>
+            <select id="lf_sourceType">
+              <option value="">Any</option>
+              ${SOURCE_TYPES.map(st=>`<option value="${st}">${SOURCE_TYPE_LABELS[st]}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Source Name</label>
+            <input type="text" id="lf_source" placeholder="e.g. Elf, Druid">
+          </div>
+        </div>`,
+      getFilters: () => ({
+        name: document.getElementById('lf_name').value.toLowerCase().trim(),
+        sourceType: document.getElementById('lf_sourceType').value,
+        source: document.getElementById('lf_source').value.toLowerCase().trim()
+      }),
+      hasFilter: f => f.name || f.sourceType || f.source,
+      filter: (items, f) => items.filter(item =>
+        (!f.name || item.name.toLowerCase().includes(f.name)) &&
+        (!f.sourceType || item.sourceType === f.sourceType) &&
+        (!f.source || (item.source||'').toLowerCase().includes(f.source))
+      ),
+      cardHTML: item => `<div class="lib-result-name">${esc(item.name)}</div>
+        <div class="lib-result-meta">${SOURCE_TYPE_LABELS[item.sourceType]||item.sourceType||''}${item.source?' · '+esc(item.source):''}</div>
+        <div class="lib-result-meta">${item.type||''}${item.actionType?' · '+item.actionType:''}</div>`,
+      onSelect: item => {
+        const { ...f } = item;
+        char.features.push(f);
+        renderFeaturesList();
+        scheduleCharSave();
+        showToast(`Added: ${item.name}`);
+      }
+    },
+    resources: {
+      title: '📚 Load Resource from Library',
+      titleClass: 'gold',
+      filterHTML: `
+        <div class="form-row cols-3" style="margin-bottom:0;">
+          <div class="form-group">
+            <label>Name contains</label>
+            <input type="text" id="lr_name" placeholder="Search name…">
+          </div>
+          <div class="form-group">
+            <label>Source Type</label>
+            <select id="lr_sourceType">
+              <option value="">Any</option>
+              ${SOURCE_TYPES.map(st=>`<option value="${st}">${SOURCE_TYPE_LABELS[st]}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Source Name</label>
+            <input type="text" id="lr_source" placeholder="e.g. Monk, Fighter">
+          </div>
+        </div>`,
+      getFilters: () => ({
+        name: document.getElementById('lr_name').value.toLowerCase().trim(),
+        sourceType: document.getElementById('lr_sourceType').value,
+        source: document.getElementById('lr_source').value.toLowerCase().trim()
+      }),
+      hasFilter: f => f.name || f.sourceType || f.source,
+      filter: (items, f) => items.filter(item =>
+        (!f.name || item.name.toLowerCase().includes(f.name)) &&
+        (!f.sourceType || item.sourceType === f.sourceType) &&
+        (!f.source || (item.source||'').toLowerCase().includes(f.source))
+      ),
+      cardHTML: item => `<div class="lib-result-name">${esc(item.name)}</div>
+        <div class="lib-result-meta">${SOURCE_TYPE_LABELS[item.sourceType]||item.sourceType||''}${item.source?' · '+esc(item.source):''}</div>
+        <div class="lib-result-meta">Max: ${item.maximum||0}</div>`,
+      onSelect: item => {
+        const { ...r } = item;
+        char.resources.push(r);
+        renderResourcesList();
+        scheduleCharSave();
+        showToast(`Added: ${item.name}`);
+      }
+    },
+    spells: {
+      title: '📚 Load Spell from Library',
+      titleClass: 'gold',
+      filterHTML: `
+        <div class="form-row cols-3" style="margin-bottom:0;">
+          <div class="form-group">
+            <label>Name contains</label>
+            <input type="text" id="ls_name" placeholder="Search name…">
+          </div>
+          <div class="form-group">
+            <label>Level</label>
+            <select id="ls_level">
+              <option value="">Any</option>
+              <option value="0">Cantrip (0)</option>
+              ${[1,2,3,4,5,6,7,8,9].map(n=>`<option value="${n}">${n}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>School</label>
+            <input type="text" id="ls_school" placeholder="e.g. Evocation">
+          </div>
+        </div>`,
+      getFilters: () => ({
+        name: document.getElementById('ls_name').value.toLowerCase().trim(),
+        level: document.getElementById('ls_level').value,
+        school: document.getElementById('ls_school').value.toLowerCase().trim()
+      }),
+      hasFilter: f => f.name || f.level !== '' || f.school,
+      filter: (items, f) => items.filter(item =>
+        (!f.name || item.name.toLowerCase().includes(f.name)) &&
+        (f.level === '' || String(item.level) === f.level) &&
+        (!f.school || (item.school||'').toLowerCase().includes(f.school))
+      ),
+      cardHTML: item => `<div class="lib-result-name">${esc(item.name)}</div>
+        <div class="lib-result-meta">Lv ${item.level} ${esc(item.school)||''}</div>
+        <div class="lib-result-meta">${esc(item.classes)||''}</div>`,
+      onSelect: item => {
+        const levelKey = item.level === 0 ? 'cantrips' : `level${item.level}`;
+        const spell = {
+          name: item.name,
+          schoolLevel: `Level ${item.level} ${item.school}`,
+          castingTime: item.castingTime||'',
+          range: item.range||'',
+          duration: item.duration||'',
+          components: item.components||'',
+          classes: item.classes||'',
+          source: item.source||'',
+          description: item.description||'',
+          atHigherLevels: item.atHigherLevels||'',
+          cantripUpgrade: item.cantripUpgrade||'',
+          prepared: false
+        };
+        if (!char.spells[levelKey]) char.spells[levelKey] = [];
+        char.spells[levelKey].push(spell);
+        activeSpellLevel = levelKey;
+        renderSpellsList();
+        updateSpellLevelCounts();
+        scheduleCharSave();
+        showToast(`Added: ${item.name}`);
+      }
+    },
+    equipment: {
+      title: '📚 Load Item from Library',
+      titleClass: '',
+      filterHTML: `
+        <div class="form-row cols-2" style="margin-bottom:0;">
+          <div class="form-group">
+            <label>Name contains</label>
+            <input type="text" id="le_name" placeholder="Search name…">
+          </div>
+          <div class="form-group">
+            <label>Type contains</label>
+            <input type="text" id="le_type" placeholder="e.g. Weapon, Armor">
+          </div>
+        </div>`,
+      getFilters: () => ({
+        name: document.getElementById('le_name').value.toLowerCase().trim(),
+        type: document.getElementById('le_type').value.toLowerCase().trim()
+      }),
+      hasFilter: f => f.name || f.type,
+      filter: (items, f) => items.filter(item =>
+        (!f.name || item.name.toLowerCase().includes(f.name)) &&
+        (!f.type || (item.type||'').toLowerCase().includes(f.type))
+      ),
+      cardHTML: item => `<div class="lib-result-name">${esc(item.name)}</div>
+        <div class="lib-result-meta">${esc(item.type)||''}</div>
+        <div class="lib-result-meta">${item.cost||''}${item.weight?' · '+item.weight:''}</div>`,
+      onSelect: item => {
+        char.equipment.items.push({
+          name: item.name,
+          weight: parseFloat(item.weight)||0,
+          quantity: 1,
+          equipped: false,
+          consumable: item.type==='Consumable',
+          rarity: 'Common',
+          description: item.description||'',
+          notes: item.type||''
+        });
+        renderItemsList();
+        scheduleCharSave();
+        showToast(`Added: ${item.name}`);
+      }
+    }
+  };
+
+  const cfg = configs[section];
+  if (!cfg) return;
+
+  const overlay = document.getElementById('modal-overlay');
+  overlay.innerHTML = `<div class="modal-box" style="max-width:640px;">
+    <div class="modal-title ${cfg.titleClass}">${cfg.title}</div>
+    ${cfg.filterHTML}
+    <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+      <button class="btn btn-primary btn-sm" onclick="window._runLibSearch()">Search</button>
+    </div>
+    <div id="lib-results-area"><div class="lib-placeholder">Enter a search term or select a filter, then click Search.</div></div>
+    <div class="modal-footer">
+      <button class="btn btn-sm" onclick="closeModal()">Close</button>
+    </div>
+  </div>`;
+  overlay.classList.add('open');
+
+  window._runLibSearch = async function() {
+    const area = document.getElementById('lib-results-area');
+    const filters = cfg.getFilters();
+    if (!cfg.hasFilter(filters)) {
+      area.innerHTML = '<div class="lib-placeholder">Enter a search term or select a filter, then click Search.</div>';
+      return;
+    }
+    area.innerHTML = '<div class="lib-placeholder">Loading…</div>';
+    try {
+      const lib = await _ensureLibLoaded();
+      const items = cfg.filter(lib[section] || [], filters);
+      if (!items.length) {
+        area.innerHTML = '<div class="lib-placeholder">No results found. Try different filters.</div>';
+        return;
+      }
+      window._libItems = items;
+      area.innerHTML = `<div class="lib-results-grid">${
+        items.map((item, idx) => `<div class="lib-result-card" onclick="window._libSelect(${idx})">${cfg.cardHTML(item)}</div>`).join('')
+      }</div>`;
+    } catch(e) {
+      area.innerHTML = '<div class="lib-placeholder">Error loading library. Make sure data/library.json exists.</div>';
+    }
+  };
+
+  window._libSelect = function(idx) {
+    const item = window._libItems[idx];
+    if (!item) return;
+    cfg.onSelect(item);
+    closeModal();
+  };
 }
 
 // ═══════════════════════════════════════════
@@ -1778,9 +2431,31 @@ async function libLoadChar(url){
 }
 
 // ═══════════════════════════════════════════
+// LOCAL STORAGE AUTOSAVE
+// ═══════════════════════════════════════════
+let _charSaveTm;
+function scheduleCharSave() {
+  clearTimeout(_charSaveTm);
+  _charSaveTm = setTimeout(() => {
+    collectFormData();
+    localStorage.setItem('dnd-character-draft', JSON.stringify(char));
+  }, 500);
+}
+
+// ═══════════════════════════════════════════
 // INIT ON LOAD
 // ═══════════════════════════════════════════
+(function restoreCharDraft() {
+  const saved = localStorage.getItem('dnd-character-draft');
+  if (!saved) return;
+  try {
+    char = deepMerge(createBlankCharacter(), JSON.parse(saved));
+    migrateCharData();
+  } catch(e) {}
+})();
 initEditors();
+document.querySelector('.creator-container').addEventListener('input', scheduleCharSave);
+document.querySelector('.creator-container').addEventListener('change', scheduleCharSave);
 </script>
 </body>
 </html>

@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D&D 5e Character Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+<style>
+:root {
+  --parchment: #f5f0e1;
+  --parchment-dark: #e8dcc8;
+  --parchment-shadow: #d4c5a9;
+  --ink: #1a1410;
+  --ink-light: #3d3427;
+  --ink-faded: #6b5d4d;
+  --accent-red: #b84c00;       /* orange-red: visible to protanopia & deuteranopia */
+  --accent-gold: #b8860b;
+  --accent-gold-light: #d4a940;
+  --border-dark: #2c2418;
+  --border-mid: #5c4a32;
+  --section-bg: rgba(255,255,255,0.25);
+  --stat-bg: #2c2418;
+  --stat-text: #f5f0e1;
+  --hp-green: #1a5f8a;         /* blue: replaces green for "healthy" state */
+  --hp-red: #b84c00;           /* orange: replaces red for "damaged/danger" state */
+  --slot-empty: #c4b896;
+  --slot-used: #b84c00;        /* orange: replaces red for used slots */
+  --slot-available: #1a5f8a;   /* blue: replaces green for available slots */
+  --proficient: #b8860b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #1a1e2a;
+  font-family: 'Alegreya', Georgia, serif;
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.sheet-container {
+  width: 100%;
+  max-width: 1100px;
+  background: var(--parchment);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(139,109,63,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 20%, rgba(139,109,63,0.04) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23f5f0e1'/%3E%3Crect width='1' height='1' fill='%23ede5d0' x='0' y='0'/%3E%3C/svg%3E");
+  border: 3px solid var(--border-dark);
+  box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 80px rgba(139,109,63,0.08);
+  padding: 0;
+  position: relative;
+}
+
+.sheet-container::before {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px solid var(--border-mid);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── HEADER ─── */
+.sheet-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0;
+  border-bottom: 3px solid var(--border-dark);
+  position: relative;
+  z-index: 1;
+}
+
+.char-name-block {
+  padding: 20px 24px 16px;
+  border-right: 2px solid var(--border-dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.char-name-block .label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink-faded);
+  margin-bottom: 4px;
+}
+
+.char-name-block .name {
+  font-family: 'Cinzel', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+
+.char-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+
+.info-cell {
+  padding: 8px 14px;
+  border-left: 1px solid var(--parchment-shadow);
+  border-bottom: 1px solid var(--parchment-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.info-cell .label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--ink-faded);
+}
+
+.info-cell .value {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ─── MAIN LAYOUT ─── */
+.sheet-body {
+  display: grid;
+  grid-template-columns: 200px 1fr 300px;
+  gap: 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── LEFT COLUMN: ABILITIES + SAVING THROWS + SKILLS ─── */
+.col-left {
+  border-right: 2px solid var(--border-dark);
+  padding: 16px 12px;
+}
+
+.ability-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ability-block {
+  background: var(--stat-bg);
+  border: 2px solid var(--border-dark);
+  border-radius: 8px;
+  text-align: center;
+  padding: 6px 4px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 50px 1fr 50px;
+  align-items: center;
+}
+
+.ability-block .ability-name {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--stat-text);
+  opacity: 0.8;
+}
+
+.ability-block .ability-modifier {
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--accent-gold-light);
+  line-height: 1;
+}
+
+.ability-block .ability-score {
+  font-family: 'Alegreya', serif;
+  font-size: 13px;
+  color: var(--stat-text);
+  opacity: 0.7;
+}
+
+/* ─── Saving Throws ─── */
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent-red);
+  border-bottom: 2px solid var(--accent-red);
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+
+.section-title.gold {
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+}
+
+.save-row, .skill-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+  font-size: 13px;
+}
+
+.prof-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink-faded);
+  flex-shrink: 0;
+}
+
+.prof-dot.filled {
+  background: var(--proficient);
+  border-color: var(--proficient);
+}
+
+.prof-dot.expertise {
+  background: var(--proficient);
+  border-color: var(--proficient);
+  box-shadow: 0 0 0 2px var(--parchment), 0 0 0 3.5px var(--proficient);
+}
+
+.save-mod, .skill-mod {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 13px;
+  min-width: 28px;
+  text-align: right;
+  color: var(--ink);
+}
+
+.save-name, .skill-name {
+  font-family: 'Alegreya', serif;
+  font-size: 12.5px;
+  color: var(--ink-light);
+}
+
+.skill-ability-tag {
+  font-family: 'Alegreya SC', serif;
+  font-size: 9px;
+  color: var(--ink-faded);
+  margin-left: auto;
+}
+
+.skill-mod-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  color: var(--accent-gold);
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.skill-mods-list {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border-mid);
+}
+
+.skill-mods-title {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.skill-mod-entry {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  padding: 1px 0;
+}
+
+.skill-mod-name {
+  color: var(--ink-light);
+  flex: 1;
+}
+
+.skill-mod-stat {
+  color: var(--ink-faded);
+  font-style: italic;
+  font-size: 11px;
+}
+
+.skill-mod-val {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--accent-gold);
+  min-width: 24px;
+  text-align: right;
+}
+
+/* ─── CENTER COLUMN ─── */
+.col-center {
+  padding: 16px;
+}
+
+/* Combat Stats Row */
+.combat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.combat-stat {
+  text-align: center;
+  border: 2px solid var(--border-dark);
+  border-radius: 6px;
+  padding: 8px 4px;
+  background: var(--section-bg);
+}
+
+.combat-stat .stat-value {
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.combat-stat .stat-label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--ink-faded);
+  margin-top: 2px;
+}
+
+.combat-adj-controls, .hp-adj-controls {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.combat-adj-controls button, .hp-adj-controls button {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border-mid);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink-faded);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.combat-adj-controls button:hover, .hp-adj-controls button:hover {
+  background: var(--parchment-dark);
+  color: var(--ink);
+}
+
+.combat-bonus-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-left: 3px;
+  vertical-align: super;
+}
+
+/* HP Block */
+.hp-block {
+  border: 2px solid var(--border-dark);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: var(--section-bg);
+  position: relative;
+}
+
+.hp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.hp-header .section-title {
+  margin: 0; border: none; padding: 0;
+}
+
+.hp-bar-container {
+  height: 28px;
+  background: var(--parchment-shadow);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-mid);
+}
+
+.hp-bar {
+  height: 100%;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--hp-green) 70%, white), var(--hp-green));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.hp-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.2), transparent);
+  border-radius: 3px 3px 0 0;
+}
+
+.hp-temp-bar-container {
+  height: 16px !important;
+}
+
+.hp-temp-bar {
+  background: linear-gradient(180deg, #e07020, #b84c00) !important;
+}
+
+.hp-text {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 14px;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  z-index: 2;
+}
+
+.hp-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.hp-amount-input {
+  grid-column: 1 / -1;
+  padding: 8px;
+  border: 1px solid var(--border-mid);
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  background: var(--parchment);
+  width: 100%;
+}
+
+.hp-controls button {
+  padding: 10px 4px;
+  border: 1.5px solid var(--border-mid);
+  border-radius: 6px;
+  font-family: 'Alegreya SC', serif;
+  font-size: 13px;
+  cursor: pointer;
+  background: var(--parchment-dark);
+  color: var(--ink);
+  transition: all 0.15s;
+  width: 100%;
+}
+
+.hp-controls button:hover {
+  background: var(--border-mid);
+  color: var(--stat-text);
+}
+
+.hp-controls button.heal { border-color: var(--hp-green); color: var(--hp-green); }
+.hp-controls button.damage { border-color: var(--hp-red); color: var(--hp-red); }
+
+.hp-meta-row {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Alegreya SC', serif;
+  font-size: 11px;
+  color: var(--ink-faded);
+  margin-top: 2px;
+}
+
+.hp-meta-row .val {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.hp-meta-row input[type="number"] {
+  width: 44px;
+  padding: 2px 4px;
+  border: 1px solid var(--border-mid);
+  border-radius: 3px;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  text-align: center;
+  background: var(--parchment);
+}
+
+/* Death Saves */
+.death-saves {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--parchment-shadow);
+}
+
+.death-save-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.death-save-group .ds-label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+  margin-right: 4px;
+}
+
+.death-save-pip {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.death-save-pip.success.active {
+  background: var(--hp-green);
+  border-color: var(--hp-green);
+}
+
+.death-save-pip.failure.active {
+  background: var(--hp-red);
+  border-color: var(--hp-red);
+}
+
+/* ─── ATTACKS TABLE ─── */
+.attacks-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.attacks-table th {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink-faded);
+  padding: 4px 6px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-mid);
+}
+
+.attacks-table td {
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--parchment-shadow);
+  vertical-align: top;
+}
+
+.attacks-table .atk-name {
+  font-family: 'Alegreya', serif;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.attacks-table .atk-bonus {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: var(--accent-red);
+}
+
+.attacks-table .atk-dmg {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.attacks-table .atk-type {
+  font-size: 11px;
+  color: var(--ink-faded);
+}
+
+.attack-notes-toggle {
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--accent-gold);
+  font-style: italic;
+}
+
+.attack-notes {
+  display: none;
+  font-size: 12px;
+  color: var(--ink-light);
+  padding: 4px 6px 8px;
+  line-height: 1.5;
+  background: rgba(184,134,11,0.05);
+  border-left: 2px solid var(--accent-gold);
+  margin: 2px 0 4px 6px;
+}
+
+.attack-notes.open { display: block; }
+
+/* ─── RIGHT COLUMN ─── */
+.col-right {
+  border-left: 2px solid var(--border-dark);
+  padding: 16px 12px;
+}
+
+/* Proficiency Bonus */
+.prof-bonus-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  border: 2px solid var(--border-dark);
+  border-radius: 6px;
+  background: var(--stat-bg);
+}
+
+.prof-bonus-block .bonus-val {
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--accent-gold-light);
+}
+
+.prof-bonus-block .bonus-label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 11px;
+  color: var(--stat-text);
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Passive Perception */
+.passive-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+}
+
+.passive-block .passive-val {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.passive-block .passive-label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+}
+
+/* Proficiencies & Languages */
+.prof-list {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-light);
+  margin-bottom: 12px;
+}
+
+.prof-list .prof-cat {
+  font-family: 'Alegreya SC', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Resources */
+.resource-block {
+  border: 1.5px solid var(--border-mid);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  background: var(--section-bg);
+}
+
+.resource-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resource-name {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.resource-pips {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.resource-pip {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--parchment);
+}
+
+.resource-pip.used {
+  background: var(--slot-used);
+  border-color: var(--slot-used);
+}
+
+.resource-pip:not(.used) {
+  background: var(--slot-available);
+  border-color: var(--slot-available);
+}
+
+/* Hit Dice */
+.hit-dice-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hit-dice-display .hd-val {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.hit-dice-pips {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.hd-pip {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1.5px solid var(--border-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--slot-available);
+}
+
+.hd-pip.used {
+  background: var(--slot-used);
+  border-color: var(--slot-used);
+}
+
+/* Currency */
+.currency-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.coin {
+  flex: 1;
+  text-align: center;
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  padding: 4px 2px;
+}
+
+.coin .coin-label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  margin-bottom: 2px;
+}
+
+.coin-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  color: var(--ink);
+  padding: 0;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.coin-input::-webkit-outer-spin-button,
+.coin-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.coin-adj {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 3px;
+}
+
+.coin-adj button {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--border-mid);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink-faded);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-adj button:hover {
+  background: var(--parchment-dark);
+  color: var(--ink);
+}
+
+/* ─── FULL-WIDTH SECTIONS (BELOW MAIN GRID) ─── */
+.sheet-section-full {
+  border-top: 2px solid var(--border-dark);
+  padding: 16px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── SPELLCASTING ─── */
+.spell-header-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.spell-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spell-stat .ss-label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+  text-transform: uppercase;
+}
+
+.spell-stat .ss-val {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--accent-red);
+}
+
+.spell-slots-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.slot-group {
+  text-align: center;
+}
+
+.slot-group .slot-level {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+  margin-bottom: 4px;
+}
+
+.slot-pips {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+}
+
+.slot-pip {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.slot-pip.available {
+  background: var(--slot-available);
+  border-color: var(--slot-available);
+}
+
+.slot-pip.used {
+  background: var(--slot-used);
+  border-color: var(--slot-used);
+}
+
+/* Spell Lists */
+.spell-level-group {
+  margin-bottom: 12px;
+}
+
+.spell-level-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-red);
+  border-bottom: 1px solid var(--accent-red);
+  padding-bottom: 2px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.spell-card {
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 4px;
+  margin-bottom: 4px;
+  background: rgba(255,255,255,0.3);
+  overflow: hidden;
+}
+
+.spell-card-header {
+  display: grid;
+  grid-template-columns: 20px 1fr auto auto auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-size: 13px;
+}
+
+.spell-card-header:hover {
+  background: rgba(184,134,11,0.08);
+}
+
+.spell-prepared {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1.5px solid var(--border-mid);
+}
+
+.spell-prepared.yes {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+}
+
+.spell-card-name {
+  font-family: 'Alegreya', serif;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.spell-card-meta {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+}
+
+.spell-card-toggle {
+  font-size: 10px;
+  color: var(--accent-gold);
+  transition: transform 0.2s;
+}
+
+.spell-card-toggle.open {
+  transform: rotate(180deg);
+}
+
+.spell-card-body {
+  display: none;
+  padding: 8px 14px 12px 38px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-light);
+  border-top: 1px solid var(--parchment-shadow);
+  background: rgba(184,134,11,0.03);
+}
+
+.spell-card-body.open { display: block; }
+
+.spell-detail-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.spell-detail-row .sd-label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+}
+
+.spell-detail-row .sd-val {
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.spell-description {
+  margin-top: 6px;
+  white-space: pre-line;
+}
+
+/* ─── FEATURES ─── */
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.feature-card {
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.3);
+}
+
+.feature-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.feature-card-header:hover {
+  background: rgba(139,26,26,0.05);
+}
+
+.feature-card-name {
+  font-family: 'Alegreya', serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.feature-card-source {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+}
+
+.feature-badge {
+  font-family: 'Alegreya SC', serif;
+  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.feature-badge.passive {
+  background: rgba(45,90,39,0.12);
+  color: var(--hp-green);
+}
+
+.feature-badge.active {
+  background: rgba(139,26,26,0.12);
+  color: var(--accent-red);
+}
+
+.feature-card-toggle {
+  font-size: 10px;
+  color: var(--accent-gold);
+  transition: transform 0.2s;
+  margin-left: 8px;
+}
+
+.feature-card-toggle.open {
+  transform: rotate(180deg);
+}
+
+.feature-card-body {
+  display: none;
+  padding: 8px 12px 12px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink-light);
+  border-top: 1px solid var(--parchment-shadow);
+  background: rgba(139,26,26,0.02);
+  white-space: pre-line;
+}
+
+.feature-card-body.open { display: block; }
+
+.feature-meta {
+  font-size: 11px;
+  color: var(--ink-faded);
+  margin-bottom: 4px;
+}
+
+/* ─── PERSONALITY ─── */
+.personality-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.personality-field {
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 4px;
+  padding: 8px 10px;
+  min-height: 50px;
+  background: rgba(255,255,255,0.3);
+}
+
+.personality-field .pf-label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink-faded);
+  margin-bottom: 4px;
+}
+
+.personality-field .pf-text {
+  font-size: 13px;
+  color: var(--ink-light);
+  font-style: italic;
+}
+
+/* ─── NOTES ─── */
+.notes-area {
+  width: 100%;
+  min-height: 60px;
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-family: 'Alegreya', serif;
+  font-size: 13px;
+  background: rgba(255,255,255,0.3);
+  color: var(--ink-light);
+  resize: vertical;
+}
+
+/* ─── EQUIPMENT PANEL ─── */
+.equip-table { width: 100%; }
+
+.equip-header {
+  display: flex;
+  align-items: center;
+  padding: 2px 6px 6px;
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  color: var(--ink-faded);
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--parchment-shadow);
+  margin-bottom: 4px;
+}
+
+.equip-row {
+  display: flex;
+  align-items: center;
+  padding: 5px 6px;
+  border-radius: 4px;
+  gap: 6px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.equip-row-equipped {
+  background: rgba(184,134,11,0.08);
+}
+
+.equip-name {
+  font-family: 'Alegreya', serif;
+  font-size: 13.5px;
+  color: var(--ink);
+}
+
+.equip-row-equipped .equip-name {
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.equip-consumable-tag {
+  font-size: 9px;
+  font-family: 'Alegreya SC', serif;
+  color: var(--ink-faded);
+  margin-left: 6px;
+  vertical-align: middle;
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+.equip-extra {
+  font-size: 11px;
+  color: var(--ink-faded);
+  font-style: italic;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.equip-qty {
+  width: 36px;
+  text-align: center;
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 3px;
+  background: rgba(255,255,255,0.4);
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  color: var(--ink);
+  padding: 2px 0;
+}
+
+.equip-rarity {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.equip-toggle {
+  background: transparent;
+  border: 1.5px solid var(--border-mid);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ink-faded);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  transition: background 0.15s, color 0.15s;
+}
+
+.equip-toggle-on {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: var(--parchment);
+}
+
+/* ─── LOAD BUTTON ─── */
+.load-area {
+  text-align: center;
+  padding: 12px;
+  background: var(--parchment-dark);
+  border-top: 1px solid var(--parchment-shadow);
+  position: relative;
+  z-index: 1;
+}
+
+.load-area label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: var(--stat-bg);
+  color: var(--stat-text);
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.load-area label:hover {
+  background: var(--accent-red);
+}
+
+.load-area input { display: none; }
+
+/* ─── ORNAMENTAL DIVIDERS ─── */
+.ornament {
+  text-align: center;
+  color: var(--accent-gold);
+  font-size: 16px;
+  letter-spacing: 8px;
+  margin: 4px 0 8px;
+  opacity: 0.5;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .sheet-body {
+    grid-template-columns: 1fr;
+  }
+  .col-left, .col-right {
+    border: none;
+    border-bottom: 2px solid var(--border-dark);
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  .sheet-header {
+    grid-template-columns: 1fr;
+  }
+  .char-name-block {
+    border-right: none;
+    border-bottom: 1px solid var(--parchment-shadow);
+  }
+  .spell-card-header {
+    grid-template-columns: 20px 1fr auto;
+  }
+  .spell-card-meta { display: none; }
+}
+
+@media (max-width: 600px) {
+  .combat-row { grid-template-columns: repeat(2, 1fr); }
+  .personality-grid { grid-template-columns: 1fr; }
+}
+
+/* Print styles */
+@media print {
+  body { background: white; padding: 0; }
+  .sheet-container { box-shadow: none; border: 1px solid #999; }
+  .load-area { display: none; }
+  .hp-controls { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="sheet-container" id="sheet">
+  <!-- Header -->
+  <div class="sheet-header">
+    <div class="char-name-block">
+      <div class="label">Character Name</div>
+      <div class="name" id="charName">—</div>
+    </div>
+    <div class="char-info-grid" id="charInfo"></div>
+  </div>
+
+  <!-- Main 3-column -->
+  <div class="sheet-body">
+    <!-- LEFT: Abilities, Saves, Skills -->
+    <div class="col-left">
+      <div class="ability-scores" id="abilityScores"></div>
+      <div id="abilityModificationsList"></div>
+      <div class="section-title">Saving Throws</div>
+      <div id="savingThrows"></div>
+      <div id="savingThrowModifications"></div>
+      <div class="section-title" style="margin-top:12px;">Skills</div>
+      <div id="skillsList"></div>
+      <div id="skillModifications"></div>
+    </div>
+
+    <!-- CENTER: Combat, HP, Attacks -->
+    <div class="col-center">
+      <div class="combat-row" id="combatRow"></div>
+      <div class="hp-block" id="hpBlock"></div>
+      <div class="section-title gold">Attacks & Actions</div>
+      <table class="attacks-table" id="attacksTable">
+        <thead>
+          <tr><th>Name</th><th>Atk</th><th>Damage</th><th>Type</th><th></th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div id="attackNotes"></div>
+    </div>
+
+    <!-- RIGHT: Prof Bonus, Resources, Equipment, etc -->
+    <div class="col-right">
+      <div class="prof-bonus-block" id="profBonus"></div>
+      <div class="passive-block" id="passivePerception"></div>
+      <div class="section-title">Resources</div>
+      <div id="resourcesArea"></div>
+      <div class="section-title" style="margin-top:12px;">Hit Dice</div>
+      <div id="hitDiceArea" style="margin-bottom:12px;"></div>
+      <div class="section-title" style="margin-top:4px;">Currency</div>
+      <div class="currency-row" id="currencyRow"></div>
+      <div class="section-title" style="margin-top:4px;">Proficiencies & Languages</div>
+      <div class="prof-list" id="profList"></div>
+    </div>
+  </div>
+
+  <!-- Spellcasting (full width) -->
+  <div class="sheet-section-full" id="spellSection" style="display:none;">
+    <div class="section-title gold" style="font-size:15px;">✦ Spellcasting</div>
+    <div class="spell-header-row" id="spellHeader"></div>
+    <div class="spell-slots-row" id="spellSlotsRow"></div>
+    <div id="spellLists"></div>
+  </div>
+
+  <!-- Features (full width) -->
+  <div class="sheet-section-full">
+    <div class="section-title" style="font-size:15px;">⚔ Features & Traits</div>
+    <div class="features-grid" id="featuresGrid"></div>
+  </div>
+
+  <!-- Personality (full width) -->
+  <div class="sheet-section-full" id="personalitySection" style="display:none;">
+    <div class="section-title gold" style="font-size:15px;">✦ Personality</div>
+    <div class="personality-grid" id="personalityGrid"></div>
+  </div>
+
+  <!-- Equipment -->
+  <div class="sheet-section-full" id="equipmentSection">
+    <div class="section-title" style="font-size:15px;">Equipment</div>
+    <div id="equipmentList"></div>
+  </div>
+
+  <!-- Notes -->
+  <div class="sheet-section-full" id="notesSection">
+    <div class="section-title" style="font-size:15px;">📜 Notes</div>
+    <textarea class="notes-area" id="notesArea" placeholder="Session notes, reminders..."></textarea>
+  </div>
+
+  <!-- Load JSON -->
+  <div class="load-area">
+    <a href="../index.html" style="font-family:'Alegreya SC',serif;font-size:11px;color:var(--ink-faded);text-decoration:none;margin-right:16px;">← Hub</a>
+    <label>
+      ⚔ Load Character JSON
+      <input type="file" accept=".json" id="fileInput">
+    </label>
+    <button onclick="clearSheet()" style="margin-left:12px;padding:8px 16px;background:transparent;border:1px solid var(--border-mid);border-radius:6px;font-family:'Cinzel',serif;font-size:12px;color:var(--ink-faded);cursor:pointer;">✕ Clear</button>
+  </div>
+</div>
+
+<script>
+// ─── UTILITY ───
+const abilityNames = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };
+const abilityShort = { str: 'STR', dex: 'DEX', con: 'CON', int: 'INT', wis: 'WIS', cha: 'CHA' };
+const skillAbilityMap = {
+  acrobatics: 'dex', animalHandling: 'wis', arcana: 'int', athletics: 'str',
+  deception: 'cha', history: 'int', insight: 'wis', intimidation: 'cha',
+  investigation: 'int', medicine: 'wis', nature: 'int', perception: 'wis',
+  performance: 'cha', persuasion: 'cha', religion: 'int', sleightOfHand: 'dex',
+  stealth: 'dex', survival: 'wis'
+};
+const skillDisplayNames = {
+  acrobatics: 'Acrobatics', animalHandling: 'Animal Handling', arcana: 'Arcana',
+  athletics: 'Athletics', deception: 'Deception', history: 'History', insight: 'Insight',
+  intimidation: 'Intimidation', investigation: 'Investigation', medicine: 'Medicine',
+  nature: 'Nature', perception: 'Perception', performance: 'Performance',
+  persuasion: 'Persuasion', religion: 'Religion', sleightOfHand: 'Sleight of Hand',
+  stealth: 'Stealth', survival: 'Survival'
+};
+
+function mod(score) { return Math.floor((score - 10) / 2); }
+function modStr(val) { return val >= 0 ? `+${val}` : `${val}`; }
+function toggleClass(el, cls) { el.classList.toggle(cls); }
+
+// ─── STATE ───
+let charData = null;
+let currentHP = 0;
+let tempHP = 0;
+let slotUsage = {};
+let hitDiceUsed = {}; // {groupIndex: usedCount}
+let deathSuccesses = 0;
+let deathFailures = 0;
+let resourceUsage = {};
+let acBonus = 0;
+let maxHPBonus = 0;
+
+// ─── RENDER ───
+function renderSheet(data) {
+  charData = data;
+  currentHP = data.combat.currentHP;
+  tempHP = data.combat.temporaryHP || 0;
+  slotUsage = data.spellcasting?.slotUsage || {};
+  deathSuccesses = data.combat.deathSaves?.successes || 0;
+  deathFailures = data.combat.deathSaves?.failures || 0;
+
+  renderHeader(data);
+  renderAbilities(data);
+  renderSavingThrows(data);
+  renderSkills(data);
+  renderSkillModifications(data);
+  renderCombatRow(data);
+  renderHP(data);
+  renderAttacks(data);
+  renderProfBonus(data);
+  renderPassivePerception(data);
+  renderResources(data);
+  renderHitDice(data);
+  renderCurrency(data);
+  renderProfList(data);
+  renderSpellcasting(data);
+  renderFeatures(data);
+  renderPersonality(data);
+  renderEquipment(data);
+  renderNotes(data);
+}
+
+function renderHeader(data) {
+  document.getElementById('charName').textContent = data.basic.name;
+  document.title = `${data.basic.name} — D&D Character Sheet`;
+  const fields = [
+    ['Class', data.basic.class],
+    ['Level', data.basic.level],
+    ['Race', data.basic.race],
+    ['Background', data.basic.background],
+    ['Alignment', data.basic.alignment],
+    ['XP', data.basic.experiencePoints || '—']
+  ];
+  const grid = document.getElementById('charInfo');
+  grid.innerHTML = fields.map(([l, v]) =>
+    `<div class="info-cell"><div class="label">${l}</div><div class="value">${v}</div></div>`
+  ).join('');
+}
+
+function effectiveScore(data, ab) {
+  const abMods = data.proficiencies.abilityModifications || [];
+  return data.abilities[ab] + abMods.filter(m => m.stat === ab).reduce((sum, m) => sum + (m.modifier || 0), 0);
+}
+
+function renderAbilities(data) {
+  const el = document.getElementById('abilityScores');
+  const abMods = data.proficiencies.abilityModifications || [];
+  el.innerHTML = Object.keys(data.abilities).map(ab => {
+    const base = data.abilities[ab];
+    const extra = abMods.filter(m => m.stat === ab).reduce((sum, m) => sum + (m.modifier || 0), 0);
+    const score = base + extra;
+    const m = mod(score);
+    const modTag = extra !== 0 ? `<span class="skill-mod-tag" title="Modified">${extra > 0 ? '+' : ''}${extra}</span>` : '';
+    return `<div class="ability-block">
+      <div class="ability-name">${abilityShort[ab]}</div>
+      <div class="ability-modifier">${modStr(m)}</div>
+      <div class="ability-score">${score}${modTag}</div>
+    </div>`;
+  }).join('');
+
+  const listEl = document.getElementById('abilityModificationsList');
+  const activeMods = abMods.filter(m => m.name || m.stat);
+  if (!activeMods.length) { listEl.innerHTML = ''; return; }
+  listEl.innerHTML = `<div class="skill-mods-list">
+    <div class="skill-mods-title">Ability Modifications</div>
+    ${activeMods.map(m => `<div class="skill-mod-entry">
+      <span class="skill-mod-name">${m.name || '—'}</span>
+      <span class="skill-mod-stat">${abilityNames[m.stat] || m.stat || '—'}</span>
+      <span class="skill-mod-val">${m.modifier >= 0 ? '+' : ''}${m.modifier}</span>
+    </div>`).join('')}
+  </div>`;
+}
+
+function renderSavingThrows(data) {
+  const el = document.getElementById('savingThrows');
+  const prof = data.proficiencies.proficiencyBonus;
+  const stMods = data.proficiencies.savingThrowModifications || [];
+  el.innerHTML = Object.keys(abilityNames).map(ab => {
+    const isProficient = data.proficiencies.savingThrows.includes(ab);
+    const extraMod = stMods.filter(m => m.stat === ab).reduce((sum, m) => sum + (m.modifier || 0), 0);
+    const m = mod(effectiveScore(data, ab)) + (isProficient ? prof : 0) + extraMod;
+    const modTag = extraMod !== 0 ? `<span class="skill-mod-tag" title="Modified">${extraMod > 0 ? '+' : ''}${extraMod}</span>` : '';
+    return `<div class="save-row">
+      <div class="prof-dot ${isProficient ? 'filled' : ''}"></div>
+      <div class="save-mod">${modStr(m)}</div>
+      <div class="save-name">${abilityNames[ab]}${modTag}</div>
+    </div>`;
+  }).join('');
+
+  const modEl = document.getElementById('savingThrowModifications');
+  const activeMods = stMods.filter(m => m.name || m.stat);
+  if (!activeMods.length) { modEl.innerHTML = ''; return; }
+  modEl.innerHTML = `<div class="skill-mods-list">
+    <div class="skill-mods-title">Save Modifications</div>
+    ${activeMods.map(m => `<div class="skill-mod-entry">
+      <span class="skill-mod-name">${m.name || '—'}</span>
+      <span class="skill-mod-stat">${abilityNames[m.stat] || m.stat || '—'}</span>
+      <span class="skill-mod-val">${m.modifier >= 0 ? '+' : ''}${m.modifier}</span>
+    </div>`).join('')}
+  </div>`;
+}
+
+function renderSkills(data) {
+  const el = document.getElementById('skillsList');
+  const prof = data.proficiencies.proficiencyBonus;
+  const mods = data.proficiencies.modifications || [];
+  el.innerHTML = Object.entries(skillAbilityMap).map(([skill, ab]) => {
+    const s = data.proficiencies.skills[skill] || { proficiency: false, expertise: false };
+    const isProficient = s.proficiency;
+    const isExpert = s.expertise;
+    const extraMod = mods.filter(m => m.stat === skill).reduce((sum, m) => sum + (m.modifier || 0), 0);
+    const m = mod(effectiveScore(data, ab)) + (isExpert ? prof * 2 : isProficient ? prof : 0) + extraMod;
+    const dotClass = isExpert ? 'expertise' : isProficient ? 'filled' : '';
+    const modTag = extraMod !== 0 ? `<span class="skill-mod-tag" title="Modified">${extraMod > 0 ? '+' : ''}${extraMod}</span>` : '';
+    return `<div class="skill-row">
+      <div class="prof-dot ${dotClass}"></div>
+      <div class="skill-mod">${modStr(m)}</div>
+      <div class="skill-name">${skillDisplayNames[skill]}${modTag}</div>
+      <div class="skill-ability-tag">${abilityShort[ab]}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderSkillModifications(data) {
+  const el = document.getElementById('skillModifications');
+  const mods = (data.proficiencies.modifications || []).filter(m => m.name || m.stat);
+  if (!mods.length) { el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="skill-mods-list">
+    <div class="skill-mods-title">Skill Modifications</div>
+    ${mods.map(m => `<div class="skill-mod-entry">
+      <span class="skill-mod-name">${m.name || '—'}</span>
+      <span class="skill-mod-stat">${skillDisplayNames[m.stat] || m.stat || '—'}</span>
+      <span class="skill-mod-val">${m.modifier >= 0 ? '+' : ''}${m.modifier}</span>
+    </div>`).join('')}
+  </div>`;
+}
+
+function renderCombatRow(data) {
+  const el = document.getElementById('combatRow');
+  const effectiveAC = data.combat.armorClass + acBonus;
+  const acBonusTag = acBonus !== 0 ? `<span class="combat-bonus-tag">${acBonus > 0 ? '+' : ''}${acBonus}</span>` : '';
+  const staticStats = [
+    ['Initiative', modStr(data.combat.initiative)],
+    ['Speed', data.combat.speed],
+    ['Prof Bonus', modStr(data.proficiencies.proficiencyBonus)]
+  ];
+  el.innerHTML = `
+    <div class="combat-stat combat-stat-interactive">
+      <div class="stat-value">${effectiveAC}${acBonusTag}</div>
+      <div class="stat-label">Armor Class</div>
+      <div class="combat-adj-controls">
+        <button onclick="adjustAC(-1)">−</button>
+        <button onclick="adjustAC(1)">+</button>
+      </div>
+    </div>` +
+    staticStats.map(([l, v]) =>
+      `<div class="combat-stat"><div class="stat-value">${v}</div><div class="stat-label">${l}</div></div>`
+    ).join('');
+}
+
+function adjustAC(delta) {
+  acBonus += delta;
+  renderCombatRow(charData);
+  saveSheetState();
+}
+
+function renderHP(data) {
+  const el = document.getElementById('hpBlock');
+  const baseMax = data.combat.maxHP;
+  const effectiveMax = baseMax + maxHPBonus;
+  const pct = Math.max(0, Math.min(100, (currentHP / effectiveMax) * 100));
+  const maxBonusTag = maxHPBonus !== 0 ? `<span class="combat-bonus-tag">${maxHPBonus > 0 ? '+' : ''}${maxHPBonus}</span>` : '';
+  el.innerHTML = `
+    <div class="hp-header">
+      <div class="section-title gold" style="margin:0;border:none;padding:0;">Hit Points</div>
+    </div>
+    <div class="hp-bar-container">
+      <div class="hp-bar" style="width:${pct}%"></div>
+      <div class="hp-text">${currentHP} / ${effectiveMax}</div>
+    </div>
+    <div class="hp-bar-container hp-temp-bar-container" style="margin-top:4px;">
+      <div class="hp-bar hp-temp-bar" style="width:${Math.min(100, tempHP / effectiveMax * 100)}%"></div>
+      <div class="hp-text" style="font-size:11px;">${tempHP > 0 ? `Temp: ${tempHP}` : 'No Temp HP'}</div>
+    </div>
+    <div class="hp-controls">
+      <input class="hp-amount-input" type="number" id="hpInput" value="0" min="0">
+      <button class="heal" onclick="healHP()">Heal</button>
+      <button class="damage" onclick="damageHP()">Damage</button>
+      <div class="hp-meta-row">
+        <span style="display:flex;align-items:center;gap:5px;">
+          Max: <span class="val">${effectiveMax}</span>${maxBonusTag}
+          <span class="hp-adj-controls">
+            <button onclick="adjustMaxHP(-1)">−</button>
+            <button onclick="adjustMaxHP(1)">+</button>
+          </span>
+        </span>
+        <span style="display:flex;align-items:center;gap:5px;">
+          Temp: <input type="number" id="tempHPInput" value="${tempHP}" min="0" onchange="tempHP=parseInt(this.value)||0; renderHP(charData);">
+        </span>
+      </div>
+    </div>
+    <div class="death-saves">
+      <div class="death-save-group">
+        <span class="ds-label">Successes</span>
+        ${[0,1,2].map(i => `<div class="death-save-pip success ${i < deathSuccesses ? 'active' : ''}" onclick="toggleDeathSave('success',${i})"></div>`).join('')}
+      </div>
+      <div class="death-save-group">
+        <span class="ds-label">Failures</span>
+        ${[0,1,2].map(i => `<div class="death-save-pip failure ${i < deathFailures ? 'active' : ''}" onclick="toggleDeathSave('failure',${i})"></div>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function healHP() {
+  const val = parseInt(document.getElementById('hpInput').value) || 0;
+  currentHP = Math.min(charData.combat.maxHP + maxHPBonus, currentHP + val);
+  renderHP(charData);
+  saveSheetState();
+}
+
+function adjustMaxHP(delta) {
+  maxHPBonus += delta;
+  if (currentHP > charData.combat.maxHP + maxHPBonus) currentHP = charData.combat.maxHP + maxHPBonus;
+  renderHP(charData);
+  saveSheetState();
+}
+
+function damageHP() {
+  let val = parseInt(document.getElementById('hpInput').value) || 0;
+  if (tempHP > 0) {
+    const absorbed = Math.min(tempHP, val);
+    tempHP -= absorbed;
+    val -= absorbed;
+  }
+  currentHP = Math.max(0, currentHP - val);
+  renderHP(charData);
+  saveSheetState();
+}
+
+function toggleDeathSave(type, index) {
+  if (type === 'success') {
+    deathSuccesses = deathSuccesses === index + 1 ? index : index + 1;
+  } else {
+    deathFailures = deathFailures === index + 1 ? index : index + 1;
+  }
+  renderHP(charData);
+  saveSheetState();
+}
+
+function renderAttacks(data) {
+  const tbody = document.querySelector('#attacksTable tbody');
+  tbody.innerHTML = data.attacks.map((atk, i) => `
+    <tr>
+      <td class="atk-name">${atk.name}</td>
+      <td class="atk-bonus">${modStr(atk.attackBonus)}</td>
+      <td class="atk-dmg">${atk.damageFormula}</td>
+      <td class="atk-type">${atk.damageType}</td>
+      <td>${atk.notes ? `<span class="attack-notes-toggle" onclick="toggleAttackNote(${i})">▼ info</span>` : ''}</td>
+    </tr>
+    ${atk.notes ? `<tr><td colspan="5"><div class="attack-notes" id="atkNote${i}">${atk.notes}</div></td></tr>` : ''}
+  `).join('');
+}
+
+function toggleAttackNote(i) {
+  const el = document.getElementById(`atkNote${i}`);
+  if (el) el.classList.toggle('open');
+}
+
+function renderProfBonus(data) {
+  document.getElementById('profBonus').innerHTML = `
+    <div class="bonus-val">${modStr(data.proficiencies.proficiencyBonus)}</div>
+    <div class="bonus-label">Proficiency Bonus</div>
+  `;
+}
+
+function renderPassivePerception(data) {
+  const s = data.proficiencies.skills.perception || { proficiency: false, expertise: false };
+  const isProficient = s.proficiency;
+  const isExpert = s.expertise;
+  const prof = data.proficiencies.proficiencyBonus;
+  const mods = data.proficiencies.modifications || [];
+  const extraMod = mods.filter(m => m.stat === 'perception').reduce((sum, m) => sum + (m.modifier || 0), 0);
+  const passive = 10 + mod(effectiveScore(data, 'wis')) + (isExpert ? prof * 2 : isProficient ? prof : 0) + extraMod;
+  document.getElementById('passivePerception').innerHTML = `
+    <div class="passive-val">${passive}</div>
+    <div class="passive-label">Passive Perception (Wis)</div>
+  `;
+}
+
+function renderResources(data) {
+  const el = document.getElementById('resourcesArea');
+  if (!data.resources || !data.resources.length) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--ink-faded);padding:4px 0;">None</div>';
+    return;
+  }
+  el.innerHTML = data.resources.map((res, ri) => {
+    const used = resourceUsage[ri] || 0;
+    const pips = Array.from({ length: res.maximum }, (_, i) =>
+      `<div class="resource-pip ${i >= (res.maximum - used) ? 'used' : ''}" onclick="toggleResourcePip(${ri},${i})"></div>`
+    ).join('');
+    return `<div class="resource-block">
+      <div class="resource-header">
+        <div class="resource-name">${res.name}</div>
+        <div style="font-family:'Cinzel',serif;font-weight:700;font-size:14px;">${res.maximum - used}/${res.maximum}</div>
+      </div>
+      ${res.description ? `<div style="font-size:11px;color:var(--ink-faded);margin-top:2px;">${res.description}</div>` : ''}
+      <div class="resource-pips">${pips}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleResourcePip(ri, pi) {
+  const res = charData.resources[ri];
+  const used = resourceUsage[ri] || 0;
+  const current = res.maximum - used;
+  const clickedAvailable = pi < current;
+  if (clickedAvailable) {
+    resourceUsage[ri] = res.maximum - pi;
+  } else {
+    resourceUsage[ri] = res.maximum - pi - 1;
+  }
+  renderResources(charData);
+  saveSheetState();
+}
+
+function normHitDice(data) {
+  const hd = data.combat.hitDice;
+  if (!Array.isArray(hd)) data.combat.hitDice = [{ type: hd.type || 'd8', total: hd.total || 1, current: hd.current || 1 }];
+}
+
+function renderHitDice(data) {
+  normHitDice(data);
+  const el = document.getElementById('hitDiceArea');
+  el.innerHTML = data.combat.hitDice.map((hd, gi) => {
+    const used = hitDiceUsed[gi] || 0;
+    const pips = Array.from({ length: hd.total }, (_, i) =>
+      `<div class="hd-pip ${i >= (hd.total - used) ? 'used' : ''}" onclick="toggleHDPip(${gi},${i})"></div>`
+    ).join('');
+    return `<div style="margin-bottom:6px;">
+      <div class="hit-dice-display">
+        <div class="hd-val">${hd.total}${hd.type}</div>
+        <div style="font-size:12px;color:var(--ink-faded);margin-left:4px;">(${hd.total - used} remaining)</div>
+      </div>
+      <div class="hit-dice-pips" style="margin-top:4px;">${pips}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleHDPip(gi, i) {
+  const total = charData.combat.hitDice[gi].total;
+  const used = hitDiceUsed[gi] || 0;
+  const current = total - used;
+  hitDiceUsed[gi] = i < current ? total - i : total - i - 1;
+  renderHitDice(charData);
+  saveSheetState();
+}
+
+function renderCurrency(data) {
+  const el = document.getElementById('currencyRow');
+  const coins = [['cp','CP'],['sp','SP'],['ep','EP'],['gp','GP'],['pp','PP']];
+  el.innerHTML = coins.map(([key, label]) => {
+    const v = data.equipment.currency[key] || 0;
+    return `<div class="coin">
+      <div class="coin-label">${label}</div>
+      <input class="coin-input" type="number" min="0" value="${v}" id="coin_${key}"
+             onchange="setCoin('${key}',this.value)" oninput="setCoin('${key}',this.value)">
+      <div class="coin-adj">
+        <button onclick="adjustCoin('${key}',-1)">−</button>
+        <button onclick="adjustCoin('${key}',1)">+</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setCoin(key, val) {
+  charData.equipment.currency[key] = Math.max(0, parseInt(val) || 0);
+  saveSheetState();
+}
+
+function adjustCoin(key, delta) {
+  charData.equipment.currency[key] = Math.max(0, (charData.equipment.currency[key] || 0) + delta);
+  document.getElementById(`coin_${key}`).value = charData.equipment.currency[key];
+  saveSheetState();
+}
+
+function renderProfList(data) {
+  const el = document.getElementById('profList');
+  const sections = [];
+  if (data.proficiencies.armor?.length)
+    sections.push(`<span class="prof-cat">Armor:</span> ${data.proficiencies.armor.join(', ')}`);
+  if (data.proficiencies.weapons?.length)
+    sections.push(`<span class="prof-cat">Weapons:</span> ${data.proficiencies.weapons.join(', ')}`);
+  if (data.proficiencies.tools?.length)
+    sections.push(`<span class="prof-cat">Tools:</span> ${data.proficiencies.tools.join(', ')}`);
+  if (data.proficiencies.languages?.length)
+    sections.push(`<span class="prof-cat">Languages:</span> ${data.proficiencies.languages.join(', ')}`);
+  el.innerHTML = sections.join('<br>');
+}
+
+// ─── SPELLCASTING ───
+function renderSpellcasting(data) {
+  if (!data.spellcasting || !data.spells) return;
+  const hasSpells = Object.values(data.spells).some(arr => arr && arr.length > 0);
+  if (!hasSpells) return;
+
+  document.getElementById('spellSection').style.display = '';
+
+  // Header stats
+  const sc = data.spellcasting;
+  document.getElementById('spellHeader').innerHTML = `
+    <div class="spell-stat"><span class="ss-label">Ability</span><span class="ss-val">${abilityShort[sc.ability] || sc.ability}</span></div>
+    <div class="spell-stat"><span class="ss-label">Save DC</span><span class="ss-val">${sc.saveDC}</span></div>
+    <div class="spell-stat"><span class="ss-label">Attack Bonus</span><span class="ss-val">${modStr(sc.attackBonus)}</span></div>
+  `;
+
+  // Spell slots
+  renderSpellSlots(data);
+
+  // Spell lists
+  renderSpellLists(data);
+}
+
+function renderSpellSlots(data) {
+  const el = document.getElementById('spellSlotsRow');
+  const slots = data.spellcasting.spellSlots;
+  el.innerHTML = Object.entries(slots).filter(([_, total]) => total > 0).map(([lvl, total]) => {
+    const used = slotUsage[lvl] || 0;
+    const pips = Array.from({ length: total }, (_, i) =>
+      `<div class="slot-pip ${i < (total - used) ? 'available' : 'used'}" onclick="toggleSlot(${lvl},${i})"></div>`
+    ).join('');
+    return `<div class="slot-group">
+      <div class="slot-level">Level ${lvl}</div>
+      <div class="slot-pips">${pips}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleSlot(lvl, i) {
+  const total = charData.spellcasting.spellSlots[lvl];
+  const used = slotUsage[lvl] || 0;
+  const available = total - used;
+  if (i < available) {
+    slotUsage[lvl] = total - i;
+  } else {
+    slotUsage[lvl] = total - i - 1;
+  }
+  renderSpellSlots(charData);
+  saveSheetState();
+}
+
+function renderSpellLists(data) {
+  const el = document.getElementById('spellLists');
+  const levelLabels = {
+    cantrips: 'Cantrips', level1: '1st Level', level2: '2nd Level', level3: '3rd Level',
+    level4: '4th Level', level5: '5th Level', level6: '6th Level',
+    level7: '7th Level', level8: '8th Level', level9: '9th Level'
+  };
+  el.innerHTML = Object.entries(data.spells)
+    .filter(([_, spells]) => spells && spells.length > 0)
+    .map(([lvlKey, spells]) => {
+      const cards = spells.map((sp, i) => {
+        const id = `spell_${lvlKey}_${i}`;
+        return `<div class="spell-card">
+          <div class="spell-card-header" onclick="toggleSpellCard('${id}')">
+            <div class="spell-prepared ${sp.prepared ? 'yes' : ''}"></div>
+            <div class="spell-card-name">${sp.name}</div>
+            <div class="spell-card-meta">${sp.castingTime || ''}</div>
+            <div class="spell-card-meta">${sp.range || ''}</div>
+            <div class="spell-card-meta">${sp.duration || ''}</div>
+            <div class="spell-card-toggle" id="${id}_toggle">▼</div>
+          </div>
+          <div class="spell-card-body" id="${id}_body">
+            <div class="spell-detail-row">
+              <div><span class="sd-label">School:</span> <span class="sd-val">${sp.level || ''}</span></div>
+              <div><span class="sd-label">Casting Time:</span> <span class="sd-val">${sp.castingTime || ''}</span></div>
+              <div><span class="sd-label">Range:</span> <span class="sd-val">${sp.range || ''}</span></div>
+            </div>
+            <div class="spell-detail-row">
+              <div><span class="sd-label">Components:</span> <span class="sd-val">${sp.components || ''}</span></div>
+              <div><span class="sd-label">Duration:</span> <span class="sd-val">${sp.duration || ''}</span></div>
+              <div><span class="sd-label">Source:</span> <span class="sd-val">${sp.source || ''}</span></div>
+            </div>
+            <div class="spell-description">${sp.description || ''}</div>
+            ${sp.cantripUpgrade ? `<div style="margin-top:6px;font-style:italic;color:var(--accent-gold);">${sp.cantripUpgrade}</div>` : ''}
+          </div>
+        </div>`;
+      }).join('');
+      return `<div class="spell-level-group">
+        <div class="spell-level-heading">${levelLabels[lvlKey] || lvlKey}</div>
+        ${cards}
+      </div>`;
+    }).join('');
+}
+
+function toggleSpellCard(id) {
+  const body = document.getElementById(`${id}_body`);
+  const toggle = document.getElementById(`${id}_toggle`);
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+// ─── FEATURES ───
+function renderFeatures(data) {
+  const el = document.getElementById('featuresGrid');
+  if (!data.features || !data.features.length) {
+    el.innerHTML = '<div style="font-size:13px;color:var(--ink-faded);padding:8px;">No features.</div>';
+    return;
+  }
+  el.innerHTML = data.features.map((feat, i) => {
+    const id = `feat_${i}`;
+    const badge = feat.type === 'active' ? '<span class="feature-badge active">Active</span>'
+      : feat.type === 'passive' ? '<span class="feature-badge passive">Passive</span>' : '';
+    const meta = [];
+    if (feat.source) meta.push(feat.source);
+    if (feat.resourceCost) meta.push(`Cost: ${feat.resourceCost}`);
+    if (feat.requirements) meta.push(`Req: ${feat.requirements}`);
+    return `<div class="feature-card">
+      <div class="feature-card-header" onclick="toggleFeatureCard('${id}')">
+        <div style="flex:1;">
+          <div class="feature-card-name">${feat.name}</div>
+          <div class="feature-card-source">${feat.source || ''}</div>
+        </div>
+        ${badge}
+        <div class="feature-card-toggle" id="${id}_toggle">▼</div>
+      </div>
+      <div class="feature-card-body" id="${id}_body">
+        ${meta.length ? `<div class="feature-meta">${meta.join(' · ')}</div>` : ''}
+        ${feat.description || 'No description.'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleFeatureCard(id) {
+  const body = document.getElementById(`${id}_body`);
+  const toggle = document.getElementById(`${id}_toggle`);
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+// ─── PERSONALITY ───
+function renderPersonality(data) {
+  const p = data.personality;
+  if (!p) return;
+  const hasContent = Object.values(p).some(v => v && v.trim());
+  if (!hasContent) {
+    document.getElementById('personalitySection').style.display = 'none';
+    return;
+  }
+  document.getElementById('personalitySection').style.display = '';
+  const fields = [
+    ['Personality Traits', p.traits],
+    ['Ideals', p.ideals],
+    ['Bonds', p.bonds],
+    ['Flaws', p.flaws],
+    ['Appearance', p.appearance],
+    ['Backstory', p.backstory]
+  ].filter(([_, v]) => v && v.trim());
+  document.getElementById('personalityGrid').innerHTML = fields.map(([l, v]) =>
+    `<div class="personality-field"><div class="pf-label">${l}</div><div class="pf-text">${v}</div></div>`
+  ).join('');
+}
+
+const RARITY_COLORS = { 'Common': '#6b5d4d', 'Uncommon': '#2d7a2d', 'Rare': '#1a5f9e', 'Very Rare': '#6b2fa0', 'Legendary': '#b86b00' };
+
+function toggleEquipped(i) {
+  charData.equipment.items[i].equipped = !charData.equipment.items[i].equipped;
+  renderEquipment(charData);
+  saveSheetState();
+}
+
+function changeQty(i, val) {
+  charData.equipment.items[i].quantity = Math.max(0, parseInt(val) || 0);
+  saveSheetState();
+}
+
+function renderEquipment(data) {
+  const el = document.getElementById('equipmentList');
+  const items = (data.equipment?.items || []).filter(it => it && (typeof it === 'object' ? it.name : it));
+  if (!items.length) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--ink-faded);padding:4px 0;">No items.</div>';
+    return;
+  }
+  el.innerHTML = `<div class="equip-table">
+    <div class="equip-header">
+      <span style="flex:1;">Name</span>
+      <span style="width:40px;text-align:center;">Qty</span>
+      <span style="width:80px;text-align:center;">Rarity</span>
+      <span style="width:64px;text-align:center;">Equipped</span>
+    </div>
+    ${items.map((item, i) => {
+      const name = typeof item === 'string' ? item : (item.name || '—');
+      const qty = typeof item === 'object' ? (item.quantity ?? 1) : 1;
+      const rarity = typeof item === 'object' ? (item.rarity || 'Common') : 'Common';
+      const equipped = typeof item === 'object' ? !!item.equipped : false;
+      const consumable = typeof item === 'object' ? !!item.consumable : false;
+      const notes = typeof item === 'object' ? (item.notes || '') : '';
+      const description = typeof item === 'object' ? (item.description || '') : '';
+      const rarityColor = RARITY_COLORS[rarity] || RARITY_COLORS['Common'];
+      const extraLine = [description, notes].filter(Boolean).join(' — ');
+      return `<div class="equip-row ${equipped ? 'equip-row-equipped' : ''}">
+        <div style="flex:1;min-width:0;">
+          <span class="equip-name">${name}</span>${consumable ? '<span class="equip-consumable-tag">consumable</span>' : ''}
+          ${extraLine ? `<div class="equip-extra">${extraLine}</div>` : ''}
+        </div>
+        <div style="width:40px;text-align:center;">
+          <input class="equip-qty" type="number" min="0" value="${qty}" onchange="changeQty(${i},this.value)" onblur="changeQty(${i},this.value)">
+        </div>
+        <div style="width:80px;text-align:center;">
+          <span class="equip-rarity" style="color:${rarityColor};">${rarity}</span>
+        </div>
+        <div style="width:64px;text-align:center;">
+          <button class="equip-toggle ${equipped ? 'equip-toggle-on' : ''}" onclick="toggleEquipped(${i})" title="${equipped ? 'Unequip' : 'Equip'}">${equipped ? '⚔' : '○'}</button>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderNotes(data) {
+  document.getElementById('notesArea').value = data.notes || '';
+}
+
+// ─── LOCAL STORAGE ───
+function saveSheetState() {
+  if (!charData) return;
+  try {
+    localStorage.setItem('dnd-sheet-state', JSON.stringify({
+      charData, currentHP, tempHP, slotUsage, hitDiceUsed, deathSuccesses, deathFailures, resourceUsage, acBonus, maxHPBonus
+    }));
+  } catch(e) {}
+}
+
+function clearSheet() {
+  localStorage.removeItem('dnd-sheet-state');
+  charData = null; currentHP = 0; tempHP = 0; slotUsage = {}; hitDiceUsed = {};
+  deathSuccesses = 0; deathFailures = 0; resourceUsage = {}; acBonus = 0; maxHPBonus = 0;
+  renderSheet(EMBEDDED_CHARACTER);
+}
+
+// ─── FILE LOADING ───
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const data = JSON.parse(ev.target.result);
+      hitDiceUsed = {};
+      resourceUsage = {};
+      deathSuccesses = 0;
+      deathFailures = 0;
+      acBonus = 0;
+      maxHPBonus = 0;
+      renderSheet(data);
+      saveSheetState();
+    } catch (err) {
+      alert('Error parsing JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  this.value = '';
+});
+
+// ─── PLACEHOLDER DEFAULT ───
+const EMBEDDED_CHARACTER = {
+  "meta": {"version": "1.0", "name": "", "lastModified": ""},
+  "basic": {"name": "Character Name", "class": "Class", "level": 1, "race": "Race", "background": "Background", "alignment": "", "experiencePoints": 0},
+  "abilities": {"str": 10, "dex": 10, "con": 10, "int": 10, "wis": 10, "cha": 10},
+  "combat": {"armorClass": 10, "currentHP": 10, "maxHP": 10, "temporaryHP": 0, "initiative": 0, "speed": "30 ft", "hitDice": [{"type": "d8", "total": 1, "current": 1}], "deathSaves": {"successes": 0, "failures": 0}},
+  "proficiencies": {"proficiencyBonus": 2, "armor": [], "weapons": [], "tools": [], "languages": ["Common"], "savingThrows": [], "savingThrowModifications": [], "abilityModifications": [], "skills": {"acrobatics": {"proficiency": false, "expertise": false}, "animalHandling": {"proficiency": false, "expertise": false}, "arcana": {"proficiency": false, "expertise": false}, "athletics": {"proficiency": false, "expertise": false}, "deception": {"proficiency": false, "expertise": false}, "history": {"proficiency": false, "expertise": false}, "insight": {"proficiency": false, "expertise": false}, "intimidation": {"proficiency": false, "expertise": false}, "investigation": {"proficiency": false, "expertise": false}, "medicine": {"proficiency": false, "expertise": false}, "nature": {"proficiency": false, "expertise": false}, "perception": {"proficiency": false, "expertise": false}, "performance": {"proficiency": false, "expertise": false}, "persuasion": {"proficiency": false, "expertise": false}, "religion": {"proficiency": false, "expertise": false}, "sleightOfHand": {"proficiency": false, "expertise": false}, "stealth": {"proficiency": false, "expertise": false}, "survival": {"proficiency": false, "expertise": false}}, "modifications": []},
+  "attacks": [],
+  "spellcasting": {"ability": "", "saveDC": 0, "attackBonus": 0, "spellSlots": {"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0}, "slotUsage": {}},
+  "spells": {"cantrips":[],"level1":[],"level2":[],"level3":[],"level4":[],"level5":[],"level6":[],"level7":[],"level8":[],"level9":[]},
+  "features": [],
+  "resources": [],
+  "equipment": {"currency": {"cp": 0, "sp": 0, "ep": 0, "gp": 0, "pp": 0}, "items": []},
+  "personality": {"traits": "", "ideals": "", "bonds": "", "flaws": "", "appearance": "", "backstory": ""},
+  "notes": ""
+};
+
+// ─── INIT ───
+(function init() {
+  const saved = localStorage.getItem('dnd-sheet-state');
+  if (saved) {
+    try {
+      const s = JSON.parse(saved);
+      // Patch charData so renderSheet restores live state correctly
+      s.charData.combat.currentHP = s.currentHP;
+      s.charData.combat.temporaryHP = s.tempHP;
+      s.charData.combat.deathSaves = { successes: s.deathSuccesses, failures: s.deathFailures };
+      if (s.charData.spellcasting) s.charData.spellcasting.slotUsage = s.slotUsage || {};
+      hitDiceUsed = s.hitDiceUsed || {};
+      resourceUsage = s.resourceUsage || {};
+      acBonus = s.acBonus || 0;
+      maxHPBonus = s.maxHPBonus || 0;
+      renderSheet(s.charData);
+      return;
+    } catch(e) {}
+  }
+  renderSheet(EMBEDDED_CHARACTER);
+})();
+</script>
+</body>
+</html>

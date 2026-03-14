@@ -878,6 +878,7 @@ function populateForm() {
 // ═══════════════════════════════════════════
 function update() {
   collectFromForm();
+  localStorage.setItem('dnd-monster-draft', JSON.stringify(monster));
   const m = monster;
   const el = document.getElementById('statBlockPreview');
 
@@ -1328,6 +1329,23 @@ async function libLoadMonster(url){
 // ═══════════════════════════════════════════
 // START
 // ═══════════════════════════════════════════
+(function restoreMonsterDraft() {
+  const saved = localStorage.getItem('dnd-monster-draft');
+  if (!saved) return;
+  try {
+    const data = JSON.parse(saved);
+    const blank = createBlank();
+    Object.keys(blank).forEach(k => {
+      if (data[k] !== undefined) {
+        if (typeof blank[k] === 'object' && !Array.isArray(blank[k]) && blank[k] !== null) {
+          monster[k] = { ...blank[k], ...data[k] };
+        } else {
+          monster[k] = data[k];
+        }
+      }
+    });
+  } catch(e) {}
+})();
 init();
 </script>
 </body>

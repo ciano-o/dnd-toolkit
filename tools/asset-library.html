@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2c2418">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="../icon-192.png">
+<link rel="manifest" href="../manifest.json">
+<title>Asset Library — D&D 5e Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
+<script src="../data/library.js"></script>
+<style>
+:root {
+  --parchment: #f5f0e1;
+  --parchment-dark: #e8dcc8;
+  --parchment-shadow: #d4c5a9;
+  --ink: #1a1410;
+  --ink-light: #3d3427;
+  --ink-faded: #6b5d4d;
+  --accent-red: #8b1a1a;
+  --accent-gold: #b8860b;
+  --accent-gold-light: #d4a940;
+  --border-dark: #2c2418;
+  --border-mid: #5c4a32;
+  --stat-bg: #2c2418;
+  --stat-text: #f5f0e1;
+  --field-bg: rgba(255,255,255,0.5);
+  --field-focus: rgba(184,134,11,0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #2c2418;
+  font-family: 'Alegreya', Georgia, serif;
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.lib-container {
+  width: 100%;
+  max-width: 1100px;
+  background: var(--parchment);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(139,109,63,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 20%, rgba(139,109,63,0.04) 0%, transparent 60%);
+  border: 3px solid var(--border-dark);
+  box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 80px rgba(139,109,63,0.08);
+  position: relative;
+}
+
+.lib-container::before {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px solid var(--border-mid);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── TITLE BAR ─── */
+.title-bar {
+  background: var(--stat-bg);
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.title-bar h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--accent-gold-light);
+  letter-spacing: 2px;
+}
+
+/* ─── TAB NAVIGATION ─── */
+.tab-nav {
+  display: flex;
+  border-bottom: 2px solid var(--border-dark);
+  background: var(--parchment-dark);
+  overflow-x: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--ink-faded);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tab-btn:hover { color: var(--ink); background: rgba(255,255,255,0.3); }
+
+.tab-btn.active {
+  color: var(--accent-red);
+  border-bottom-color: var(--accent-red);
+  background: rgba(255,255,255,0.3);
+}
+
+.tab-btn.gold.active {
+  color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+}
+
+/* ─── TAB PANELS ─── */
+.tab-panel {
+  display: none;
+  padding: 20px 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-panel.active { display: block; }
+
+/* ─── FORM ELEMENTS ─── */
+.form-row {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--ink-faded);
+  margin-bottom: 4px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 7px 10px;
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 4px;
+  font-family: 'Alegreya', serif;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--field-bg);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  background: var(--field-focus);
+}
+
+/* ─── BUTTONS ─── */
+.btn {
+  padding: 7px 16px;
+  border: 1.5px solid var(--border-mid);
+  border-radius: 4px;
+  font-family: 'Alegreya SC', serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--parchment-dark);
+  color: var(--ink);
+  letter-spacing: 0.5px;
+}
+.btn:hover { background: var(--parchment-shadow); }
+.btn-primary {
+  background: var(--accent-gold);
+  color: white;
+  border-color: var(--accent-gold);
+}
+.btn-primary:hover { background: var(--accent-gold-light); }
+.btn-sm { padding: 4px 10px; font-size: 11px; }
+
+/* ─── FILTER BAR ─── */
+.filter-bar {
+  background: rgba(255,255,255,0.25);
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.filter-bar-title {
+  font-family: 'Alegreya SC', serif;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--ink-faded);
+  margin-bottom: 10px;
+}
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* ─── SECTION TITLE ─── */
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent-red);
+  border-bottom: 2px solid var(--accent-red);
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+.section-title.gold { color: var(--accent-gold); border-color: var(--accent-gold); }
+
+/* ─── RESULTS GRID ─── */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.7rem;
+}
+@media (max-width: 800px) { .results-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .results-grid { grid-template-columns: 1fr; } }
+
+.result-card {
+  background: rgba(255,255,255,0.3);
+  border: 1.5px solid var(--parchment-shadow);
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.result-card:hover {
+  border-color: var(--accent-gold);
+  background: rgba(255,255,255,0.5);
+}
+.result-card.active {
+  border-color: var(--accent-gold);
+  background: rgba(184,134,11,0.08);
+}
+.result-card-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.result-card-meta {
+  font-size: 0.75rem;
+  color: var(--ink-faded);
+  margin-top: 1px;
+}
+
+/* ─── EXPANDED DETAIL ─── */
+.result-detail {
+  grid-column: 1 / -1;
+  background: rgba(255,255,255,0.45);
+  border: 1.5px solid var(--accent-gold);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin-top: -0.3rem;
+}
+.detail-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink-light);
+  margin-bottom: 6px;
+}
+.detail-meta {
+  font-size: 0.8rem;
+  color: var(--ink-faded);
+  margin-bottom: 4px;
+}
+.detail-desc {
+  font-size: 0.9rem;
+  color: var(--ink-light);
+  line-height: 1.6;
+  margin-top: 8px;
+  border-top: 1px solid var(--parchment-shadow);
+  padding-top: 8px;
+}
+.detail-tag {
+  display: inline-block;
+  background: var(--accent-gold);
+  color: white;
+  padding: 1px 8px;
+  border-radius: 3px;
+  font-family: 'Alegreya SC', serif;
+  font-size: 10px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  vertical-align: middle;
+}
+.detail-tag.red { background: var(--accent-red); }
+
+/* ─── EMPTY / PLACEHOLDER ─── */
+.empty-state {
+  text-align: center;
+  padding: 40px 24px;
+  color: var(--ink-faded);
+  font-style: italic;
+  font-size: 15px;
+}
+
+/* ─── RESULTS COUNT ─── */
+.results-count {
+  font-family: 'Alegreya SC', serif;
+  font-size: 11px;
+  color: var(--ink-faded);
+  margin-bottom: 10px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 600px) {
+  .form-row.cols-3, .form-row.cols-4 { grid-template-columns: 1fr 1fr; }
+  .form-row.cols-2 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="lib-container">
+  <!-- TITLE BAR -->
+  <div class="title-bar">
+    <div style="display:flex;align-items:center;gap:8px">
+      <a href="../index.html" style="text-decoration:none;color:var(--stat-text);font-family:'Alegreya SC',serif;font-size:11px;opacity:0.6">← Hub</a>
+      <h1>📚 Asset Library</h1>
+    </div>
+    <div style="font-family:'Alegreya SC',serif;font-size:11px;color:var(--stat-text);opacity:0.5;">Read-only browser</div>
+  </div>
+
+  <!-- TAB NAVIGATION -->
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="spells">Spells</button>
+    <button class="tab-btn gold" data-tab="features">Features</button>
+    <button class="tab-btn gold" data-tab="resources">Resources</button>
+    <button class="tab-btn" data-tab="equipment">Equipment</button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: SPELLS -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel active" id="tab-spells">
+    <div class="section-title">Spells</div>
+    <div class="filter-bar">
+      <div class="filter-bar-title">Filter Spells</div>
+      <div class="form-row cols-3">
+        <div class="form-group">
+          <label>Name contains</label>
+          <input type="text" id="sf_name" placeholder="Search name…" oninput="clearSpellResults()">
+        </div>
+        <div class="form-group">
+          <label>Level</label>
+          <select id="sf_level" onchange="clearSpellResults()">
+            <option value="">Any Level</option>
+            <option value="0">Cantrip (0)</option>
+            <option value="1">1st Level</option>
+            <option value="2">2nd Level</option>
+            <option value="3">3rd Level</option>
+            <option value="4">4th Level</option>
+            <option value="5">5th Level</option>
+            <option value="6">6th Level</option>
+            <option value="7">7th Level</option>
+            <option value="8">8th Level</option>
+            <option value="9">9th Level</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>School</label>
+          <input type="text" id="sf_school" placeholder="e.g. Evocation" oninput="clearSpellResults()">
+        </div>
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-primary" onclick="runSearch('spells')">Search</button>
+        <button class="btn btn-sm" onclick="clearFilter('spells')">Clear</button>
+      </div>
+    </div>
+    <div id="spell-results-count" class="results-count" style="display:none;"></div>
+    <div id="spell-results">
+      <div class="empty-state">Apply filters above and click Search to browse spells.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: FEATURES -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-features">
+    <div class="section-title gold">Features & Traits</div>
+    <div class="filter-bar">
+      <div class="filter-bar-title">Filter Features</div>
+      <div class="form-row cols-3">
+        <div class="form-group">
+          <label>Name contains</label>
+          <input type="text" id="ff_name" placeholder="Search name…" oninput="clearFeatResults()">
+        </div>
+        <div class="form-group">
+          <label>Source Type</label>
+          <select id="ff_sourceType" onchange="clearFeatResults()">
+            <option value="">Any</option>
+            <option value="species">Species</option>
+            <option value="background">Background</option>
+            <option value="class">Class</option>
+            <option value="item">Item</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Source Name</label>
+          <input type="text" id="ff_source" placeholder="e.g. Elf, Druid" oninput="clearFeatResults()">
+        </div>
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-primary" onclick="runSearch('features')">Search</button>
+        <button class="btn btn-sm" onclick="clearFilter('features')">Clear</button>
+      </div>
+    </div>
+    <div id="feat-results-count" class="results-count" style="display:none;"></div>
+    <div id="feat-results">
+      <div class="empty-state">Apply filters above and click Search to browse features.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: RESOURCES -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-resources">
+    <div class="section-title gold">Resources</div>
+    <div class="filter-bar">
+      <div class="filter-bar-title">Filter Resources</div>
+      <div class="form-row cols-3">
+        <div class="form-group">
+          <label>Name contains</label>
+          <input type="text" id="rf_name" placeholder="Search name…" oninput="clearResResults()">
+        </div>
+        <div class="form-group">
+          <label>Source Type</label>
+          <select id="rf_sourceType" onchange="clearResResults()">
+            <option value="">Any</option>
+            <option value="species">Species</option>
+            <option value="background">Background</option>
+            <option value="class">Class</option>
+            <option value="item">Item</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Source Name</label>
+          <input type="text" id="rf_source" placeholder="e.g. Monk, Fighter" oninput="clearResResults()">
+        </div>
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-primary" onclick="runSearch('resources')">Search</button>
+        <button class="btn btn-sm" onclick="clearFilter('resources')">Clear</button>
+      </div>
+    </div>
+    <div id="res-results-count" class="results-count" style="display:none;"></div>
+    <div id="res-results">
+      <div class="empty-state">Apply filters above and click Search to browse resources.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB: EQUIPMENT -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-equipment">
+    <div class="section-title">Equipment</div>
+    <div class="filter-bar">
+      <div class="filter-bar-title">Filter Equipment</div>
+      <div class="form-row cols-2">
+        <div class="form-group">
+          <label>Name contains</label>
+          <input type="text" id="ef_name" placeholder="Search name…" oninput="clearEquipResults()">
+        </div>
+        <div class="form-group">
+          <label>Type contains</label>
+          <input type="text" id="ef_type" placeholder="e.g. Weapon, Armor, Consumable" oninput="clearEquipResults()">
+        </div>
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-primary" onclick="runSearch('equipment')">Search</button>
+        <button class="btn btn-sm" onclick="clearFilter('equipment')">Clear</button>
+      </div>
+    </div>
+    <div id="equip-results-count" class="results-count" style="display:none;"></div>
+    <div id="equip-results">
+      <div class="empty-state">Apply filters above and click Search to browse equipment.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───
+let _lib = null;
+let _lastResults = {};
+let _expandedIdx = {};
+
+const SOURCE_LABELS = { species:'Species', background:'Background', class:'Class', item:'Item', other:'Other' };
+
+async function ensureLibLoaded() {
+  if (_lib) return _lib;
+  if (!window.LIBRARY_DATA) throw new Error('library.js not loaded');
+  _lib = window.LIBRARY_DATA;
+  return _lib;
+}
+
+function esc(str) {
+  if (!str && str !== 0) return '';
+  const d = document.createElement('div');
+  d.textContent = String(str);
+  return d.innerHTML;
+}
+
+// ─── TAB SWITCHING ───
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+  });
+});
+
+// ─── SEARCH CONFIGS ───
+const SEARCH_CONFIGS = {
+  spells: {
+    resultEl: 'spell-results',
+    countEl: 'spell-results-count',
+    getFilters: () => ({
+      name: document.getElementById('sf_name').value.toLowerCase().trim(),
+      level: document.getElementById('sf_level').value,
+      school: document.getElementById('sf_school').value.toLowerCase().trim()
+    }),
+    hasFilter: f => f.name || f.level !== '' || f.school,
+    filter: (items, f) => items.filter(item =>
+      (!f.name || item.name.toLowerCase().includes(f.name)) &&
+      (f.level === '' || String(item.level) === f.level) &&
+      (!f.school || (item.school||'').toLowerCase().includes(f.school))
+    ),
+    cardHTML: (item, idx) => `
+      <div class="result-card ${_expandedIdx.spells===idx?'active':''}" onclick="toggleExpand('spells',${idx})">
+        <div class="result-card-name">${esc(item.name)}</div>
+        <div class="result-card-meta">${item.level===0?'Cantrip':'Level '+item.level} · ${esc(item.school)||'—'}</div>
+        <div class="result-card-meta">${esc(item.classes)||''}</div>
+      </div>`,
+    detailHTML: item => `
+      <div class="detail-title">${esc(item.name)}</div>
+      <div style="margin-bottom:6px;">
+        <span class="detail-tag">${item.level===0?'Cantrip':'Level '+item.level}</span>
+        <span class="detail-tag">${esc(item.school)||''}</span>
+        ${item.source?`<span class="detail-tag red">${esc(item.source)}</span>`:''}
+      </div>
+      <div class="detail-meta"><strong>Casting Time:</strong> ${esc(item.castingTime)||'—'}</div>
+      <div class="detail-meta"><strong>Range:</strong> ${esc(item.range)||'—'}</div>
+      <div class="detail-meta"><strong>Duration:</strong> ${esc(item.duration)||'—'}</div>
+      <div class="detail-meta"><strong>Components:</strong> ${esc(item.components)||'—'}</div>
+      <div class="detail-meta"><strong>Classes:</strong> ${esc(item.classes)||'—'}</div>
+      <div class="detail-desc">${esc(item.description)||''}</div>
+      ${(item.atHigherLevels||item.cantripUpgrade)?`<div class="detail-desc" style="margin-top:6px;"><strong>${item.level===0?'Cantrip Upgrade':'At Higher Levels'}:</strong> ${esc(item.atHigherLevels||item.cantripUpgrade)}</div>`:''}
+    `
+  },
+  features: {
+    resultEl: 'feat-results',
+    countEl: 'feat-results-count',
+    getFilters: () => ({
+      name: document.getElementById('ff_name').value.toLowerCase().trim(),
+      sourceType: document.getElementById('ff_sourceType').value,
+      source: document.getElementById('ff_source').value.toLowerCase().trim()
+    }),
+    hasFilter: f => f.name || f.sourceType || f.source,
+    filter: (items, f) => items.filter(item =>
+      (!f.name || item.name.toLowerCase().includes(f.name)) &&
+      (!f.sourceType || item.sourceType === f.sourceType) &&
+      (!f.source || (item.source||'').toLowerCase().includes(f.source))
+    ),
+    cardHTML: (item, idx) => `
+      <div class="result-card ${_expandedIdx.features===idx?'active':''}" onclick="toggleExpand('features',${idx})">
+        <div class="result-card-name">${esc(item.name)}</div>
+        <div class="result-card-meta">${SOURCE_LABELS[item.sourceType]||item.sourceType||'—'}${item.source?' · '+esc(item.source):''}</div>
+        <div class="result-card-meta">${item.type||''}${item.actionType?' · '+item.actionType:''}</div>
+      </div>`,
+    detailHTML: item => `
+      <div class="detail-title">${esc(item.name)}</div>
+      <div style="margin-bottom:6px;">
+        <span class="detail-tag">${SOURCE_LABELS[item.sourceType]||item.sourceType||'—'}</span>
+        ${item.source?`<span class="detail-tag">${esc(item.source)}</span>`:''}
+        <span class="detail-tag red">${item.type||'passive'}</span>
+        ${item.actionType?`<span class="detail-tag red">${esc(item.actionType)}</span>`:''}
+      </div>
+      ${item.resourceCost?`<div class="detail-meta"><strong>Resource Cost:</strong> ${esc(item.resourceCost)}</div>`:''}
+      ${item.requirements?`<div class="detail-meta"><strong>Requirements:</strong> ${esc(item.requirements)}</div>`:''}
+      ${item.isMovement?`<div class="detail-meta"><strong>Movement Cost:</strong> ${item.movementCost||0} ft</div>`:''}
+      <div class="detail-desc">${esc(item.description)||''}</div>
+    `
+  },
+  resources: {
+    resultEl: 'res-results',
+    countEl: 'res-results-count',
+    getFilters: () => ({
+      name: document.getElementById('rf_name').value.toLowerCase().trim(),
+      sourceType: document.getElementById('rf_sourceType').value,
+      source: document.getElementById('rf_source').value.toLowerCase().trim()
+    }),
+    hasFilter: f => f.name || f.sourceType || f.source,
+    filter: (items, f) => items.filter(item =>
+      (!f.name || item.name.toLowerCase().includes(f.name)) &&
+      (!f.sourceType || item.sourceType === f.sourceType) &&
+      (!f.source || (item.source||'').toLowerCase().includes(f.source))
+    ),
+    cardHTML: (item, idx) => `
+      <div class="result-card ${_expandedIdx.resources===idx?'active':''}" onclick="toggleExpand('resources',${idx})">
+        <div class="result-card-name">${esc(item.name)}</div>
+        <div class="result-card-meta">${SOURCE_LABELS[item.sourceType]||item.sourceType||'—'}${item.source?' · '+esc(item.source):''}</div>
+        <div class="result-card-meta">Max: ${item.maximum||0}</div>
+      </div>`,
+    detailHTML: item => `
+      <div class="detail-title">${esc(item.name)}</div>
+      <div style="margin-bottom:6px;">
+        <span class="detail-tag">${SOURCE_LABELS[item.sourceType]||item.sourceType||'—'}</span>
+        ${item.source?`<span class="detail-tag">${esc(item.source)}</span>`:''}
+        <span class="detail-tag red">Max: ${item.maximum||0}</span>
+      </div>
+      <div class="detail-desc">${esc(item.description)||''}</div>
+    `
+  },
+  equipment: {
+    resultEl: 'equip-results',
+    countEl: 'equip-results-count',
+    getFilters: () => ({
+      name: document.getElementById('ef_name').value.toLowerCase().trim(),
+      type: document.getElementById('ef_type').value.toLowerCase().trim()
+    }),
+    hasFilter: f => f.name || f.type,
+    filter: (items, f) => items.filter(item =>
+      (!f.name || item.name.toLowerCase().includes(f.name)) &&
+      (!f.type || (item.type||'').toLowerCase().includes(f.type))
+    ),
+    cardHTML: (item, idx) => `
+      <div class="result-card ${_expandedIdx.equipment===idx?'active':''}" onclick="toggleExpand('equipment',${idx})">
+        <div class="result-card-name">${esc(item.name)}</div>
+        <div class="result-card-meta">${esc(item.type)||'—'}</div>
+        <div class="result-card-meta">${item.cost||''}${item.weight?' · '+item.weight:''}</div>
+      </div>`,
+    detailHTML: item => `
+      <div class="detail-title">${esc(item.name)}</div>
+      <div style="margin-bottom:6px;">
+        <span class="detail-tag">${esc(item.type)||'—'}</span>
+        ${item.cost?`<span class="detail-tag red">${esc(item.cost)}</span>`:''}
+        ${item.weight?`<span class="detail-tag">${esc(item.weight)}</span>`:''}
+      </div>
+      <div class="detail-desc">${esc(item.description)||''}</div>
+    `
+  }
+};
+
+// ─── SEARCH ───
+async function runSearch(section) {
+  const cfg = SEARCH_CONFIGS[section];
+  const resultEl = document.getElementById(cfg.resultEl);
+  const countEl = document.getElementById(cfg.countEl);
+  const filters = cfg.getFilters();
+
+  if (!cfg.hasFilter(filters)) {
+    resultEl.innerHTML = '<div class="empty-state">Apply filters above and click Search to browse the library.</div>';
+    countEl.style.display = 'none';
+    return;
+  }
+
+  resultEl.innerHTML = '<div class="empty-state">Loading…</div>';
+  countEl.style.display = 'none';
+
+  try {
+    const lib = await ensureLibLoaded();
+    const items = cfg.filter(lib[section] || [], filters);
+    _lastResults[section] = items;
+    _expandedIdx[section] = undefined;
+
+    if (!items.length) {
+      resultEl.innerHTML = '<div class="empty-state">No results found. Try different filters.</div>';
+      countEl.style.display = 'none';
+      return;
+    }
+
+    countEl.textContent = `${items.length} result${items.length!==1?'s':''}`;
+    countEl.style.display = 'block';
+    renderResults(section);
+  } catch(e) {
+    resultEl.innerHTML = '<div class="empty-state">Error loading library. Make sure data/library.json exists.</div>';
+    countEl.style.display = 'none';
+  }
+}
+
+function renderResults(section) {
+  const cfg = SEARCH_CONFIGS[section];
+  const items = _lastResults[section] || [];
+  const resultEl = document.getElementById(cfg.resultEl);
+  const expandedIdx = _expandedIdx[section];
+
+  let html = '<div class="results-grid">';
+  items.forEach((item, idx) => {
+    html += cfg.cardHTML(item, idx);
+    if (expandedIdx === idx) {
+      html += `<div class="result-detail">${cfg.detailHTML(item)}</div>`;
+    }
+  });
+  html += '</div>';
+  resultEl.innerHTML = html;
+}
+
+function toggleExpand(section, idx) {
+  if (_expandedIdx[section] === idx) {
+    _expandedIdx[section] = undefined;
+  } else {
+    _expandedIdx[section] = idx;
+  }
+  renderResults(section);
+}
+
+// ─── CLEAR HELPERS ───
+function clearSpellResults() { clearResultsDisplay('spells'); }
+function clearFeatResults()  { clearResultsDisplay('features'); }
+function clearResResults()   { clearResultsDisplay('resources'); }
+function clearEquipResults() { clearResultsDisplay('equipment'); }
+
+function clearResultsDisplay(section) {
+  _expandedIdx[section] = undefined;
+  _lastResults[section] = undefined;
+  const cfg = SEARCH_CONFIGS[section];
+  document.getElementById(cfg.countEl).style.display = 'none';
+  document.getElementById(cfg.resultEl).innerHTML = '<div class="empty-state">Apply filters above and click Search to browse the library.</div>';
+}
+
+function clearFilter(section) {
+  const inputs = {
+    spells: ['sf_name', 'sf_level', 'sf_school'],
+    features: ['ff_name', 'ff_sourceType', 'ff_source'],
+    resources: ['rf_name', 'rf_sourceType', 'rf_source'],
+    equipment: ['ef_name', 'ef_type']
+  };
+  (inputs[section]||[]).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  clearResultsDisplay(section);
+}
+</script>
+</body>
+</html>

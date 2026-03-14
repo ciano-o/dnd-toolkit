@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dnd-toolkit-v1';
+const CACHE_NAME = 'dnd-toolkit-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,8 @@ const ASSETS = [
   './tools/combat-tracker.html',
   './tools/monster-creator.html',
   './tools/character-creator.html',
+  './tools/asset-library.html',
+  './data/library.json',
   './data/index.json',
   './data/monsters/Summer_Eladrin.json',
   './data/monsters/Winter_Eladrin.json',
