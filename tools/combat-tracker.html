@@ -30,9 +30,11 @@ body{background:#1e1a14;font-family:'Alegreya',Georgia,serif;color:var(--ink);he
 .app{display:grid;grid-template-columns:400px 1fr;grid-template-rows:auto 1fr;height:100vh}
 
 /* TOP BAR */
-.top-bar{grid-column:1/-1;background:var(--stat-bg);padding:8px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;z-index:10;border-bottom:2px solid var(--accent-gold)}
-.top-bar h1{font-family:'Cinzel',serif;font-size:16px;font-weight:900;color:var(--accent-gold-light);letter-spacing:1px;white-space:nowrap}
-.top-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.top-bar{grid-column:1/-1;background:var(--stat-bg);padding:6px 12px;display:flex;flex-direction:column;gap:5px;z-index:10;border-bottom:2px solid var(--accent-gold)}
+.top-bar-main{display:flex;align-items:center;gap:8px}
+.top-bar h1{font-family:'Cinzel',serif;font-size:16px;font-weight:900;color:var(--accent-gold-light);letter-spacing:1px;white-space:nowrap;flex:1}
+.top-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.top-actions .btn{padding:6px 10px;font-size:11px}
 
 /* ROUND COUNTER */
 .rc{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.08);border-radius:6px;padding:2px 8px}
@@ -195,18 +197,30 @@ body{background:#1e1a14;font-family:'Alegreya',Georgia,serif;color:var(--ink);he
 .hi{display:none}
 
 @media(max-width:900px){
-  .app{grid-template-columns:1fr;grid-template-rows:auto 1fr}
-  .tracker-panel{border-right:none;max-height:55vh}
-  .preview-panel{max-height:45vh}
+  .app{display:flex;flex-direction:column}
+  .tracker-panel{border-right:none;flex:1;min-height:0;overflow-y:auto}
+  .preview-panel{flex-shrink:0;max-height:38vh;overflow-y:auto}
+}
+@media(max-width:600px){
+  .top-bar{padding:5px 10px;gap:4px}
+  .top-bar h1{font-size:14px}
+  .rc .rv{font-size:15px}
+  .top-actions{gap:4px}
+  .top-actions .btn{padding:6px 9px;font-size:10px}
+  .preview-panel{max-height:32vh}
+  .cc-hpbar{width:44px}
+  .cc-hptxt{font-size:10px;min-width:40px}
 }
 </style>
 </head>
 <body>
 <div class="app">
   <div class="top-bar">
-    <a href="../index.html" style="text-decoration:none;color:var(--stat-text);font-family:'Alegreya SC',serif;font-size:11px;opacity:0.6;margin-right:4px">← Hub</a>
-    <h1>⚔ Combat</h1>
-    <div class="rc"><span class="rl">Round</span><button onclick="chRound(-1)">−</button><span class="rv" id="rV">1</span><button onclick="chRound(1)">+</button></div>
+    <div class="top-bar-main">
+      <a href="../index.html" style="text-decoration:none;color:var(--stat-text);font-family:'Alegreya SC',serif;font-size:11px;opacity:0.6;white-space:nowrap">← Hub</a>
+      <h1>⚔ Combat</h1>
+      <div class="rc"><span class="rl">Round</span><button onclick="chRound(-1)">−</button><span class="rv" id="rV">1</span><button onclick="chRound(1)">+</button></div>
+    </div>
     <div class="top-actions">
       <button class="btn btn-sm" onclick="showLibrary()">📚 Library</button>
       <label class="btn">🐉 Monsters<input type="file" class="hi" id="lm" accept=".json" multiple></label>
