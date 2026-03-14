@@ -42,8 +42,8 @@ dnd-toolkit/
 ├── index.html              Hub / landing page
 ├── manifest.json           PWA manifest
 ├── sw.js                   Service worker (offline caching)
-├── icon-192.jpg            App icon
-├── icon-512.jpg            App icon (large)
+├── icon.jpg            App icon
+├── icon.jpg            App icon (large)
 ├── README.md               This file
 ├── tools/
 │   ├── combat-tracker.html

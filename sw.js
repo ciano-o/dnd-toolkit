@@ -1,10 +1,10 @@
-const CACHE_NAME = 'dnd-toolkit-v3.2.1';
+const CACHE_NAME = 'dnd-toolkit-v3.2.2';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './icon-192.jpg',
-  './icon-512.jpg',
+  './icon.jpg',
+  './icon.jpg',
   './tools/combat-tracker.html',
   './tools/monster-creator.html',
   './tools/character-creator.html',
