@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#2c2418">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="../icon-192.png">
+<link rel="apple-touch-icon" href="../icon-192.jpg">
 <link rel="manifest" href="../manifest.json">
 <title>Character Creator — D&D 5e Toolkit</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
@@ -1906,46 +1906,100 @@ function renderItemsList() {
     el.innerHTML = '<div class="empty-state">No items yet. Click "+ Add Item" to create one.</div>';
     return;
   }
-  const iStyle = `padding:5px 8px;border:1.5px solid var(--parchment-shadow);border-radius:4px;font-family:'Alegreya',serif;font-size:13px;background:var(--field-bg);`;
-  el.innerHTML = items.map((item, i) => `
-    <div class="list-item-card" style="padding:10px 14px;margin-bottom:8px;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-        <input type="text" placeholder="Item name" value="${esc(item.name)}" style="flex:1;${iStyle}"
-               onchange="char.equipment.items[${i}].name=this.value;">
-        <input type="number" placeholder="Wt" title="Weight" min="0" step="0.1" value="${item.weight}" style="width:52px;${iStyle}"
-               onchange="char.equipment.items[${i}].weight=parseFloat(this.value)||0;">
-        <input type="number" placeholder="Qty" title="Quantity" min="1" value="${item.quantity}" style="width:52px;${iStyle}"
-               onchange="char.equipment.items[${i}].quantity=parseInt(this.value)||1;">
-        <button class="btn btn-danger btn-sm" onclick="removeItem(${i})">✕</button>
+  el.innerHTML = '<div class="card-grid-3">' + items.map((item, i) => `
+    <div class="grid-card" onclick="openItemModal(${i})" style="${item.equipped ? 'border-color:var(--accent-gold);' : ''}">
+      <div class="grid-card-name">${esc(item.name) || 'Unnamed Item'}</div>
+      <div class="grid-card-meta">${item.rarity || 'Common'}${item.consumable ? ' · Consumable' : ''}</div>
+      <div class="grid-card-meta">${item.equipped ? '⚔ Equipped' : ''}</div>
+    </div>
+  `).join('') + '</div>';
+}
+
+function openItemModal(i) {
+  const isNew = i === -1;
+  if (isNew) {
+    char.equipment.items.push({ name: '', weight: 0, quantity: 1, equipped: false, consumable: false, rarity: 'Common', description: '', notes: '' });
+    i = char.equipment.items.length - 1;
+  }
+  const item = char.equipment.items[i];
+  const overlay = document.getElementById('modal-overlay');
+  overlay.innerHTML = `<div class="modal-box">
+    <div class="modal-title gold">⚔ ${isNew ? 'New Item' : 'Edit Item'}</div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Item Name</label>
+        <input type="text" id="im_name" value="${esc(item.name)}" placeholder="Item name">
       </div>
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap;">
-        <select style="${iStyle}padding:4px 6px;" onchange="char.equipment.items[${i}].rarity=this.value;">
+      <div class="form-group">
+        <label>Rarity</label>
+        <select id="im_rarity">
           ${RARITIES.map(r => `<option value="${r}" ${item.rarity===r?'selected':''}>${r}</option>`).join('')}
         </select>
-        <label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer;">
-          <input type="checkbox" ${item.equipped?'checked':''} onchange="char.equipment.items[${i}].equipped=this.checked;">
-          Equipped
-        </label>
-        <label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer;">
-          <input type="checkbox" ${item.consumable?'checked':''} onchange="char.equipment.items[${i}].consumable=this.checked;">
-          Consumable
+      </div>
+    </div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" id="im_quantity" min="1" value="${item.quantity}">
+      </div>
+      <div class="form-group">
+        <label>Weight (lbs)</label>
+        <input type="number" id="im_weight" min="0" step="0.1" value="${item.weight}">
+      </div>
+    </div>
+    <div class="form-row cols-2" style="margin-top:4px;">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="im_equipped" ${item.equipped?'checked':''}> Equipped
         </label>
       </div>
-      <input type="text" placeholder="Description" value="${esc(item.description)}" style="width:100%;margin-bottom:5px;${iStyle}"
-             onchange="char.equipment.items[${i}].description=this.value;">
-      <input type="text" placeholder="Notes" value="${esc(item.notes)}" style="width:100%;${iStyle}"
-             onchange="char.equipment.items[${i}].notes=this.value;">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="im_consumable" ${item.consumable?'checked':''}> Consumable
+        </label>
+      </div>
     </div>
-  `).join('');
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="im_description" style="min-height:80px;">${esc(item.description||'')}</textarea>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <input type="text" id="im_notes" value="${esc(item.notes||'')}" placeholder="Additional notes">
+    </div>
+    <div class="modal-footer-split">
+      <button class="btn btn-danger btn-sm" onclick="removeItem(${i})">Delete</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-sm" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveItemModal(${i})">Save</button>
+      </div>
+    </div>
+  </div>`;
+  overlay.classList.add('open');
+}
+
+function saveItemModal(i) {
+  const item = char.equipment.items[i];
+  item.name = document.getElementById('im_name').value;
+  item.rarity = document.getElementById('im_rarity').value;
+  item.quantity = parseInt(document.getElementById('im_quantity').value) || 1;
+  item.weight = parseFloat(document.getElementById('im_weight').value) || 0;
+  item.equipped = document.getElementById('im_equipped').checked;
+  item.consumable = document.getElementById('im_consumable').checked;
+  item.description = document.getElementById('im_description').value;
+  item.notes = document.getElementById('im_notes').value;
+  closeModal();
+  renderItemsList();
+  scheduleCharSave();
 }
 
 function addItem() {
-  char.equipment.items.push({ name: '', weight: 0, quantity: 1, equipped: false, consumable: false, rarity: 'Common', description: '', notes: '' });
-  renderItemsList();
+  openItemModal(-1);
 }
 
 function removeItem(i) {
   char.equipment.items.splice(i, 1);
+  closeModal();
   renderItemsList();
 }
 

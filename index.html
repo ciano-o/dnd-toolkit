@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="DnD Toolkit">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon.png">
 <link rel="manifest" href="manifest.json">
 <title>D&D 5e Toolkit</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
@@ -76,6 +76,20 @@ body{background:var(--stat-bg);font-family:'Alegreya',Georgia,serif;color:var(--
 </div>
 
 <div class="cards">
+  <a class="card" href="tools/character-sheet.html">
+    <div class="card-icon">📜</div>
+    <div class="card-title">Character Sheet</div>
+    <div class="card-desc">Live play view for your character. Track current HP, temp HP, spell slots, focus points, hit dice, and death saves during a session. Load any character JSON.</div>
+    <div class="card-arrow">Open →</div>
+  </a>
+
+  <a class="card" href="tools/character-creator.html">
+    <div class="card-icon">🛡</div>
+    <div class="card-title">Character Creator</div>
+    <div class="card-desc">Create and edit full D&D 5e 2024 player characters. Abilities, skills, attacks, spellcasting, features, equipment, and personality. Export as JSON.</div>
+    <div class="card-arrow">Open →</div>
+  </a>
+
   <a class="card" href="tools/combat-tracker.html">
     <div class="card-icon">⚔</div>
     <div class="card-title">Combat Tracker</div>
@@ -90,33 +104,12 @@ body{background:var(--stat-bg);font-family:'Alegreya',Georgia,serif;color:var(--
     <div class="card-arrow">Open →</div>
   </a>
 
-  <a class="card" href="tools/character-creator.html">
-    <div class="card-icon">🛡</div>
-    <div class="card-title">Character Creator</div>
-    <div class="card-desc">Create and edit full D&D 5e 2024 player characters. Abilities, skills, attacks, spellcasting, features, equipment, and personality. Export as JSON.</div>
-    <div class="card-arrow">Open →</div>
-  </a>
-
-  <a class="card" href="tools/character-sheet.html">
-    <div class="card-icon">📜</div>
-    <div class="card-title">Character Sheet</div>
-    <div class="card-desc">Live play view for your character. Track current HP, temp HP, spell slots, focus points, hit dice, and death saves during a session. Load any character JSON.</div>
-    <div class="card-arrow">Open →</div>
-  </a>
-
   <a class="card" href="tools/asset-library.html">
     <div class="card-icon">📚</div>
     <div class="card-title">Asset Library</div>
     <div class="card-desc">Browse your library of spells, features, resources, and equipment. Use filters to search by name, source, level, or school. Load entries directly into the Character Creator.</div>
     <div class="card-arrow">Open →</div>
   </a>
-</div>
-
-<div class="library">
-  <div class="lib-title">📚 Your Library</div>
-  <div id="monsterLib"><div class="lib-empty">Loading monsters...</div></div>
-  <div style="height:12px"></div>
-  <div id="playerLib"><div class="lib-empty">Loading players...</div></div>
 </div>
 
 <div class="footer"> · D&D 5.5e Toolkit · </div>

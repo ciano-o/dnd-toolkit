@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>D&D 5e Character Sheet</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="character-sheet-themes.css">
 <style>
 :root {
   --parchment: #f5f0e1;
@@ -47,8 +48,7 @@ body {
   background: var(--parchment);
   background-image:
     radial-gradient(ellipse at 20% 50%, rgba(139,109,63,0.06) 0%, transparent 70%),
-    radial-gradient(ellipse at 80% 20%, rgba(139,109,63,0.04) 0%, transparent 60%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23f5f0e1'/%3E%3Crect width='1' height='1' fill='%23ede5d0' x='0' y='0'/%3E%3C/svg%3E");
+    radial-gradient(ellipse at 80% 20%, rgba(139,109,63,0.04) 0%, transparent 60%);
   border: 3px solid var(--border-dark);
   box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 80px rgba(139,109,63,0.08);
   padding: 0;
@@ -1451,6 +1451,7 @@ body {
   </div>
 </div>
 
+<script src="character-sheet-themes.js"></script>
 <script>
 // ─── UTILITY ───
 const abilityNames = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };
@@ -1515,6 +1516,7 @@ function renderSheet(data) {
   renderPersonality(data);
   renderEquipment(data);
   renderNotes(data);
+  applyThemeDecorations(getCurrentTheme());
 }
 
 function renderHeader(data) {
@@ -2179,6 +2181,10 @@ const EMBEDDED_CHARACTER = {
 
 // ─── INIT ───
 (function init() {
+  const savedTheme = localStorage.getItem('dnd-sheet-theme');
+  if (savedTheme) document.body.dataset.theme = savedTheme;
+  injectThemePicker();
+
   const saved = localStorage.getItem('dnd-sheet-state');
   if (saved) {
     try {
