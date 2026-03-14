@@ -1141,9 +1141,6 @@ body {
   <!-- FOOTER -->
   <div class="creator-footer">
     <div class="footer-info" id="footerInfo">No character loaded</div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn btn-success" onclick="exportJSON()">💾 Export JSON</button>
-    </div>
   </div>
 </div>
 
@@ -1551,87 +1548,120 @@ function renderSpellsList() {
     el.innerHTML = `<div class="empty-state">No ${spellLevelLabels[activeSpellLevel].toLowerCase()} yet. Click "+ Add Spell" to create one.</div>`;
     return;
   }
-  el.innerHTML = spells.map((sp, i) => `
-    <div class="list-item-card">
-      <div class="list-item-header">
-        <span class="collapse-toggle" onclick="toggleListItem(this)">▼</span>
-        <span class="item-title" onclick="toggleListItem(this)">${sp.name || 'Unnamed Spell'}</span>
-        <label style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink-faded);cursor:pointer;">
-          <input type="checkbox" ${sp.prepared?'checked':''} onchange="char.spells['${activeSpellLevel}'][${i}].prepared=this.checked;">
-          Prepared
-        </label>
-        <button class="btn btn-danger btn-sm" onclick="removeSpell(${i})">✕</button>
-      </div>
-      <div class="list-item-body open">
-        <div class="form-row cols-2">
-          <div class="form-group">
-            <label>Spell Name</label>
-            <input type="text" value="${esc(sp.name)}" onchange="char.spells['${activeSpellLevel}'][${i}].name=this.value; renderSpellsList(); updateSpellLevelCounts();">
-          </div>
-          <div class="form-group">
-            <label>School / Level</label>
-            <input type="text" value="${esc(sp.level||'')}" placeholder="e.g. Level 1 Evocation" onchange="char.spells['${activeSpellLevel}'][${i}].level=this.value;">
-          </div>
-        </div>
-        <div class="form-row cols-3">
-          <div class="form-group">
-            <label>Casting Time</label>
-            <input type="text" value="${esc(sp.castingTime||'')}" placeholder="e.g. 1 action" onchange="char.spells['${activeSpellLevel}'][${i}].castingTime=this.value;">
-          </div>
-          <div class="form-group">
-            <label>Range</label>
-            <input type="text" value="${esc(sp.range||'')}" placeholder="e.g. 60 feet" onchange="char.spells['${activeSpellLevel}'][${i}].range=this.value;">
-          </div>
-          <div class="form-group">
-            <label>Duration</label>
-            <input type="text" value="${esc(sp.duration||'')}" placeholder="e.g. Instantaneous" onchange="char.spells['${activeSpellLevel}'][${i}].duration=this.value;">
-          </div>
-        </div>
-        <div class="form-row cols-3">
-          <div class="form-group">
-            <label>Components</label>
-            <input type="text" value="${esc(sp.components||'')}" placeholder="V, S, M (...)" onchange="char.spells['${activeSpellLevel}'][${i}].components=this.value;">
-          </div>
-          <div class="form-group">
-            <label>Classes</label>
-            <input type="text" value="${esc(sp.classes||'')}" placeholder="e.g. Wizard, Sorcerer" onchange="char.spells['${activeSpellLevel}'][${i}].classes=this.value;">
-          </div>
-          <div class="form-group">
-            <label>Source</label>
-            <input type="text" value="${esc(sp.source||'')}" placeholder="e.g. Player's Handbook" onchange="char.spells['${activeSpellLevel}'][${i}].source=this.value;">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Description</label>
-          <textarea style="min-height:80px;" onchange="char.spells['${activeSpellLevel}'][${i}].description=this.value;">${esc(sp.description||'')}</textarea>
-        </div>
-        ${activeSpellLevel === 'cantrips' ? `
-        <div class="form-group" style="margin-top:8px;">
-          <label>Cantrip Upgrade</label>
-          <textarea style="min-height:40px;" onchange="char.spells['${activeSpellLevel}'][${i}].cantripUpgrade=this.value;">${esc(sp.cantripUpgrade||'')}</textarea>
-        </div>` : `
-        <div class="form-group" style="margin-top:8px;">
-          <label>At Higher Levels</label>
-          <textarea style="min-height:40px;" onchange="char.spells['${activeSpellLevel}'][${i}].higherLevel=this.value;">${esc(sp.higherLevel||'')}</textarea>
-        </div>`}
-      </div>
+  el.innerHTML = '<div class="card-grid-3">' + spells.map((sp, i) => `
+    <div class="grid-card" onclick="openSpellModal(${i})" style="${sp.prepared ? 'border-color:var(--accent-gold);' : ''}">
+      <div class="grid-card-name">${esc(sp.name) || 'Unnamed Spell'}</div>
+      <div class="grid-card-meta">${esc(sp.level||'—')}</div>
+      <div class="grid-card-meta">${sp.prepared ? '✦ Prepared' : ''}</div>
     </div>
-  `).join('');
+  `).join('') + '</div>';
 }
 
-function addSpell() {
-  const sp = { name:'', source:'', level:'', classes:'', castingTime:'', range:'', components:'', duration:'', description:'', prepared:false };
-  if (activeSpellLevel === 'cantrips') sp.cantripUpgrade = '';
-  else sp.higherLevel = '';
-  char.spells[activeSpellLevel].push(sp);
-  renderSpellsList();
-  updateSpellLevelCounts();
-}
+function addSpell() { openSpellModal(-1); }
 
 function removeSpell(i) {
   char.spells[activeSpellLevel].splice(i, 1);
+  closeModal();
   renderSpellsList();
   updateSpellLevelCounts();
+  scheduleCharSave();
+}
+
+function openSpellModal(i) {
+  const isNew = i === -1;
+  if (isNew) {
+    const sp = { name:'', source:'', level:'', classes:'', castingTime:'', range:'', components:'', duration:'', description:'', prepared:false };
+    if (activeSpellLevel === 'cantrips') sp.cantripUpgrade = '';
+    else sp.higherLevel = '';
+    char.spells[activeSpellLevel].push(sp);
+    i = char.spells[activeSpellLevel].length - 1;
+  }
+  const sp = char.spells[activeSpellLevel][i];
+  const isCantrip = activeSpellLevel === 'cantrips';
+  const overlay = document.getElementById('modal-overlay');
+  overlay.innerHTML = `<div class="modal-box">
+    <div class="modal-title gold">✦ ${isNew ? 'New Spell' : 'Edit Spell'}</div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Spell Name</label>
+        <input type="text" id="sm_name" value="${esc(sp.name)}" placeholder="Spell name">
+      </div>
+      <div class="form-group">
+        <label>School / Level</label>
+        <input type="text" id="sm_level" value="${esc(sp.level||'')}" placeholder="e.g. Level 1 Evocation">
+      </div>
+    </div>
+    <div class="form-row cols-3">
+      <div class="form-group">
+        <label>Casting Time</label>
+        <input type="text" id="sm_castingTime" value="${esc(sp.castingTime||'')}" placeholder="e.g. 1 action">
+      </div>
+      <div class="form-group">
+        <label>Range</label>
+        <input type="text" id="sm_range" value="${esc(sp.range||'')}" placeholder="e.g. 60 feet">
+      </div>
+      <div class="form-group">
+        <label>Duration</label>
+        <input type="text" id="sm_duration" value="${esc(sp.duration||'')}" placeholder="e.g. Instantaneous">
+      </div>
+    </div>
+    <div class="form-row cols-3">
+      <div class="form-group">
+        <label>Components</label>
+        <input type="text" id="sm_components" value="${esc(sp.components||'')}" placeholder="V, S, M (...)">
+      </div>
+      <div class="form-group">
+        <label>Classes</label>
+        <input type="text" id="sm_classes" value="${esc(sp.classes||'')}" placeholder="e.g. Wizard, Sorcerer">
+      </div>
+      <div class="form-group">
+        <label>Source</label>
+        <input type="text" id="sm_source" value="${esc(sp.source||'')}" placeholder="e.g. Player's Handbook">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="sm_description" style="min-height:80px;">${esc(sp.description||'')}</textarea>
+    </div>
+    <div class="form-group" style="margin-top:8px;">
+      <label>${isCantrip ? 'Cantrip Upgrade' : 'At Higher Levels'}</label>
+      <textarea id="sm_upgrade" style="min-height:40px;">${esc(isCantrip ? (sp.cantripUpgrade||'') : (sp.higherLevel||sp.atHigherLevels||''))}</textarea>
+    </div>
+    <div class="form-group" style="margin-top:8px;">
+      <label style="display:flex;align-items:center;gap:8px;">
+        <input type="checkbox" id="sm_prepared" ${sp.prepared?'checked':''}> Prepared
+      </label>
+    </div>
+    <div class="modal-footer-split">
+      <button class="btn btn-danger btn-sm" onclick="removeSpell(${i})">Delete</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-sm" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveSpellModal(${i})">Save</button>
+      </div>
+    </div>
+  </div>`;
+  overlay.classList.add('open');
+}
+
+function saveSpellModal(i) {
+  const sp = char.spells[activeSpellLevel][i];
+  const isCantrip = activeSpellLevel === 'cantrips';
+  sp.name = document.getElementById('sm_name').value;
+  sp.level = document.getElementById('sm_level').value;
+  sp.castingTime = document.getElementById('sm_castingTime').value;
+  sp.range = document.getElementById('sm_range').value;
+  sp.duration = document.getElementById('sm_duration').value;
+  sp.components = document.getElementById('sm_components').value;
+  sp.classes = document.getElementById('sm_classes').value;
+  sp.source = document.getElementById('sm_source').value;
+  sp.description = document.getElementById('sm_description').value;
+  sp.prepared = document.getElementById('sm_prepared').checked;
+  if (isCantrip) sp.cantripUpgrade = document.getElementById('sm_upgrade').value;
+  else sp.higherLevel = document.getElementById('sm_upgrade').value;
+  closeModal();
+  renderSpellsList();
+  updateSpellLevelCounts();
+  scheduleCharSave();
 }
 
 function updateSpellLevelCounts() {
@@ -2284,7 +2314,7 @@ function showLibrarySearchModal(section) {
         const levelKey = item.level === 0 ? 'cantrips' : `level${item.level}`;
         const spell = {
           name: item.name,
-          schoolLevel: `Level ${item.level} ${item.school}`,
+          level: item.level === 0 ? `Cantrip · ${item.school||''}` : `Level ${item.level} · ${item.school||''}`,
           castingTime: item.castingTime||'',
           range: item.range||'',
           duration: item.duration||'',
@@ -2292,7 +2322,7 @@ function showLibrarySearchModal(section) {
           classes: item.classes||'',
           source: item.source||'',
           description: item.description||'',
-          atHigherLevels: item.atHigherLevels||'',
+          higherLevel: item.atHigherLevels||'',
           cantripUpgrade: item.cantripUpgrade||'',
           prepared: false
         };

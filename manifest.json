@@ -1,6 +1,6 @@
 {
-  "name": "D&D 5e Toolkit",
-  "short_name": "DnD Toolkit",
+  "name": "Guildhall",
+  "short_name": "Guildhall",
   "description": "Combat Tracker, Monster Creator, Character Creator, Character Sheet, and Asset Library for D&D 5e",
   "start_url": "./index.html",
   "display": "standalone",
