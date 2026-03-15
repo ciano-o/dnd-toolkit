@@ -2339,6 +2339,16 @@ function migrateResource(res) {
 function migrateCharData() {
   if (char.features?.length) char.features = char.features.map(migrateFeature);
   if (char.resources?.length) char.resources = char.resources.map(migrateResource);
+  // Normalize old boolean skill format to {proficiency, expertise}
+  const skills = char.proficiencies?.skills;
+  if (skills) {
+    for (const key of Object.keys(skills)) {
+      const val = skills[key];
+      if (typeof val === 'boolean') {
+        skills[key] = { proficiency: val, expertise: false };
+      }
+    }
+  }
 }
 
 function loadCharacter(data) {

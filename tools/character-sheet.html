@@ -1272,6 +1272,32 @@ body {
   color: var(--parchment);
 }
 
+/* ─── EQUIPMENT TABS ─── */
+.equip-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 8px;
+  border-bottom: 2px solid var(--parchment-shadow);
+}
+.equip-tab {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 5px 14px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--ink-faded);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.equip-tab.active {
+  color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+}
+
 /* ─── LOAD BUTTON ─── */
 .load-area {
   text-align: center;
@@ -1431,7 +1457,12 @@ body {
   <!-- Equipment -->
   <div class="sheet-section-full" id="equipmentSection">
     <div class="section-title" style="font-size:15px;">Equipment</div>
+    <div class="equip-tabs">
+      <button class="equip-tab active" id="equipTabItems" onclick="switchEquipTab('items')">Items</button>
+      <button class="equip-tab" id="equipTabConsumables" onclick="switchEquipTab('consumables')">Consumables</button>
+    </div>
     <div id="equipmentList"></div>
+    <div id="consumablesList" style="display:none;"></div>
   </div>
 
   <!-- Notes -->
@@ -1981,7 +2012,8 @@ function renderSpellLists(data) {
               <div><span class="sd-label">Source:</span> <span class="sd-val">${sp.source || ''}</span></div>
             </div>
             <div class="spell-description">${sp.description || ''}</div>
-            ${sp.cantripUpgrade ? `<div style="margin-top:6px;font-style:italic;color:var(--accent-gold);">${sp.cantripUpgrade}</div>` : ''}
+            ${sp.higherLevel ? `<div style="margin-top:6px;font-style:italic;color:var(--ink-faded);"><span style="font-weight:700;font-style:normal;">At Higher Levels:</span> ${sp.higherLevel}</div>` : ''}
+            ${sp.cantripUpgrade ? `<div style="margin-top:6px;font-style:italic;color:var(--accent-gold);"><span style="font-weight:700;font-style:normal;">Cantrip Upgrade:</span> ${sp.cantripUpgrade}</div>` : ''}
           </div>
         </div>`;
       }).join('');
@@ -2024,7 +2056,6 @@ function renderFeatures(data) {
         <div class="feature-card-toggle" id="${id}_toggle">▼</div>
       </div>
       <div class="feature-card-body" id="${id}_body">
-        ${meta.length ? `<div class="feature-meta">${meta.join(' · ')}</div>` : ''}
         ${feat.description || 'No description.'}
       </div>
     </div>`;
@@ -2074,33 +2105,28 @@ function changeQty(i, val) {
   saveSheetState();
 }
 
-function renderEquipment(data) {
-  const el = document.getElementById('equipmentList');
-  const items = (data.equipment?.items || []).filter(it => it && (typeof it === 'object' ? it.name : it));
-  if (!items.length) {
-    el.innerHTML = '<div style="font-size:12px;color:var(--ink-faded);padding:4px 0;">No items.</div>';
-    return;
-  }
-  el.innerHTML = `<div class="equip-table">
+function buildEquipTable(items, globalIndices) {
+  if (!items.length) return '<div style="font-size:12px;color:var(--ink-faded);padding:4px 0;">None.</div>';
+  return `<div class="equip-table">
     <div class="equip-header">
       <span style="flex:1;">Name</span>
       <span style="width:40px;text-align:center;">Qty</span>
       <span style="width:80px;text-align:center;">Rarity</span>
       <span style="width:64px;text-align:center;">Equipped</span>
     </div>
-    ${items.map((item, i) => {
+    ${items.map((item, idx) => {
+      const i = globalIndices[idx];
       const name = typeof item === 'string' ? item : (item.name || '—');
       const qty = typeof item === 'object' ? (item.quantity ?? 1) : 1;
       const rarity = typeof item === 'object' ? (item.rarity || 'Common') : 'Common';
       const equipped = typeof item === 'object' ? !!item.equipped : false;
-      const consumable = typeof item === 'object' ? !!item.consumable : false;
       const notes = typeof item === 'object' ? (item.notes || '') : '';
       const description = typeof item === 'object' ? (item.description || '') : '';
       const rarityColor = RARITY_COLORS[rarity] || RARITY_COLORS['Common'];
       const extraLine = [description, notes].filter(Boolean).join(' — ');
       return `<div class="equip-row ${equipped ? 'equip-row-equipped' : ''}">
         <div style="flex:1;min-width:0;">
-          <span class="equip-name">${name}</span>${consumable ? '<span class="equip-consumable-tag">consumable</span>' : ''}
+          <span class="equip-name">${name}</span>
           ${extraLine ? `<div class="equip-extra">${extraLine}</div>` : ''}
         </div>
         <div style="width:40px;text-align:center;">
@@ -2115,6 +2141,29 @@ function renderEquipment(data) {
       </div>`;
     }).join('')}
   </div>`;
+}
+
+function renderEquipment(data) {
+  const allItems = (data.equipment?.items || []).filter(it => it && (typeof it === 'object' ? it.name : it));
+  const regularItems = [], regularIdx = [], consumableItems = [], consumableIdx = [];
+  allItems.forEach((item, i) => {
+    if (typeof item === 'object' && item.consumable) {
+      consumableItems.push(item); consumableIdx.push(i);
+    } else {
+      regularItems.push(item); regularIdx.push(i);
+    }
+  });
+  document.getElementById('equipmentList').innerHTML = buildEquipTable(regularItems, regularIdx);
+  document.getElementById('consumablesList').innerHTML = buildEquipTable(consumableItems, consumableIdx);
+}
+
+let activeEquipTab = 'items';
+function switchEquipTab(tab) {
+  activeEquipTab = tab;
+  document.getElementById('equipmentList').style.display = tab === 'items' ? '' : 'none';
+  document.getElementById('consumablesList').style.display = tab === 'consumables' ? '' : 'none';
+  document.getElementById('equipTabItems').classList.toggle('active', tab === 'items');
+  document.getElementById('equipTabConsumables').classList.toggle('active', tab === 'consumables');
 }
 
 function renderNotes(data) {
