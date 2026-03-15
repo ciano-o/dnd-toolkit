@@ -894,6 +894,7 @@ body {
         <input type="file" accept=".json" id="fileInput" style="display:none;">
       </label>
       <button class="btn btn-success" onclick="exportJSON()">💾 Export JSON</button>
+      <button class="btn" onclick="downloadPrintSheet()" style="background:#5a7a5a;color:#f5f0e1;border-color:#3d5a3d;">🖨 Print Sheet</button>
       <button class="btn btn-danger btn-sm" onclick="resetAll();">Reset</button>
     </div>
   </div>
@@ -2293,6 +2294,389 @@ function exportJSON() {
   a.click();
   URL.revokeObjectURL(url);
   showToast(`Exported ${safeName}.json`);
+}
+
+// ═══════════════════════════════════════════
+// PRINT SHEET (Markdown)
+// ═══════════════════════════════════════════
+function downloadPrintSheet() {
+  collectFormData();
+  const md = buildMarkdownSheet(char);
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safeName = (char.basic.name || 'character').replace(/[^a-zA-Z0-9_'-]/g, '_');
+  a.href = url;
+  a.download = `${safeName}_sheet.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast(`Downloaded ${safeName}_sheet.md`);
+}
+
+function buildMarkdownSheet(char) {
+  const b = char.basic || {};
+  const ab = char.abilities || {};
+  const co = char.combat || {};
+  const pr = char.proficiencies || {};
+  const sp = char.spellcasting || {};
+  const spells = char.spells || {};
+  const eq = char.equipment || {};
+  const pe = char.personality || {};
+  const features = char.features || [];
+  const resources = char.resources || [];
+  const attacks = char.attacks || [];
+  const skillMap = pr.skills || {};
+  const profBonus = pr.proficiencyBonus || 2;
+  const saves = pr.savingThrows || [];
+
+  function sign(n) { n = Number(n); return n >= 0 ? '+' + n : String(n); }
+  function abilMod(score) { return Math.floor(((score || 10) - 10) / 2); }
+  function chk(bool) { return bool ? '[x]' : '[ ]'; }
+
+  const ABILITIES = [
+    {key:'str', label:'Strength'},
+    {key:'dex', label:'Dexterity'},
+    {key:'con', label:'Constitution'},
+    {key:'int', label:'Intelligence'},
+    {key:'wis', label:'Wisdom'},
+    {key:'cha', label:'Charisma'},
+  ];
+
+  const SKILLS = [
+    {key:'acrobatics',     label:'Acrobatics',     ability:'dex'},
+    {key:'animalHandling', label:'Animal Handling', ability:'wis'},
+    {key:'arcana',         label:'Arcana',          ability:'int'},
+    {key:'athletics',      label:'Athletics',       ability:'str'},
+    {key:'deception',      label:'Deception',       ability:'cha'},
+    {key:'history',        label:'History',         ability:'int'},
+    {key:'insight',        label:'Insight',         ability:'wis'},
+    {key:'intimidation',   label:'Intimidation',    ability:'cha'},
+    {key:'investigation',  label:'Investigation',   ability:'int'},
+    {key:'medicine',       label:'Medicine',        ability:'wis'},
+    {key:'nature',         label:'Nature',          ability:'int'},
+    {key:'perception',     label:'Perception',      ability:'wis'},
+    {key:'performance',    label:'Performance',     ability:'cha'},
+    {key:'persuasion',     label:'Persuasion',      ability:'cha'},
+    {key:'religion',       label:'Religion',        ability:'int'},
+    {key:'sleightOfHand',  label:'Sleight of Hand', ability:'dex'},
+    {key:'stealth',        label:'Stealth',         ability:'dex'},
+    {key:'survival',       label:'Survival',        ability:'wis'},
+  ];
+
+  function skillTotal(sk) {
+    const base = abilMod(ab[sk.ability]);
+    const s = skillMap[sk.key] || {};
+    if (s.expertise) return base + profBonus * 2;
+    if (s.proficiency) return base + profBonus;
+    return base;
+  }
+
+  function saveTotal(abilKey) {
+    const base = abilMod(ab[abilKey]);
+    return saves.includes(abilKey) ? base + profBonus : base;
+  }
+
+  const out = [];
+  function ln(s = '') { out.push(s === undefined ? '' : s); }
+  function hr() { ln('---'); ln(); }
+
+  // ═══════════════════════════════════════════
+  // HEADER
+  // ═══════════════════════════════════════════
+  ln(`# ${b.name || 'Unnamed Character'}`);
+  ln();
+  const meta = [
+    b.class      ? `**Class:** ${b.class}`           : null,
+    b.level      ? `**Level:** ${b.level}`           : null,
+    b.race       ? `**Race:** ${b.race}`             : null,
+    b.background ? `**Background:** ${b.background}` : null,
+    b.alignment  ? `**Alignment:** ${b.alignment}`   : null,
+    b.experiencePoints ? `**XP:** ${b.experiencePoints}` : null,
+  ].filter(Boolean).join('  |  ');
+  if (meta) ln(meta);
+  ln();
+  hr();
+
+  // ═══════════════════════════════════════════
+  // ABILITY SCORES
+  // ═══════════════════════════════════════════
+  ln('## Ability Scores');
+  ln();
+  ln('| Ability | Score | Modifier |');
+  ln('|---------|:-----:|:--------:|');
+  for (const a of ABILITIES) {
+    const score = ab[a.key] || 10;
+    ln(`| ${a.label} | ${score} | ${sign(abilMod(score))} |`);
+  }
+  ln();
+  hr();
+
+  // ═══════════════════════════════════════════
+  // COMBAT
+  // ═══════════════════════════════════════════
+  ln('## Combat');
+  ln();
+  const hitDiceStr = (co.hitDice || []).map(d => `${d.total || 1}${d.type || 'd8'}`).join(', ') || '_____';
+  ln(`**Armor Class:** ${co.armorClass || '_____'}  |  **Initiative:** ${sign(co.initiative || 0)}  |  **Speed:** ${co.speed || '_____'}`);
+  ln();
+  ln(`**HP Max:** ${co.maxHP || '_____'}  |  **Current HP:** _____  |  **Temp HP:** _____`);
+  ln();
+  ln(`**Hit Dice:** ${hitDiceStr}  |  **Proficiency Bonus:** ${sign(profBonus)}`);
+  ln();
+  ln('**Death Saves:** Successes: `[ ] [ ] [ ]`  |  Failures: `[ ] [ ] [ ]`');
+  ln();
+  hr();
+
+  // ═══════════════════════════════════════════
+  // SAVING THROWS
+  // ═══════════════════════════════════════════
+  ln('## Saving Throws');
+  ln();
+  for (const a of ABILITIES) {
+    const prof = saves.includes(a.key);
+    ln(`- ${chk(prof)} **${a.label}** ${sign(saveTotal(a.key))}`);
+  }
+  ln();
+  hr();
+
+  // ═══════════════════════════════════════════
+  // SKILLS
+  // ═══════════════════════════════════════════
+  ln('## Skills');
+  ln();
+  const percMod = skillTotal({key:'perception', ability:'wis'});
+  ln(`**Passive Perception:** ${10 + percMod}`);
+  ln();
+  for (const sk of SKILLS) {
+    const s = skillMap[sk.key] || {};
+    const prof = s.proficiency || s.expertise;
+    const tag = s.expertise ? ' *(expertise)*' : (s.proficiency ? ' *(prof)*' : '');
+    ln(`- ${chk(prof)} **${sk.label}**${tag} (${sk.ability.toUpperCase()}) ${sign(skillTotal(sk))}`);
+  }
+  ln();
+  hr();
+
+  // ═══════════════════════════════════════════
+  // ATTACKS
+  // ═══════════════════════════════════════════
+  ln('## Attacks');
+  ln();
+  ln('| Name | Attack Bonus | Damage / Type | Notes |');
+  ln('|------|:------------:|---------------|-------|');
+  if (attacks.length) {
+    for (const atk of attacks) {
+      const atkBonus = (atk.attackBonus !== undefined && atk.attackBonus !== '') ? sign(atk.attackBonus) : '_____';
+      const dmg = [atk.damageFormula, atk.damageType].filter(Boolean).join(' ');
+      ln(`| ${atk.name || '_____'} | ${atkBonus} | ${dmg || '_____'} | ${atk.notes || ''} |`);
+    }
+  } else {
+    for (let i = 0; i < 3; i++) ln('| _____ | _____ | _____ | |');
+  }
+  ln();
+  hr();
+
+  // ═══════════════════════════════════════════
+  // SPELLCASTING
+  // ═══════════════════════════════════════════
+  const hasSpells = Object.values(spells).some(a => Array.isArray(a) && a.length > 0);
+
+  if (sp.ability || hasSpells) {
+    ln('## Spellcasting');
+    ln();
+    const abilLabel = sp.ability ? sp.ability.toUpperCase() : '_____';
+    ln(`**Spellcasting Ability:** ${abilLabel}  |  **Spell Save DC:** ${sp.saveDC || '_____'}  |  **Spell Attack Bonus:** ${sp.attackBonus ? sign(sp.attackBonus) : '_____'}`);
+    ln();
+
+    // Spell Slots
+    const slots = sp.spellSlots || {};
+    ln('### Spell Slots');
+    ln();
+    const slotLabels = ['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'];
+    ln('| ' + slotLabels.join(' | ') + ' |');
+    ln('|' + slotLabels.map(() => ':---:').join('|') + '|');
+    ln('| ' + slotLabels.map((_, i) => slots[i+1] || slots[String(i+1)] || '—').join(' | ') + ' |');
+    ln('| ' + slotLabels.map(() => '_ _').join(' | ') + ' | *(used)*');
+    ln();
+
+    // Cantrips
+    const cantrips = spells.cantrips || [];
+    ln('### Cantrips');
+    ln();
+    if (cantrips.length) {
+      for (const s of cantrips) {
+        const meta = [s.castingTime && `cast: ${s.castingTime}`, s.range && `range: ${s.range}`, s.components && s.components].filter(Boolean).join(' · ');
+        ln(`- **${s.name}**${meta ? ' — ' + meta : ''}`);
+        if (s.description) {
+          const firstPara = s.description.split(/\n\n/)[0].trim();
+          ln(`  > ${firstPara}`);
+          if (s.cantripUpgrade) ln(`  > *Cantrip Upgrade: ${s.cantripUpgrade}*`);
+        }
+      }
+    } else {
+      ln('_None_');
+    }
+    ln();
+
+    // Spell levels 1–9
+    const SPELL_LEVELS = [
+      {key:'level1', label:'1st Level', num:1},
+      {key:'level2', label:'2nd Level', num:2},
+      {key:'level3', label:'3rd Level', num:3},
+      {key:'level4', label:'4th Level', num:4},
+      {key:'level5', label:'5th Level', num:5},
+      {key:'level6', label:'6th Level', num:6},
+      {key:'level7', label:'7th Level', num:7},
+      {key:'level8', label:'8th Level', num:8},
+      {key:'level9', label:'9th Level', num:9},
+    ];
+
+    for (const sl of SPELL_LEVELS) {
+      const list = spells[sl.key] || [];
+      if (!list.length) continue;
+      ln(`### ${sl.label}`);
+      ln();
+      ln('| Prep | Name | Casting Time | Range | Components | Duration |');
+      ln('|:----:|------|:------------:|-------|:----------:|----------|');
+      for (const s of list) {
+        ln(`| ${chk(s.prepared)} | **${s.name}** | ${s.castingTime || ''} | ${s.range || ''} | ${s.components || ''} | ${s.duration || ''} |`);
+      }
+      ln();
+      // Full descriptions
+      for (const s of list) {
+        ln(`#### ${s.name}`);
+        if (s.school) ln(`*${[s.school, s.classes && s.classes.join(', ')].filter(Boolean).join(' — ')}*`);
+        const meta2 = [
+          s.castingTime && `**Casting Time:** ${s.castingTime}`,
+          s.range       && `**Range:** ${s.range}`,
+          s.components  && `**Components:** ${s.components}`,
+          s.duration    && `**Duration:** ${s.duration}`,
+        ].filter(Boolean).join('  |  ');
+        if (meta2) ln(meta2);
+        if (s.description) { ln(); ln(s.description); }
+        if (s.higherLevel || s.atHigherLevels) { ln(); ln(`*At Higher Levels: ${s.higherLevel || s.atHigherLevels}*`); }
+        ln();
+      }
+    }
+    hr();
+  }
+
+  // ═══════════════════════════════════════════
+  // FEATURES & TRAITS
+  // ═══════════════════════════════════════════
+  if (features.length) {
+    ln('## Features & Traits');
+    ln();
+    for (const f of features) {
+      const src = [f.sourceType, f.source].filter(Boolean).join(' · ');
+      ln(`### ${f.name || 'Unnamed Feature'}${src ? ` *(${src})*` : ''}`);
+      const fmeta = [
+        f.type       && `**Type:** ${f.type}`,
+        f.actionType && `**Action:** ${f.actionType}`,
+        f.resourceCost && `**Cost:** ${f.resourceCost}`,
+        f.requirements && `**Requires:** ${f.requirements}`,
+        f.isMovement   && f.movementCost ? `**Movement Cost:** ${f.movementCost} ft` : null,
+      ].filter(Boolean).join('  |  ');
+      if (fmeta) ln(fmeta);
+      if (f.description) { ln(); ln(f.description); }
+      ln();
+    }
+    hr();
+  }
+
+  // ═══════════════════════════════════════════
+  // RESOURCES
+  // ═══════════════════════════════════════════
+  if (resources.length) {
+    ln('## Resources');
+    ln();
+    ln('| Resource | Max | Used | Source |');
+    ln('|----------|:---:|:----:|--------|');
+    for (const r of resources) {
+      const src = [r.sourceType, r.source].filter(Boolean).join(' · ');
+      ln(`| **${r.name || '_____'}** | ${r.maximum !== undefined ? r.maximum : '—'} | _____ | ${src} |`);
+    }
+    ln();
+    for (const r of resources) {
+      if (r.description) { ln(`**${r.name}:** ${r.description}`); ln(); }
+    }
+    hr();
+  }
+
+  // ═══════════════════════════════════════════
+  // EQUIPMENT
+  // ═══════════════════════════════════════════
+  ln('## Equipment');
+  ln();
+  const cur = eq.currency || {};
+  const curParts = [
+    cur.pp ? `${cur.pp} PP` : null,
+    cur.gp ? `${cur.gp} GP` : null,
+    cur.ep ? `${cur.ep} EP` : null,
+    cur.sp ? `${cur.sp} SP` : null,
+    cur.cp ? `${cur.cp} CP` : null,
+  ].filter(Boolean);
+  ln(`**Currency:** ${curParts.length ? curParts.join(', ') : '_____'}`);
+  ln();
+
+  const items = eq.items || [];
+  if (items.length) {
+    ln('| Item | Qty | Weight | Rarity | Equipped | Notes |');
+    ln('|------|:---:|:------:|--------|:--------:|-------|');
+    for (const it of items) {
+      ln(`| **${it.name || ''}** | ${it.quantity || 1} | ${it.weight || '—'} lb | ${it.rarity || ''} | ${chk(it.equipped)} | ${it.notes || ''} |`);
+    }
+    ln();
+    for (const it of items) {
+      if (it.description) { ln(`**${it.name}:** ${it.description}`); ln(); }
+    }
+  } else {
+    ln('_No items._');
+    ln();
+  }
+  hr();
+
+  // ═══════════════════════════════════════════
+  // PROFICIENCIES & LANGUAGES
+  // ═══════════════════════════════════════════
+  ln('## Proficiencies & Languages');
+  ln();
+  const profParts = [
+    pr.armor    && pr.armor.length    ? `**Armor:** ${pr.armor.join(', ')}`       : null,
+    pr.weapons  && pr.weapons.length  ? `**Weapons:** ${pr.weapons.join(', ')}`   : null,
+    pr.tools    && pr.tools.length    ? `**Tools:** ${pr.tools.join(', ')}`       : null,
+    pr.languages && pr.languages.length ? `**Languages:** ${pr.languages.join(', ')}` : null,
+  ].filter(Boolean);
+  for (const p of profParts) ln(p);
+  if (!profParts.length) ln('_None listed._');
+  ln();
+  hr();
+
+  // ═══════════════════════════════════════════
+  // PERSONALITY
+  // ═══════════════════════════════════════════
+  ln('## Personality');
+  ln();
+  ln(`**Traits:** ${pe.traits || '_____'}`);
+  ln();
+  ln(`**Ideals:** ${pe.ideals || '_____'}`);
+  ln();
+  ln(`**Bonds:** ${pe.bonds || '_____'}`);
+  ln();
+  ln(`**Flaws:** ${pe.flaws || '_____'}`);
+  ln();
+  if (pe.appearance) { ln(`**Appearance:** ${pe.appearance}`); ln(); }
+  if (pe.backstory)  { ln('**Backstory:**'); ln(); ln(pe.backstory); ln(); }
+  hr();
+
+  // ═══════════════════════════════════════════
+  // NOTES
+  // ═══════════════════════════════════════════
+  ln('## Notes');
+  ln();
+  if (char.notes) ln(char.notes);
+  ln();
+
+  return out.join('\n');
 }
 
 // ═══════════════════════════════════════════

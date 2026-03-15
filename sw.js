@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dnd-toolkit-v3.3.3';
+const CACHE_NAME = 'dnd-toolkit-v3.3.4';
 const ASSETS = [
   './',
   './index.html',
@@ -45,7 +45,10 @@ const ASSETS = [
   "./data/players/Ja'Liss.json",
   './data/players/Krusko.json',
   './data/players/Ofis_Altamont.json',
+  './data/players/Pagliasferraglia.json',
+  './data/players/Zara.json',
   './data/players/Selene.json'
+
 ];
 
 // Install: cache core assets
