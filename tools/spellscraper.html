@@ -121,10 +121,6 @@ textarea::placeholder{color:var(--ink-faded);opacity:0.6}
     <p>Fetch spells, magic items, and monsters from aidedd.org and export as JSON</p>
   </div>
 
-  <div class="notice">
-    <strong>Note:</strong> Fetches route through free CORS proxies — requests are throttled to avoid rate-limiting. Large batches (100+ entries) take a few minutes. On 429 errors the tool retries with a backup proxy automatically.
-  </div>
-
   <div class="type-tabs">
     <button class="tab-btn active" id="tab-spells"   onclick="setTab('spells')">Spells</button>
     <button class="tab-btn"        id="tab-items"    onclick="setTab('items')">Magic Items</button>
