@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#2c2418">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Scryscraper · D&D Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --parchment:#f5f0e1;--parchment-dark:#e8dcc8;--parchment-shadow:#d4c5a9;
+  --ink:#1a1410;--ink-faded:#6b5d4d;
+  --accent-red:#8b1a1a;--accent-gold:#b8860b;--accent-gold-light:#d4a940;
+  --border-dark:#2c2418;--stat-bg:#2c2418;--stat-text:#f5f0e1;
+  --sb-red:#922610;--sb-rule:#e69a28;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--stat-bg);font-family:'Alegreya',Georgia,serif;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:40px}
+
+/* Header */
+.top-bar{width:100%;background:rgba(0,0,0,0.3);border-bottom:1px solid rgba(255,255,255,0.08);padding:10px 20px;display:flex;align-items:center;gap:12px}
+.back-btn{font-family:'Cinzel',serif;font-size:12px;color:var(--accent-gold);text-decoration:none;letter-spacing:1px;opacity:0.8;transition:opacity 0.15s}
+.back-btn:hover{opacity:1}
+.top-title{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--stat-text);letter-spacing:1px}
+
+/* Container */
+.container{width:100%;max-width:800px;padding:28px 20px 0}
+
+.tool-header{text-align:center;margin-bottom:28px}
+.tool-header h1{font-family:'Cinzel',serif;font-size:26px;font-weight:900;color:var(--accent-gold-light);letter-spacing:2px;margin-bottom:6px}
+.tool-header p{font-size:15px;color:rgba(255,255,255,0.5);font-style:italic}
+
+/* Type tabs */
+.type-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tab-btn{
+  font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:1px;
+  padding:8px 18px;border:2px solid var(--parchment-shadow);border-radius:6px;
+  background:var(--parchment-dark);color:var(--ink-faded);
+  cursor:pointer;transition:all 0.15s;text-transform:uppercase;
+}
+.tab-btn:hover{border-color:var(--accent-gold);color:var(--ink)}
+.tab-btn.active{background:var(--sb-red);border-color:var(--sb-red);color:var(--stat-text)}
+
+/* Panel */
+.panel{background:var(--parchment);border:2px solid var(--parchment-shadow);border-radius:10px;padding:24px;margin-bottom:20px;position:relative}
+.panel::before{content:'';position:absolute;inset:4px;border:1px solid rgba(0,0,0,0.06);border-radius:7px;pointer-events:none}
+.panel-title{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--sb-red);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px}
+
+label{display:block;font-family:'Alegreya SC',serif;font-size:13px;color:var(--ink-faded);margin-bottom:6px}
+textarea{
+  width:100%;min-height:120px;padding:10px 12px;
+  background:rgba(0,0,0,0.04);border:1px solid var(--parchment-shadow);border-radius:6px;
+  font-family:'Alegreya',serif;font-size:15px;color:var(--ink);
+  resize:vertical;line-height:1.6;
+}
+textarea:focus{outline:none;border-color:var(--accent-gold)}
+textarea::placeholder{color:var(--ink-faded);opacity:0.6}
+.hint{font-size:13px;color:var(--ink-faded);margin-top:8px;font-style:italic}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Cinzel',serif;font-size:13px;font-weight:700;letter-spacing:1px;
+  padding:10px 22px;border:none;border-radius:6px;cursor:pointer;
+  transition:all 0.15s;text-transform:uppercase;
+}
+.btn-primary{background:var(--sb-red);color:var(--stat-text)}
+.btn-primary:hover:not(:disabled){background:#a82020;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
+.btn-stop{background:#555;color:#eee}
+.btn-stop:hover:not(:disabled){background:#666;transform:translateY(-1px)}
+.btn-stop:disabled{opacity:0.5;cursor:not-allowed}
+.btn-download{background:var(--accent-gold);color:#1a1410}
+.btn-download:hover:not(:disabled){background:var(--accent-gold-light);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.btn-download:disabled{opacity:0.4;cursor:not-allowed}
+
+.btn-row{display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap}
+
+/* Progress */
+.progress-bar-wrap{width:100%;height:6px;background:rgba(0,0,0,0.1);border-radius:3px;margin-top:14px;overflow:hidden;display:none}
+.progress-bar-fill{height:100%;background:var(--sb-rule);border-radius:3px;transition:width 0.3s;width:0%}
+
+/* Results */
+.results-panel{display:none}
+.results-summary{font-family:'Alegreya SC',serif;font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:12px;letter-spacing:0.5px}
+.result-row{background:var(--parchment);border:1px solid var(--parchment-shadow);border-radius:8px;margin-bottom:10px;overflow:hidden}
+.result-row.error-row{border-color:#c0a0a0;background:#fdf4f4}
+.result-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none;transition:background 0.1s}
+.result-header:hover{background:rgba(0,0,0,0.04)}
+.result-status{font-size:16px;flex-shrink:0}
+.result-name{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--sb-red);flex:1}
+.result-row.error-row .result-name{color:#8b2020}
+.result-meta{font-size:13px;color:var(--ink-faded);font-style:italic}
+.result-toggle{font-size:12px;color:var(--accent-gold);font-family:'Cinzel',serif;font-weight:700;letter-spacing:1px;flex-shrink:0}
+.result-row.error-row .result-toggle{display:none}
+.result-body{display:none;border-top:1px solid var(--parchment-shadow);padding:14px}
+.result-body pre{font-family:'Courier New',monospace;font-size:12px;color:var(--ink);background:rgba(0,0,0,0.05);border-radius:5px;padding:12px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;line-height:1.6}
+.result-error-msg{font-size:14px;color:#8b2020;font-style:italic;padding:4px 0 0}
+
+/* Download row */
+.download-row{display:flex;align-items:center;gap:16px;margin-top:6px;flex-wrap:wrap}
+.download-count{font-family:'Alegreya SC',serif;font-size:14px;color:rgba(255,255,255,0.6)}
+
+/* Notice */
+.notice{background:rgba(184,134,11,0.12);border:1px solid rgba(184,134,11,0.35);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6}
+.notice strong{color:var(--accent-gold-light)}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a class="back-btn" href="../index.html">← Guildhall</a>
+  <span style="color:rgba(255,255,255,0.2)">|</span>
+  <span class="top-title">Scryscraper</span>
+</div>
+
+<div class="container">
+
+  <div class="tool-header">
+    <h1>🔮 Scryscraper</h1>
+    <p>Fetch spells, magic items, and monsters from aidedd.org and export as JSON</p>
+  </div>
+
+  <div class="notice">
+    <strong>Note:</strong> Fetches route through free CORS proxies — requests are throttled to avoid rate-limiting. Large batches (100+ entries) take a few minutes. On 429 errors the tool retries with a backup proxy automatically.
+  </div>
+
+  <div class="type-tabs">
+    <button class="tab-btn active" id="tab-spells"   onclick="setTab('spells')">Spells</button>
+    <button class="tab-btn"        id="tab-items"    onclick="setTab('items')">Magic Items</button>
+    <button class="tab-btn"        id="tab-monsters" onclick="setTab('monsters')">Monsters</button>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title" id="panel-title">Spell Slugs</div>
+    <label for="slug-input">One slug per line — the final part of the aidedd.org URL</label>
+    <textarea id="slug-input" placeholder="fireball&#10;eldritch-blast&#10;cure-wounds&#10;misty-step"></textarea>
+    <p class="hint" id="slug-hint">e.g. for https://www.aidedd.org/spell/<strong>fireball</strong> → enter <strong>fireball</strong></p>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="scrape-btn" onclick="startScrape()">Scrape Spells</button>
+      <button class="btn btn-stop"    id="stop-btn"   onclick="stopScrape()" style="display:none">⏹ Stop</button>
+      <span id="scrape-status" style="font-size:13px;color:rgba(255,255,255,0.45);font-style:italic"></span>
+    </div>
+    <div class="progress-bar-wrap" id="progress-wrap">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <div class="results-panel" id="results-panel">
+    <div class="results-summary" id="results-summary"></div>
+    <div id="results-list"></div>
+    <div class="download-row">
+      <button class="btn btn-download" id="download-btn" disabled onclick="downloadJSON()">↓ Download JSON</button>
+      <span class="download-count" id="download-count"></span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── Config ───────────────────────────────────────────────────────────────────
+
+const PROXIES = [
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+];
+
+const DELAY_MS   = 1000;
+const RETRY_WAIT = 2500;
+
+const TYPES = {
+  spells:   { base: 'https://www.aidedd.org/spell/',       label: 'spell',   parse: parseSpellHTML   },
+  items:    { base: 'https://www.aidedd.org/magic-item/',  label: 'item',    parse: parseItemHTML    },
+  monsters: { base: 'https://www.aidedd.org/monster/',     label: 'monster', parse: parseMonsterHTML },
+};
+
+const TAB_CONFIG = {
+  spells: {
+    title:       'Spell Slugs',
+    btnText:     'Scrape Spells',
+    placeholder: 'fireball\neldritch-blast\ncure-wounds\nmisty-step',
+    hint:        'e.g. for https://www.aidedd.org/spell/<strong>fireball</strong> → enter <strong>fireball</strong>',
+  },
+  items: {
+    title:       'Item Slugs',
+    btnText:     'Scrape Items',
+    placeholder: 'bag-of-beans\ncloak-of-protection\nring-of-protection',
+    hint:        'e.g. for https://www.aidedd.org/magic-item/<strong>bag-of-beans</strong> → enter <strong>bag-of-beans</strong>',
+  },
+  monsters: {
+    title:       'Monster Slugs',
+    btnText:     'Scrape Monsters',
+    placeholder: 'ancient-gold-dragon\ngoblin\nbeholder',
+    hint:        'e.g. for https://www.aidedd.org/monster/<strong>goblin</strong> → enter <strong>goblin</strong>',
+  },
+};
+
+let _activeTab = 'spells';
+let _results   = [];   // { slug, ok, data?, error? }
+let _stopFlag  = false;
+
+// ─── Utilities ────────────────────────────────────────────────────────────────
+
+function esc(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ─── Tab switching ────────────────────────────────────────────────────────────
+
+function setTab(type) {
+  _activeTab = type;
+  ['spells', 'items', 'monsters'].forEach(t =>
+    document.getElementById(`tab-${t}`).classList.toggle('active', t === type)
+  );
+  const cfg = TAB_CONFIG[type];
+  document.getElementById('panel-title').textContent    = cfg.title;
+  document.getElementById('scrape-btn').textContent     = cfg.btnText;
+  document.getElementById('slug-input').placeholder     = cfg.placeholder;
+  document.getElementById('slug-hint').innerHTML        = cfg.hint;
+  // Clear previous results when switching tabs
+  document.getElementById('results-panel').style.display = 'none';
+}
+
+// ─── Fetch ────────────────────────────────────────────────────────────────────
+
+async function fetchHTML(slug) {
+  const url = TYPES[_activeTab].base + slug.trim();
+  let lastError = null;
+  for (const makeProxy of PROXIES) {
+    try {
+      const res = await fetch(makeProxy(url));
+      if (res.status === 429) {
+        lastError = new Error('Rate limited (429)');
+        await sleep(RETRY_WAIT);
+        continue;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      if (!text || text.length < 200) throw new Error('Empty response — check slug');
+      return text;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError ?? new Error('All proxies failed');
+}
+
+// ─── Spell parser ─────────────────────────────────────────────────────────────
+
+function parseSpellHTML(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+
+  const h1 = doc.querySelector('h1');
+  if (!h1) throw new Error('Spell name not found');
+  const name = h1.textContent.trim();
+
+  const ecoleEl = doc.querySelector('.ecole');
+  if (!ecoleEl) throw new Error('School/level block (.ecole) not found');
+  const ecole = ecoleEl.textContent.trim();
+  const ecoleMatch = ecole.match(/Level\s+(\d+)\s+([\w\s]+?)\s*\((.+)\)/);
+  if (!ecoleMatch) throw new Error(`Unexpected school format: "${ecole}"`);
+  const level   = parseInt(ecoleMatch[1], 10);
+  const school  = ecoleMatch[2].trim();
+  const classes = ecoleMatch[3].trim();
+
+  function fieldText(selector, label) {
+    const el = doc.querySelector(selector);
+    if (!el) throw new Error(`Missing field: ${label}`);
+    return el.textContent.replace(label, '').replace(':', '').trim();
+  }
+
+  const castingTime = fieldText('.t', 'Casting Time');
+  const range       = fieldText('.r', 'Range');
+  const components  = fieldText('.c', 'Components');
+  const duration    = fieldText('.d', 'Duration');
+  const source      = doc.querySelector('.source')?.textContent.trim() ?? '';
+
+  const descEl = doc.querySelector('.description');
+  if (!descEl) throw new Error('Description block not found');
+  descEl.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+
+  const CANTRIP_LABEL = 'Cantrip Upgrade';
+  const HIGHER_LABEL  = 'Using a Higher-Level Spell Slot';
+  let description = '', extra = null, extraKey = null;
+
+  const divider = [...descEl.querySelectorAll('strong em')].find(el =>
+    el.textContent.includes(CANTRIP_LABEL) || el.textContent.includes(HIGHER_LABEL)
+  );
+
+  if (divider) {
+    extraKey = divider.textContent.includes(CANTRIP_LABEL) ? 'cantripUpgrade' : 'atHigherLevels';
+    const strongParent = divider.closest('strong');
+    let beforeText = '', afterText = '', passed = false;
+    descEl.childNodes.forEach(node => {
+      if (node === strongParent || (node.contains && node.contains(strongParent))) { passed = true; return; }
+      if (!passed) beforeText += node.textContent;
+      else         afterText  += node.textContent;
+    });
+    description = beforeText.replace(/\n+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    extra       = afterText.replace(/^\s*\.\s*/, '').replace(/\n+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  } else {
+    description = descEl.textContent.replace(/\n+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  }
+
+  const spell = { name, level, school, castingTime, range, components, duration, classes, source, description };
+  if (extra) spell[extraKey] = extra;
+  return spell;
+}
+
+// ─── Magic Item parser ────────────────────────────────────────────────────────
+
+const RARITIES = ['Very Rare', 'Legendary', 'Artifact', 'Uncommon', 'Common', 'Rare', 'Varies'];
+
+function parseItemHTML(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+
+  const h1 = doc.querySelector('h1');
+  if (!h1) throw new Error('Item name not found');
+  const name = h1.textContent.trim();
+
+  const prereqEl = doc.querySelector('.prerequis');
+  if (!prereqEl) throw new Error('.prerequis block not found');
+  const prereqText = prereqEl.textContent.trim();
+
+  let rarity = '', category = prereqText;
+  const requiresAttunement = /requires attunement/i.test(prereqText);
+
+  for (const r of RARITIES) {
+    const idx = prereqText.toLowerCase().indexOf(r.toLowerCase());
+    if (idx >= 0) {
+      rarity   = r;
+      category = prereqText.slice(0, idx).replace(/,\s*$/, '').trim();
+      break;
+    }
+  }
+
+  const descEl = doc.querySelector('.description');
+  if (!descEl) throw new Error('Description block not found');
+  const clone = descEl.cloneNode(true);
+
+  // Convert <table> to plain text
+  clone.querySelectorAll('table').forEach(table => {
+    const rows = [...table.querySelectorAll('tr')];
+    const lines = rows.map(row =>
+      [...row.querySelectorAll('th, td')].map(c => c.textContent.trim()).join(' | ')
+    );
+    table.replaceWith(document.createTextNode('\n' + lines.join('\n') + '\n'));
+  });
+
+  clone.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+
+  const description = clone.textContent.replace(/\n{3,}/g, '\n\n').trim();
+  const source = doc.querySelector('.source')?.textContent.trim() ?? '';
+
+  return { name, category, rarity, requiresAttunement, source, description };
+}
+
+// ─── Monster parser ───────────────────────────────────────────────────────────
+
+function parseMonsterHTML(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+
+  const m = {
+    name: '', size: '', type: '', alignment: '', source: '',
+    ac: 0, hp: 0, hitDice: '', initiative: '', speed: '', cr: '', gear: '',
+    abilities: {
+      str: { score: 10, save: null }, dex: { score: 10, save: null },
+      con: { score: 10, save: null }, int: { score: 10, save: null },
+      wis: { score: 10, save: null }, cha: { score: 10, save: null },
+    },
+    skills: '', resistances: '', immunities: '', vulnerabilities: '',
+    conditionImmunities: '', senses: '', languages: '',
+    traits: [], actions: [], bonusActions: [], reactions: [],
+    legendaryPreamble: '', legendaryActions: [],
+    mythicPreamble: '',    mythicActions: [],
+    lairActions: [],
+    description: '', habitat: '', treasure: '',
+  };
+
+  const h1 = doc.querySelector('h1');
+  if (!h1) throw new Error('Monster name not found');
+  m.name = h1.textContent.trim();
+
+  // Size / type / alignment from ".type" → "Gargantuan Dragon (Metallic), Lawful Good"
+  const typeEl = doc.querySelector('.type');
+  if (typeEl) {
+    const t = typeEl.textContent.trim();
+    const lastComma = t.lastIndexOf(', ');
+    if (lastComma > 0) {
+      m.alignment = t.slice(lastComma + 2).trim();
+      const st = t.slice(0, lastComma).trim();
+      const sp = st.indexOf(' ');
+      m.size = sp > 0 ? st.slice(0, sp) : st;
+      m.type = sp > 0 ? st.slice(sp + 1) : '';
+    } else {
+      m.type = t;
+    }
+  }
+
+  // Initiative → "+16 (26)" — keep just the bonus
+  const initEl = doc.querySelector('.init');
+  if (initEl) {
+    const im = initEl.textContent.match(/Initiative\s+([+\-\d]+)/);
+    if (im) m.initiative = im[1].trim();
+  }
+
+  // Helper: find a <strong> by label text and collect text until next <br> or <strong>
+  function getAfterLabel(container, label) {
+    const strongs = [...container.querySelectorAll('strong')];
+    const strong  = strongs.find(s => s.textContent.trim() === label);
+    if (!strong) return '';
+    let text = '', node = strong.nextSibling;
+    while (node) {
+      const tag = node.nodeName.toUpperCase();
+      if (tag === 'STRONG' || tag === 'BR') break;
+      text += node.textContent;
+      node  = node.nextSibling;
+    }
+    return text.trim();
+  }
+
+  const redEl = doc.querySelector('.red');
+  if (!redEl) throw new Error('Stat block (.red) not found');
+
+  // AC / HP / Speed
+  m.ac    = parseInt(getAfterLabel(redEl, 'AC')) || 0;
+  const hpText  = getAfterLabel(redEl, 'HP');
+  const hpMatch = hpText.match(/(\d+)\s*\(([^)]+)\)/);
+  m.hp      = hpMatch ? parseInt(hpMatch[1]) : parseInt(hpText) || 0;
+  m.hitDice = hpMatch ? hpMatch[2].trim() : '';
+  m.speed   = getAfterLabel(redEl, 'Speed');
+
+  // String fields
+  m.skills             = getAfterLabel(redEl, 'Skills');
+  m.immunities         = getAfterLabel(redEl, 'Immunities');
+  m.resistances        = getAfterLabel(redEl, 'Resistances');
+  m.vulnerabilities    = getAfterLabel(redEl, 'Vulnerabilities');
+  m.conditionImmunities = getAfterLabel(redEl, 'Condition Immunities');
+  m.senses             = getAfterLabel(redEl, 'Senses');
+  m.languages          = getAfterLabel(redEl, 'Languages');
+  m.cr                 = getAfterLabel(redEl, 'CR');
+  m.gear               = getAfterLabel(redEl, 'Gear');
+
+  // Ability scores
+  // car2[0..2] = STR/DEX/CON scores, car3[0..5] = STR…CON mod/save pairs
+  // car5[0..2] = INT/WIS/CHA scores, car6[0..5] = INT…CHA mod/save pairs
+  const car2 = [...redEl.querySelectorAll('.car2')].map(e => parseInt(e.textContent) || 0);
+  const car3 = [...redEl.querySelectorAll('.car3')].map(e => parseInt(e.textContent) || 0);
+  const car5 = [...redEl.querySelectorAll('.car5')].map(e => parseInt(e.textContent) || 0);
+  const car6 = [...redEl.querySelectorAll('.car6')].map(e => parseInt(e.textContent) || 0);
+
+  const allScores = [...car2.slice(0, 3), ...car5.slice(0, 3)]; // [str,dex,con,int,wis,cha]
+  const allMods   = [...car3.slice(0, 6), ...car6.slice(0, 6)]; // [strMod,strSave, dexMod,dexSave, ...]
+
+  const ABILITY_KEYS = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+  ABILITY_KEYS.forEach((key, i) => {
+    const score   = allScores[i] || 10;
+    const mod     = allMods[i * 2];
+    const saveVal = allMods[i * 2 + 1];
+    m.abilities[key] = { score, save: (saveVal !== undefined && saveVal !== mod) ? saveVal : null };
+  });
+
+  // Sections: walk .sansSerif children after .red
+  const SECTION_MAP = {
+    'traits':             'traits',
+    'actions':            'actions',
+    'bonus actions':      'bonusActions',
+    'reactions':          'reactions',
+    'legendary actions':  'legendaryActions',
+    'mythic actions':     'mythicActions',
+    'lair actions':       'lairActions',
+  };
+  const PREAMBLE_MAP = { legendaryActions: 'legendaryPreamble', mythicActions: 'mythicPreamble' };
+
+  const sansEl = doc.querySelector('.sansSerif');
+  if (sansEl) {
+    let currentSection = null;
+    let currentEntry   = null;
+
+    const flush = () => {
+      if (currentEntry && currentSection && Array.isArray(m[currentSection])) {
+        currentEntry.description = currentEntry.description.replace(/\s{2,}/g, ' ').trim();
+        m[currentSection].push(currentEntry);
+        currentEntry = null;
+      }
+    };
+
+    for (const node of sansEl.childNodes) {
+      if (node.classList?.contains('red')) continue;  // skip stat block
+
+      const tag = node.nodeName.toUpperCase();
+
+      if (tag === 'H2' && node.classList?.contains('rub')) {
+        flush();
+        currentSection = SECTION_MAP[node.textContent.trim().toLowerCase()] ?? null;
+        continue;
+      }
+
+      if (tag === 'DIV' && node.classList?.contains('legend')) {
+        flush();
+        const pk = currentSection ? PREAMBLE_MAP[currentSection] : null;
+        if (pk) m[pk] = node.textContent.replace(/\s{2,}/g, ' ').trim();
+        continue;
+      }
+
+      if (tag === 'P' && currentSection) {
+        flush();
+        const nameEl = node.querySelector('strong em');
+        const entryName = nameEl ? nameEl.textContent.trim() : '';
+        let desc = node.textContent;
+        if (entryName) desc = desc.replace(entryName, '').replace(/^\s*\.\s*/, '');
+        currentEntry = { name: entryName, description: desc.trim() };
+        continue;
+      }
+
+      // Inline text / <em> nodes between <p> tags (e.g. "At Will: ..." after Spellcasting)
+      if (currentEntry && currentSection && node.nodeType !== 8 /* not comment */) {
+        const text = node.textContent;
+        if (text && text.trim()) currentEntry.description += ' ' + text.trim();
+      }
+    }
+    flush();
+  }
+
+  // Descriptive fields outside .jaune
+  const descEl = doc.querySelector('.description');
+  if (descEl) {
+    descEl.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+    m.description = descEl.textContent.replace(/\n+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  }
+
+  const habitatEls = doc.querySelectorAll('.habitat');
+  if (habitatEls[0]) m.habitat  = habitatEls[0].textContent.replace(/^Habitat\s*:?\s*/i, '').trim();
+  if (habitatEls[1]) m.treasure = habitatEls[1].textContent.replace(/^Treasure\s*:?\s*/i, '').trim();
+
+  m.source = doc.querySelector('.source')?.textContent.trim() ?? '';
+
+  return m;
+}
+
+// ─── Scrape loop ──────────────────────────────────────────────────────────────
+
+function stopScrape() {
+  _stopFlag = true;
+  document.getElementById('stop-btn').disabled = true;
+  document.getElementById('scrape-status').textContent = 'Stopping…';
+}
+
+async function startScrape() {
+  const raw = document.getElementById('slug-input').value.trim();
+  if (!raw) return;
+  const slugs = raw.split('\n').map(s => s.trim()).filter(Boolean);
+  if (slugs.length === 0) return;
+
+  _results  = [];
+  _stopFlag = false;
+  document.getElementById('scrape-btn').disabled      = true;
+  document.getElementById('stop-btn').style.display   = 'inline-flex';
+  document.getElementById('stop-btn').disabled        = false;
+  document.getElementById('results-panel').style.display = 'none';
+  document.getElementById('results-list').innerHTML   = '';
+  document.getElementById('download-btn').disabled    = true;
+
+  const progressWrap = document.getElementById('progress-wrap');
+  const progressFill = document.getElementById('progress-fill');
+  const scrapeStatus = document.getElementById('scrape-status');
+  progressWrap.style.display = 'block';
+  progressFill.style.width   = '0%';
+
+  const { parse } = TYPES[_activeTab];
+
+  for (let i = 0; i < slugs.length; i++) {
+    if (_stopFlag) break;
+    const slug = slugs[i];
+    scrapeStatus.textContent = `Fetching ${i + 1} / ${slugs.length}: ${slug}`;
+    progressFill.style.width = `${(i / slugs.length) * 100}%`;
+
+    try {
+      const html = await fetchHTML(slug);
+      const data = parse(html);
+      _results.push({ slug, ok: true, data });
+    } catch (err) {
+      _results.push({ slug, ok: false, error: err.message });
+    }
+
+    if (i < slugs.length - 1 && !_stopFlag) await sleep(DELAY_MS);
+  }
+
+  progressFill.style.width = '100%';
+  scrapeStatus.textContent = _stopFlag ? 'Stopped.' : '';
+  document.getElementById('scrape-btn').disabled    = false;
+  document.getElementById('stop-btn').style.display = 'none';
+
+  renderResults();
+  setTimeout(() => { progressWrap.style.display = 'none'; }, 600);
+}
+
+// ─── Render results ───────────────────────────────────────────────────────────
+
+function getResultMeta(r) {
+  const d = r.data;
+  if (_activeTab === 'spells')   return `Level ${d.level} ${d.school} · ${d.classes}`;
+  if (_activeTab === 'items')    return `${d.rarity}${d.requiresAttunement ? ' (attunement)' : ''} · ${d.category}`;
+  if (_activeTab === 'monsters') return `${d.size} ${d.type} · CR ${d.cr}`;
+  return '';
+}
+
+function renderResults() {
+  const panel   = document.getElementById('results-panel');
+  const list    = document.getElementById('results-list');
+  const summary = document.getElementById('results-summary');
+  const dlBtn   = document.getElementById('download-btn');
+  const dlCount = document.getElementById('download-count');
+  const label   = TYPES[_activeTab].label;
+
+  panel.style.display = 'block';
+
+  const ok  = _results.filter(r => r.ok);
+  const bad = _results.filter(r => !r.ok);
+  summary.textContent = `${ok.length} ${label}${ok.length !== 1 ? 's' : ''} scraped${bad.length ? ` · ${bad.length} failed` : ''}`;
+
+  list.innerHTML = _results.map((r, i) => {
+    if (r.ok) {
+      return `
+        <div class="result-row" id="row-${i}">
+          <div class="result-header" onclick="toggleRow(${i})">
+            <span class="result-status">✅</span>
+            <span class="result-name">${esc(r.data.name)}</span>
+            <span class="result-meta">${esc(getResultMeta(r))}</span>
+            <span class="result-toggle" id="toggle-${i}">JSON ▾</span>
+          </div>
+          <div class="result-body" id="body-${i}">
+            <pre>${esc(JSON.stringify(r.data, null, 2))}</pre>
+          </div>
+        </div>`;
+    } else {
+      return `
+        <div class="result-row error-row">
+          <div class="result-header">
+            <span class="result-status">❌</span>
+            <span class="result-name">${esc(r.slug)}</span>
+            <span class="result-error-msg">${esc(r.error)}</span>
+          </div>
+        </div>`;
+    }
+  }).join('');
+
+  if (ok.length > 0) {
+    dlBtn.disabled = false;
+    dlCount.textContent = `${ok.length} ${label}${ok.length !== 1 ? 's' : ''} ready`;
+  } else {
+    dlBtn.disabled = true;
+    dlCount.textContent = '';
+  }
+}
+
+function toggleRow(i) {
+  const body   = document.getElementById(`body-${i}`);
+  const toggle = document.getElementById(`toggle-${i}`);
+  const open   = body.style.display === 'block';
+  body.style.display = open ? 'none' : 'block';
+  toggle.textContent = open ? 'JSON ▾' : 'JSON ▴';
+}
+
+function downloadJSON() {
+  const items = _results.filter(r => r.ok).map(r => r.data);
+  if (items.length === 0) return;
+  const filename = { spells: 'spells.json', items: 'items.json', monsters: 'monsters.json' }[_activeTab];
+  const blob = new Blob([JSON.stringify(items, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>

@@ -1,8 +1,5 @@
-// D&D Asset Library
-// Edit this file to add your own spells, features, resources, and equipment.
-// This is a JS wrapper around the library data so it works with file:// protocol.
-window.LIBRARY_DATA = {
-  "spells": [
+{
+  "spells":[
   {
     "name": "Acid Splash",
     "level": 0,
@@ -1778,6 +1775,19 @@ window.LIBRARY_DATA = {
     "source": "Player´s Handbook 2024 (BR)",
     "description": "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion. Each creature in a 20-foot-radius Sphere centered on that point makes a Dexterity saving throw, taking 8d6 Fire damage on a failed save or half as much damage on a successful one. Flammable objects in the area that aren't being worn or carried start burning.",
     "atHigherLevels": "The damage increases by 1d6 for each spell slot level above 3."
+  },
+  {
+    "name": "Flame Blade",
+    "level": 2,
+    "school": "Evocation",
+    "castingTime": "Bonus Action",
+    "range": "Self",
+    "components": "V, S, M (a sumac leaf)",
+    "duration": "Concentration, up to 10 minutes",
+    "classes": "Druid, Sorcerer",
+    "source": "Player´s Handbook 2024 (BR)",
+    "description": "You evoke a fiery blade in your free hand. The blade is similar in size and shape to a scimitar, and it lasts for the duration. If you let go of the blade, it disappears, but you can evoke it again as a Bonus Action. As a Magic action, you can make a melee spell attack with the fiery blade. On a hit, the target takes Fire damage equal to 3d6 plus your spellcasting ability modifier. The flaming blade sheds Bright Light in a 10-foot radius and Dim Light for an additional 10 feet.",
+    "atHigherLevels": "The damage increases by 1d6 for each spell slot level above 2."
   },
   {
     "name": "Flame Strike",
@@ -4777,6 +4787,200 @@ window.LIBRARY_DATA = {
     "description": "You create a magical zone that guards against deception in a 15-foot-radius Sphere centered on a point within range. Until the spell ends, a creature that enters the spell's area for the first time on a turn or starts its turn there makes a Charisma saving throw. On a failed save, a creature can't speak a deliberate lie while in the radius. You know whether a creature succeeds or fails on this save. An affected creature is aware of the spell and can avoid answering questions to which it would normally respond with a lie. Such a creature can be evasive yet must be truthful."
   }
 ],
+  "features": [
+    {
+      "name": "Darkvision",
+      "sourceType": "species",
+      "source": "Elf",
+      "type": "passive",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": "",
+      "description": "Accustomed to twilit forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+    },
+    {
+      "name": "Fey Ancestry",
+      "sourceType": "species",
+      "source": "Elf",
+      "type": "passive",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": "",
+      "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+    },
+    {
+      "name": "Trance",
+      "sourceType": "species",
+      "source": "Elf",
+      "type": "passive",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": "",
+      "description": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+    },
+    {
+      "name": "Sneak Attack",
+      "sourceType": "class",
+      "source": "Rogue",
+      "type": "active",
+      "actionType": "action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": "Finesse or ranged weapon; advantage or ally adjacent to target",
+      "description": "Beginning at 1st level, you know how to strike subtly and exploit a foe's distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon. You don't need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn't incapacitated, and you don't have disadvantage on the attack roll."
+    },
+    {
+      "name": "Unarmored Defense",
+      "sourceType": "class",
+      "source": "Monk",
+      "type": "passive",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": "Not wearing armor or shield",
+      "description": "While you are wearing no armor and not wielding a shield, your AC equals 10 + your Dexterity modifier + your Wisdom modifier."
+    },
+    {
+      "name": "Flurry of Blows",
+      "sourceType": "class",
+      "source": "Monk",
+      "type": "active",
+      "actionType": "bonus action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": "2 Ki Points",
+      "requirements": "Must have taken the Attack action",
+      "description": "Immediately after you take the Attack action on your turn, you can spend 2 ki points to make two unarmed strikes as a bonus action."
+    },
+    {
+      "name": "Wild Shape",
+      "sourceType": "class",
+      "source": "Druid",
+      "type": "active",
+      "actionType": "action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": "1 Wild Shape use",
+      "requirements": "",
+      "description": "Starting at 2nd level, you can use your action to magically assume the shape of a beast that you have seen before. You can use this feature twice. You regain expended uses when you finish a short or long rest."
+    },
+    {
+      "name": "Bardic Inspiration",
+      "sourceType": "class",
+      "source": "Bard",
+      "type": "active",
+      "actionType": "bonus action",
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": "1 Bardic Inspiration use",
+      "requirements": "",
+      "description": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d6. Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes."
+    },
+    {
+      "name": "By Popular Demand",
+      "sourceType": "background",
+      "source": "Entertainer",
+      "type": "passive",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": "",
+      "description": "You can always find a place to perform, usually in an inn or tavern but possibly with a circus, at a theater, or even in a noble's court. At such a place, you receive free lodging and food of a modest or comfortable standard (depending on the quality of the establishment), as long as you perform each night. In addition, your performance makes you something of a local figure. When strangers recognize you in a town where you have performed, they typically take a liking to you."
+    },
+    {
+      "name": "Aura of Protection",
+      "sourceType": "class",
+      "source": "Paladin",
+      "type": "passive",
+      "actionType": null,
+      "isMovement": false,
+      "movementCost": 0,
+      "resourceCost": null,
+      "requirements": "Paladin level 6+",
+      "description": "Starting at 6th level, whenever you or a friendly creature within 10 feet of you must make a saving throw, the creature gains a bonus to the saving throw equal to your Charisma modifier (with a minimum bonus of +1). You must be conscious to grant this bonus."
+    }
+  ],
+  "resources": [
+    {
+      "name": "Ki Points",
+      "sourceType": "class",
+      "source": "Monk",
+      "maximum": 0,
+      "description": "Ki points fuel monk abilities. You regain all spent ki points when you finish a short or long rest. The number of ki points equals your Monk level."
+    },
+    {
+      "name": "Sorcery Points",
+      "sourceType": "class",
+      "source": "Sorcerer",
+      "maximum": 0,
+      "description": "You have sorcery points equal to your Sorcerer level. You regain all spent sorcery points when you finish a long rest."
+    },
+    {
+      "name": "Bardic Inspiration",
+      "sourceType": "class",
+      "source": "Bard",
+      "maximum": 0,
+      "description": "Bardic Inspiration uses equal to your Charisma modifier (minimum of 1). You regain expended uses when you finish a long rest. At 5th level you regain them on a short rest."
+    },
+    {
+      "name": "Wild Shape",
+      "sourceType": "class",
+      "source": "Druid",
+      "maximum": 2,
+      "description": "You can use Wild Shape twice. You regain expended uses when you finish a short or long rest."
+    },
+    {
+      "name": "Lay on Hands",
+      "sourceType": "class",
+      "source": "Paladin",
+      "maximum": 0,
+      "description": "Your blessed touch can heal wounds. You have a pool of healing power that replenishes when you take a long rest. With that pool, you can restore a total number of hit points equal to your Paladin level x 5."
+    },
+    {
+      "name": "Channel Divinity",
+      "sourceType": "class",
+      "source": "Cleric",
+      "maximum": 1,
+      "description": "You can channel divine energy to fuel magical effects. You start with two effects: Turn Undead and an effect determined by your domain. You regain expended uses when you finish a short or long rest."
+    },
+    {
+      "name": "Action Surge",
+      "sourceType": "class",
+      "source": "Fighter",
+      "maximum": 1,
+      "description": "Starting at 2nd level, you can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action. Once you use this feature, you must finish a short or long rest before you can use it again."
+    },
+    {
+      "name": "Second Wind",
+      "sourceType": "class",
+      "source": "Fighter",
+      "maximum": 1,
+      "description": "You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your Fighter level. Once you use this feature, you must finish a short or long rest before you can use it again."
+    },
+    {
+      "name": "Sneak Attack (per turn)",
+      "sourceType": "class",
+      "source": "Rogue",
+      "maximum": 1,
+      "description": "Tracks usage of Sneak Attack — can be used once per turn. Reset each turn."
+    },
+    {
+      "name": "Superiority Dice",
+      "sourceType": "class",
+      "source": "Battle Master Fighter",
+      "maximum": 4,
+      "description": "You have four superiority dice, which are d8s. A superiority die is expended when you use it. You regain all your expended superiority dice when you finish a short or long rest."
+    }
+  ],
   "equipment": [
     {
       "name": "Longsword",
@@ -4863,4 +5067,4 @@ window.LIBRARY_DATA = {
       "description": "A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage."
     }
   ]
-};
+}

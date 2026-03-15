@@ -2,7 +2,7 @@
   "meta": {
     "version": "1.0",
     "name": "Zara",
-    "lastModified": "2026-03-12T22:53:45.512Z"
+    "lastModified": "2026-03-15T11:32:34.381Z"
   },
   "basic": {
     "name": "Zara",
@@ -28,11 +28,13 @@
     "temporaryHP": 0,
     "initiative": 2,
     "speed": "30 ft",
-    "hitDice": {
-      "current": 3,
-      "total": 3,
-      "type": "d6"
-    },
+    "hitDice": [
+      {
+        "type": "d6",
+        "total": 3,
+        "current": 3
+      }
+    ],
     "deathSaves": {
       "successes": 0,
       "failures": 0
@@ -54,6 +56,7 @@
       "con",
       "cha"
     ],
+    "savingThrowModifications": [],
     "skills": {
       "acrobatics": false,
       "animalHandling": false,
@@ -74,6 +77,8 @@
       "stealth": false,
       "survival": false
     },
+    "modifications": [],
+    "abilityModifications": [],
     "expertise": []
   },
   "attacks": [
@@ -137,189 +142,203 @@
     "cantrips": [
       {
         "name": "Sorcerous Burst",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "cantripUpgrade": ""
-      },
-      {
-        "name": "True Strike",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "cantripUpgrade": ""
+        "level": "Cantrip · Evocation",
+        "castingTime": "Action",
+        "range": "120 feet",
+        "duration": "Instantaneous",
+        "components": "V, S",
+        "classes": "Sorcerer",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "You cast sorcerous energy at one creature or object within range. Make a ranged attack roll against the target. On a hit, the target takes 1d8 damage of a type you choose: Acid, Cold, Fire, Lightning, Poison, Psychic, or Thunder. If you roll an 8 on a d8 for this spell, you can roll another d8, and add it to the damage. When you cast this spell, the maximum number of these d8s you can add to the spell's damage equals your spellcasting ability modifier.",
+        "higherLevel": "",
+        "cantripUpgrade": "This damage increases by 1d8 when you reach level 5 (2d8), 11 (3d8), and 17 (4d8).",
+        "prepared": true
       },
       {
         "name": "Prestidigitation",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "cantripUpgrade": ""
-      },
-      {
-        "name": "Elementalism",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "cantripUpgrade": ""
+        "level": "Cantrip · Transmutation",
+        "castingTime": "Action",
+        "range": "10 feet",
+        "duration": "Up to 1 hour",
+        "components": "V, S",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "You create a magical effect within range. Choose the effect from the options below. If you cast this spell multiple times, you can have up to three of its non-instantaneous effects active at a time. Sensory Effect. You create an instantaneous, harmless sensory effect, such as a shower of sparks, a puff of wind, faint musical notes, or an odd odor. Fire Play. You instantaneously light or snuff out a candle, a torch, or a small campfire. Clean or Soil. You instantaneously clean or soil an object no larger than 1 cubic foot. Minor Sensation. You chill, warm, or flavor up to 1 cubic foot of nonliving material for 1 hour. Magic Mark. You make a color, a small mark, or a symbol appear on an object or a surface for 1 hour. Minor Creation. You create a nonmagical trinket or an illusory image that can fit in your hand. It lasts until the end of your next turn. A trinket can deal no damage and has no monetary worth.",
+        "higherLevel": "",
+        "cantripUpgrade": "",
+        "prepared": true
       },
       {
         "name": "Mending",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "cantripUpgrade": ""
+        "level": "Cantrip · Transmutation",
+        "castingTime": "1 minute",
+        "range": "Touch",
+        "duration": "Instantaneous",
+        "components": "V, S, M (two lodestones)",
+        "classes": "Bard, Cleric, Druid, Sorcerer, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "This spell repairs a single break or tear in an object you touch, such as a broken chain link, two halves of a broken key, a torn cloak, or a leaking wineskin. As long as the break or tear is no larger than 1 foot in any dimension, you mend it, leaving no trace of the former damage. This spell can physically repair a magic item, but it can't restore magic to such an object.",
+        "higherLevel": "",
+        "cantripUpgrade": "",
+        "prepared": true
       },
       {
         "name": "Mage Hand",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "cantripUpgrade": ""
+        "level": "Cantrip · Conjuration",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "duration": "1 minute",
+        "components": "V, S",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "A spectral, floating hand appears at a point you choose within range. The hand lasts for the duration. The hand vanishes if it is ever more than 30 feet away from you or if you cast this spell again. When you cast the spell, you can use the hand to manipulate an object, open an unlocked door or container, stow or retrieve an item from an open container, or pour the contents out of a vial. As a Magic action on your later turns, you can control the hand thus again. As part of that action, you can move the hand up to 30 feet. The hand can't attack, activate magic items, or carry more than 10 pounds.",
+        "higherLevel": "",
+        "cantripUpgrade": "",
+        "prepared": true
+      },
+      {
+        "name": "True Strike",
+        "level": "Cantrip · Divination",
+        "castingTime": "Action",
+        "range": "Self",
+        "duration": "Instantaneous",
+        "components": "S, M (a weapon with which you have proficiency and that is worth 1+ CP)",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "Guided by a flash of magical insight, you make one attack with the weapon used in the spell's casting. The attack uses your spellcasting ability for the attack and damage rolls instead of using Strength or Dexterity. If the attack deals damage, it can be Radiant damage or the weapon's normal damage type (your choice).",
+        "higherLevel": "",
+        "cantripUpgrade": "Whether you deal Radiant damage or the weapon's normal damage type, the attack deals extra Radiant damage when you reach levels 5 (1d6), 11 (2d6), and 17 (3d6).",
+        "prepared": true
+      },
+      {
+        "name": "Elementalism",
+        "level": "Cantrip · Transmutation",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "duration": "Instantaneous",
+        "components": "V, S",
+        "classes": "Druid, Sorcerer, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "You exert control over the elements, creating one of the following effects within range: Beckon Air. You create a breeze strong enough to ripple cloth, stir dust, rustle leaves, and close open doors and shutters, all in a 5-foot Cube. Doors and shutters being held open by someone or something aren't affected. Beckon Earth. You create a thin shroud of dust or sand that covers surfaces in a 5-foot-square area, or you cause a single word to appear in your handwriting in a patch of dirt or sand. Beckon Fire. You create a thin cloud of harmless embers and colored, scented smoke in a 5-foot Cube. You choose the color and scent, and the embers can light candles, torches, or lamps in that area. The smoke's scent lingers for 1 minute. Beckon Water. You create a spray of cool mist that lightly dampens creatures and objects in a 5-foot Cube. Alternatively, you create 1 cup of clean water either in an open container or on a surface, and the water evaporates in 1 minute. Sculpt Element. You cause dirt, sand, fire, smoke, mist, or water that can fit in a 1-foot Cube to assume a crude shape (such as that of a creature or an object) for 1 hour.",
+        "higherLevel": "",
+        "cantripUpgrade": "",
+        "prepared": true
       }
     ],
     "level1": [
       {
         "name": "Burning Hands",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "higherLevel": ""
-      },
-      {
-        "name": "Tasha's Hideous Laughter",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "higherLevel": ""
+        "level": "Level 1 · Evocation",
+        "castingTime": "Action",
+        "range": "Self",
+        "duration": "Instantaneous",
+        "components": "V, S",
+        "classes": "Sorcerer, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "A thin sheet of flames shoots forth from you. Each creature in a 15-foot Cone makes a Dexterity saving throw, taking 3d6 Fire damage on a failed save or half as much damage on a successful one. Flammable objects in the Cone that aren't being worn or carried start burning.",
+        "higherLevel": "The damage increases by 1d6 for each spell slot level above 1.",
+        "cantripUpgrade": "",
+        "prepared": true
       },
       {
         "name": "Expeditious Retreat",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "higherLevel": ""
-      },
-      {
-        "name": "Mage Armor",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "higherLevel": ""
+        "level": "Level 1 · Transmutation",
+        "castingTime": "Bonus Action",
+        "range": "Self",
+        "duration": "Concentration, up to 10 minutes",
+        "components": "V, S",
+        "classes": "Sorcerer, Warlock, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "You take the Dash action, and until the spell ends, you can take that action again as a Bonus Action.",
+        "higherLevel": "",
+        "cantripUpgrade": "",
+        "prepared": true
       },
       {
         "name": "Shield",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "higherLevel": ""
+        "level": "Level 1 · Abjuration",
+        "castingTime": "Reaction, which you take when you are hit by an attack roll or targeted by the Magic Missile spell",
+        "range": "Self",
+        "duration": "1 round",
+        "components": "V, S",
+        "classes": "Sorcerer, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "An imperceptible barrier of magical force protects you. Until the start of your next turn, you have a +5 bonus to AC, including against the triggering attack, and you take no damage from Magic Missile.",
+        "higherLevel": "",
+        "cantripUpgrade": "",
+        "prepared": true
       },
       {
         "name": "Fog Cloud",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "higherLevel": ""
+        "level": "Level 1 · Conjuration",
+        "castingTime": "Action",
+        "range": "120 feet",
+        "duration": "Concentration, up to 1 hour",
+        "components": "V, S",
+        "classes": "Druid, Ranger, Sorcerer, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "You create a 20-foot-radius Sphere of fog centered on a point within range. The Sphere is Heavily Obscured. It lasts for the duration or until a strong wind (such as one created by Gust of Wind) disperses it.",
+        "higherLevel": "The fog's radius increases by 20 feet for each spell slot level above 1.",
+        "cantripUpgrade": "",
+        "prepared": true
+      },
+      {
+        "name": "Tasha's Hideous Laughter",
+        "level": "Level 1 · Enchantment",
+        "castingTime": "Action",
+        "range": "30 feet",
+        "duration": "Concentration, up to 1 minute",
+        "components": "V, S, M (a tart and a feather)",
+        "classes": "Bard, Warlock, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "One creature of your choice that you can see within range makes a Wisdom saving throw. On a failed save, it has the Prone and Incapacitated conditions for the duration. During that time, it laughs uncontrollably if it's capable of laughter, and it can't end the Prone condition on it self. At the end of each of its turns and each time it takes damage, it makes another Wisdom saving throw. The target has Advantage on the save if the save is triggered by damage. On a successful save, the spell ends.",
+        "higherLevel": "You can target one additional creature for each spell slot level about 1.",
+        "cantripUpgrade": "",
+        "prepared": true
+      },
+      {
+        "name": "Mage Armor",
+        "level": "Level 1 · Abjuration",
+        "castingTime": "Action",
+        "range": "Touch",
+        "duration": "8 hours",
+        "components": "V, S, M (a piece of cured leather)",
+        "classes": "Sorcerer, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "You touch a willing creature who isn't wearing armor. Until the spell ends, the target's base AC becomes 13 plus its Dexterity modifier. The spell ends early if the target dons armor.",
+        "higherLevel": "",
+        "cantripUpgrade": "",
+        "prepared": true
       }
     ],
     "level2": [
       {
         "name": "Scorching Ray",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "higherLevel": ""
+        "level": "Level 2 · Evocation",
+        "castingTime": "Action",
+        "range": "120 feet",
+        "duration": "Instantaneous",
+        "components": "V, S",
+        "classes": "Sorcerer, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "You hurl three fiery rays. You can hurl them at one target within range or at several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 Fire damage.",
+        "higherLevel": "You create one additional ray for each spell slot level above 2.",
+        "cantripUpgrade": "",
+        "prepared": true
       },
       {
         "name": "Mirror Image",
-        "source": "",
-        "level": "",
-        "classes": "",
-        "castingTime": "",
-        "range": "",
-        "components": "",
-        "duration": "",
-        "description": "",
-        "prepared": true,
-        "higherLevel": ""
+        "level": "Level 2 · Illusion",
+        "castingTime": "Action",
+        "range": "Self",
+        "duration": "1 minute",
+        "components": "V, S",
+        "classes": "Bard, Sorcerer, Warlock, Wizard",
+        "source": "Player´s Handbook 2024 (BR)",
+        "description": "Three illusory duplicates of yourself appear in your space. Until the spell ends, the duplicates move with you and mimic your actions, shifting position so it's impossible to track which image is real. Each time a creature hits you with an attack roll during the spell's duration, roll a d6 for each of your remaining duplicates. If any of the d6s rolls a 3 or higher, one of the duplicates is hit instead of you, and the duplicate is destroyed. The duplicates otherwise ignore all other damage and effects. The spell ends when all three duplicates are destroyed. A creature is unaffected by this spell if it has the Blinded condition, Blindsight, or Truesight.",
+        "higherLevel": "",
+        "cantripUpgrade": "",
+        "prepared": true
       }
     ],
     "level3": [],
@@ -332,11 +351,11 @@
   },
   "features": [
     {
-      "name": "Innate Sorcery",
+      "sourceType": "other",
       "source": "Sorcerer 1",
+      "name": "Innate Sorcery",
       "type": "active",
       "description": "As a Bonus Action, you can unleash your simmering magic for 1 minute, during which you gain the following benefits:\n\n- The spell save DC of your Sorcerer spells increases by 1.\n- You have Advantage on the attack rolls of Sorcerer spells you cast.\n\nYou can use this feature twice, and you regain all expended uses of it when you finish a Long Rest.",
-      "category": "",
       "actionType": null,
       "isMovement": false,
       "movementCost": 0,
@@ -344,11 +363,11 @@
       "requirements": ""
     },
     {
-      "name": "Font of Magic",
+      "sourceType": "other",
       "source": "Sorcerer 2",
+      "name": "Font of Magic",
       "type": "active",
       "description": "You can tap into the wellspring of magic within yourself. This wellspring is represented by Sorcery Points, which allow you to create a variety of magical effects.\n\nYou have 3 Sorcery Points. You regain all expended Sorcery Points when you finish a Long Rest.\n\nConverting Spell Slots to Sorcery Points. You can expend a spell slot to gain a number of Sorcery Points equal to the slot's level (no action required).\n\nCreating Spell Slots. As a Bonus Action, you can transform unexpended Sorcery Points into one spell slot. Level 1 costs 2 SP, Level 2 costs 3 SP. Any spell slot you create with this feature vanishes when you finish a Long Rest.",
-      "category": "",
       "actionType": null,
       "isMovement": false,
       "movementCost": 0,
@@ -356,11 +375,11 @@
       "requirements": ""
     },
     {
-      "name": "Metamagic: Subtle Spell",
+      "sourceType": "other",
       "source": "Sorcerer 2, Metamagic",
+      "name": "Metamagic: Subtle Spell",
       "type": "active",
       "description": "Cost: 1 Sorcery Point. When you cast a spell, you can spend 1 Sorcery Point to cast it without any Verbal, Somatic, or Material components, except Material components that are consumed by the spell or that have a cost specified in the spell.",
-      "category": "",
       "actionType": null,
       "isMovement": false,
       "movementCost": 0,
@@ -368,11 +387,11 @@
       "requirements": ""
     },
     {
-      "name": "Metamagic: Heightened Spell",
+      "sourceType": "other",
       "source": "Sorcerer 2, Metamagic",
+      "name": "Metamagic: Heightened Spell",
       "type": "active",
       "description": "Cost: 2 Sorcery Points. When you cast a spell that forces a creature to make a saving throw, you can spend 2 Sorcery Points to give one target of the spell Disadvantage on saves against the spell.",
-      "category": "",
       "actionType": null,
       "isMovement": false,
       "movementCost": 0,
@@ -380,11 +399,11 @@
       "requirements": ""
     },
     {
-      "name": "Wild Magic Surge",
+      "sourceType": "other",
       "source": "Sorcerer 3, Wild Magic Sorcery",
+      "name": "Wild Magic Surge",
       "type": "active",
       "description": "Your spellcasting can unleash surges of untamed magic. Once per turn, you can roll 1d20 immediately after you cast a Sorcerer spell with a spell slot. If you roll a 20, roll on the Wild Magic Surge table to create a magical effect.\n\nIf the magical effect is a spell, it is too wild to be affected by your Metamagic.",
-      "category": "",
       "actionType": null,
       "isMovement": false,
       "movementCost": 0,
@@ -392,11 +411,11 @@
       "requirements": ""
     },
     {
-      "name": "Tides of Chaos",
+      "sourceType": "other",
       "source": "Sorcerer 3, Wild Magic Sorcery",
+      "name": "Tides of Chaos",
       "type": "active",
       "description": "You can manipulate chaos itself to give yourself Advantage on one D20 Test before you roll the d20. Once you do so, you must cast a Sorcerer spell with a spell slot or finish a Long Rest before you can use this feature again.\n\nIf you do cast a Sorcerer spell with a spell slot before you finish a Long Rest, you automatically roll on the Wild Magic Surge table.",
-      "category": "",
       "actionType": null,
       "isMovement": false,
       "movementCost": 0,
@@ -404,11 +423,11 @@
       "requirements": ""
     },
     {
-      "name": "Darkvision",
+      "sourceType": "other",
       "source": "Flamekin",
+      "name": "Darkvision",
       "type": "passive",
       "description": "You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You discern colors in that darkness only as shades of gray.",
-      "category": "",
       "actionType": null,
       "isMovement": false,
       "movementCost": 0,
@@ -416,11 +435,11 @@
       "requirements": ""
     },
     {
-      "name": "Fire Resistance",
+      "sourceType": "other",
       "source": "Flamekin",
+      "name": "Fire Resistance",
       "type": "passive",
       "description": "You have resistance to fire damage.",
-      "category": "",
       "actionType": null,
       "isMovement": false,
       "movementCost": 0,
@@ -428,11 +447,11 @@
       "requirements": ""
     },
     {
-      "name": "Reach to the Blaze",
+      "sourceType": "other",
       "source": "Flamekin",
+      "name": "Reach to the Blaze",
       "type": "active",
       "description": "You know the Produce Flame cantrip. Starting at 3rd level, you can cast the Burning Hands spell with this trait. Starting at 5th level, you can also cast the Flame Blade spell with this trait, without requiring a material component. Once you cast Burning Hands or Flame Blade with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level.\n\nCharisma is your spellcasting ability for these spells when you cast them with this trait.",
-      "category": "",
       "actionType": null,
       "isMovement": false,
       "movementCost": 0,
@@ -440,11 +459,11 @@
       "requirements": ""
     },
     {
-      "name": "Magic Initiate",
+      "sourceType": "other",
       "source": "",
+      "name": "Magic Initiate",
       "type": "passive",
       "description": "You gain the following benefits.\n\nTwo Cantrips. You learn two cantrips of your choice from the Cleric, Druid, or Wizard spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\n\nLevel 1 Spell. Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.\n\nSpell Change. Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.\n\nRepeatable. You can take this feat more than once, but you must choose a different spell list each time.",
-      "category": "",
       "actionType": null,
       "isMovement": false,
       "movementCost": 0,
@@ -454,30 +473,40 @@
   ],
   "resources": [
     {
+      "sourceType": "other",
+      "source": "",
       "name": "Innate Sorcery",
       "current": 2,
       "maximum": 2,
       "description": "Recharges on Long Rest"
     },
     {
+      "sourceType": "other",
+      "source": "",
       "name": "Sorcery Points",
       "current": 3,
       "maximum": 3,
       "description": "Recharges on Long Rest"
     },
     {
+      "sourceType": "other",
+      "source": "",
       "name": "Tides of Chaos",
       "current": 1,
       "maximum": 1,
       "description": "Recharges when you cast a Sorcerer spell with a spell slot (triggering Wild Magic Surge) or on Long Rest."
     },
     {
+      "sourceType": "other",
+      "source": "",
       "name": "Reach to the Blaze: Burning Hands (free cast)",
       "current": 1,
       "maximum": 1,
       "description": "You can cast Burning Hands once with this trait without expending a spell slot. Recharges on Long Rest."
     },
     {
+      "sourceType": "other",
+      "source": "",
       "name": "Tasha's Hideous Laughter (free cast)",
       "current": 1,
       "maximum": 1,
@@ -493,20 +522,86 @@
       "pp": 0
     },
     "items": [
-      "Quarterstaff",
-      "Component's pouch",
       {
-        "name": "Backpack",
         "weight": 0,
-        "equipped": false,
-        "notes": "Dungeoneer's Pack",
-        "consumable": false
+        "quantity": 1,
+        "equipped": true,
+        "consumable": false,
+        "rarity": "Common",
+        "description": "STR 1d8 bludgeoning (1d6 one-handed)",
+        "notes": "Charred wood stick",
+        "name": "Quarterstaff"
       },
-      "Glassblower’s Tools",
-      "Fine Clothes",
-      "Lamp",
-      "Oil (3 flasks)",
-      "Waterskin"
+      {
+        "weight": 0,
+        "quantity": 1,
+        "equipped": false,
+        "consumable": false,
+        "rarity": "Common",
+        "description": "",
+        "notes": "Component's pouch",
+        "name": "Component's pouch"
+      },
+      {
+        "weight": 0,
+        "quantity": 1,
+        "equipped": false,
+        "consumable": false,
+        "rarity": "Common",
+        "description": "",
+        "notes": "Dungeoneer's Pack",
+        "name": "Backpack"
+      },
+      {
+        "weight": 0,
+        "quantity": 1,
+        "equipped": false,
+        "consumable": false,
+        "rarity": "Common",
+        "description": "",
+        "notes": "Glassblower’s Tools",
+        "name": "Glassblower’s Tools"
+      },
+      {
+        "weight": 0,
+        "quantity": 1,
+        "equipped": false,
+        "consumable": false,
+        "rarity": "Common",
+        "description": "",
+        "notes": "Fine Clothes",
+        "name": "Fine Clothes"
+      },
+      {
+        "weight": 0,
+        "quantity": 1,
+        "equipped": false,
+        "consumable": false,
+        "rarity": "Common",
+        "description": "",
+        "notes": "Lamp",
+        "name": "Lamp"
+      },
+      {
+        "weight": 0,
+        "quantity": 3,
+        "equipped": false,
+        "consumable": true,
+        "rarity": "Common",
+        "description": "",
+        "notes": "Oil",
+        "name": "Oil"
+      },
+      {
+        "weight": 0,
+        "quantity": 1,
+        "equipped": false,
+        "consumable": false,
+        "rarity": "Common",
+        "description": "",
+        "notes": "Waterskin",
+        "name": "Waterskin"
+      }
     ]
   },
   "personality": {

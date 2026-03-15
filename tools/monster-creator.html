@@ -522,6 +522,7 @@ body {
       <h1>🐉 Monster Creator</h1>
     </div>
     <div class="editor-actions">
+      <button class="btn" onclick="openMonsterScry()">🔮 Scry</button>
       <button class="btn" onclick="showMonsterLib()">📚 Library</button>
       <label class="btn">📂 Load <input type="file" accept=".json" id="fileInput" style="display:none;"></label>
       <button class="btn btn-primary" onclick="showExportModal()">💾 Export</button>
@@ -1294,36 +1295,53 @@ function showToast(msg) {
 // ═══════════════════════════════════════════
 // LIBRARY LOADING
 // ═══════════════════════════════════════════
-async function showMonsterLib(){
+function showMonsterLib(){
   const el=document.createElement('div');
   el.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center;';
   el.onclick=e=>{if(e.target===el)el.remove()};
   const box=document.createElement('div');
-  box.style.cssText='background:var(--parchment);border:2px solid var(--border-dark);border-radius:8px;padding:20px;max-width:400px;width:90%;max-height:70vh;overflow-y:auto;';
-  box.innerHTML='<div style="font-family:Cinzel,serif;font-size:16px;font-weight:700;color:var(--accent-red);margin-bottom:12px;">📚 Load from Library</div><div id="_libItems" style="color:var(--ink-faded);font-style:italic;">Loading...</div>';
-  el.appendChild(box);document.body.appendChild(el);
-  try{
-    const r=await fetch('../data/index.json');const idx=await r.json();
-    const items=document.getElementById('_libItems');
-    if(!idx.monsters?.length){items.textContent='No monsters in library';return;}
-    let h='';
-    for(const f of idx.monsters){
-      try{const mr=await fetch(`../data/monsters/${f}`);const d=await mr.json();
-        h+=`<div style="padding:8px;border:1px solid var(--parchment-shadow);border-radius:4px;margin-bottom:4px;cursor:pointer;background:var(--field-bg)" onclick="libLoadMonster('../data/monsters/${f}');this.closest('[style*=fixed]').remove()">
-          <span style="font-weight:700">${d.name||f}</span> <span style="font-size:12px;color:var(--ink-faded)">${d.cr?'CR '+d.cr.split('(')[0].trim():''}</span>
-        </div>`;}catch(e){}
+  box.style.cssText='background:var(--parchment);border:2px solid var(--border-dark);border-radius:8px;padding:20px;max-width:420px;width:90%;max-height:75vh;display:flex;flex-direction:column;gap:10px;';
+  const header=document.createElement('div');
+  header.style.cssText='font-family:Cinzel,serif;font-size:16px;font-weight:700;color:var(--accent-red);flex-shrink:0;';
+  header.textContent='📚 Load from Library';
+  const search=document.createElement('input');
+  search.type='text';search.placeholder='Search monsters by name…';
+  search.style.cssText='width:100%;padding:8px 10px;border:1px solid var(--border-mid);border-radius:4px;background:var(--field-bg);font-family:Alegreya,serif;font-size:14px;color:var(--ink);box-sizing:border-box;';
+  const list=document.createElement('div');
+  list.style.cssText='overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:4px;';
+  function renderList(q){
+    const data=window.MONSTER_DATA||[];
+    const filtered=q?data.filter(m=>m.name.toLowerCase().includes(q)):data;
+    list.innerHTML='';
+    if(!filtered.length){const e=document.createElement('div');e.style.cssText='color:var(--ink-faded);font-style:italic;padding:8px;';e.textContent=q?'No monsters match that name.':'No monsters in library.';list.appendChild(e);return;}
+    for(const m of filtered){
+      const item=document.createElement('div');
+      item.style.cssText='padding:8px;border:1px solid var(--parchment-shadow);border-radius:4px;cursor:pointer;background:var(--field-bg);display:flex;justify-content:space-between;align-items:center;';
+      item.innerHTML=`<span style="font-weight:700">${m.name}</span><span style="font-size:12px;color:var(--ink-faded)">${m.cr?'CR '+m.cr.split('(')[0].trim():''}</span>`;
+      item.onmouseenter=()=>item.style.background='var(--field-focus)';
+      item.onmouseleave=()=>item.style.background='var(--field-bg)';
+      item.onclick=()=>{libLoadMonster(m);el.remove();};
+      list.appendChild(item);
     }
-    items.innerHTML=h||'No monsters found';
-  }catch(e){document.getElementById('_libItems').textContent='Could not load data/index.json';}
+  }
+  search.oninput=()=>renderList(search.value.trim().toLowerCase());
+  renderList('');
+  box.appendChild(header);box.appendChild(search);box.appendChild(list);
+  el.appendChild(box);document.body.appendChild(el);
+  setTimeout(()=>search.focus(),50);
 }
 
-async function libLoadMonster(url){
-  try{const r=await fetch(url);const data=await r.json();
-    const blank=createBlank();
-    Object.keys(blank).forEach(k=>{if(data[k]!==undefined){if(typeof blank[k]==='object'&&!Array.isArray(blank[k])&&blank[k]!==null)monster[k]={...blank[k],...data[k]};else monster[k]=data[k];}else monster[k]=blank[k];});
-    renderAbilityGrid();renderAllLists();populateForm();update();
-    showToast(`Loaded ${data.name||'monster'}`);
-  }catch(e){showToast('Error loading file');}
+function libLoadMonster(data){
+  const blank=createBlank();
+  Object.keys(blank).forEach(k=>{
+    if(data[k]!==undefined){
+      if(typeof blank[k]==='object'&&!Array.isArray(blank[k])&&blank[k]!==null)
+        monster[k]={...blank[k],...data[k]};
+      else monster[k]=data[k];
+    }else monster[k]=blank[k];
+  });
+  renderAbilityGrid();renderAllLists();populateForm();update();
+  showToast(`Loaded ${data.name||'monster'}`);
 }
 
 // ═══════════════════════════════════════════
@@ -1347,6 +1365,32 @@ async function libLoadMonster(url){
   } catch(e) {}
 })();
 init();
+
+// ─── Scryscraper handler ─────────────────────────────────────────────────────
+function openMonsterScry() {
+  Scryscraper.openModal({
+    type: 'monsters',
+    loadBtnText: 'Load Monster',
+    onLoad(data) {
+      const blank = createBlank();
+      Object.keys(blank).forEach(k => {
+        if (data[k] !== undefined) {
+          if (typeof blank[k] === 'object' && !Array.isArray(blank[k]) && blank[k] !== null) {
+            monster[k] = { ...blank[k], ...data[k] };
+          } else {
+            monster[k] = data[k];
+          }
+        }
+      });
+      renderAbilityGrid();
+      renderAllLists();
+      populateForm();
+      update();
+    }
+  });
+}
 </script>
+<script src="../data/monsters.js"></script>
+<script src="../data/scryscraper.js"></script>
 </body>
 </html>

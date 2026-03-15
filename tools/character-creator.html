@@ -10,7 +10,10 @@
 <link rel="manifest" href="../manifest.json">
 <title>Character Creator — D&D 5e Toolkit</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
-<script src="../data/library.js"></script>
+<script src="../data/spells.js"></script>
+<script src="../data/features.js"></script>
+<script src="../data/resources.js"></script>
+<script src="../data/equipment.js"></script>
 <style>
 :root {
   --parchment: #f5f0e1;
@@ -756,9 +759,9 @@ body {
   border: 2px solid var(--border-dark);
   border-radius: 8px;
   padding: 1.5rem;
-  max-width: 580px;
-  width: 92%;
-  max-height: 85vh;
+  max-width: 820px;
+  width: 95%;
+  max-height: 90vh;
   overflow-y: auto;
   overflow-x: hidden;
   box-shadow: 0 8px 40px rgba(0,0,0,0.5);
@@ -766,6 +769,40 @@ body {
 @media(max-width:600px){
   #modal-overlay.open{align-items:flex-start}
   .modal-box{width:100%;max-width:100%;height:100%;max-height:100%;border-radius:0;border-left:none;border-right:none;border-bottom:none;padding:1rem;box-shadow:none}
+}
+
+/* ─── JSON EDITOR ─── */
+.json-editor-area {
+  display: none;
+  width: 100%;
+  min-height: 300px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  padding: 10px;
+  border: 1.5px solid var(--accent-gold);
+  border-radius: 4px;
+  background: #1e1a14;
+  color: #d4a940;
+  resize: vertical;
+  line-height: 1.5;
+}
+.json-editor-area.open { display: block; }
+.modal-form-area.hidden { display: none; }
+.json-toggle-btn {
+  font-family: 'Alegreya SC', serif;
+  font-size: 11px;
+  padding: 3px 10px;
+  background: transparent;
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  color: var(--ink-faded);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.json-toggle-btn:hover, .json-toggle-btn.active {
+  background: var(--stat-bg);
+  color: var(--accent-gold-light);
+  border-color: var(--accent-gold);
 }
 .modal-title {
   font-family: 'Cinzel', serif;
@@ -1057,6 +1094,7 @@ body {
     <div class="section-title gold" style="margin-top:24px;">Spells Known / Prepared</div>
     <div class="spell-level-tabs" id="spellLevelTabs"></div>
     <div style="display:flex;justify-content:flex-end;gap:6px;margin-bottom:10px;">
+      <button class="btn btn-sm" onclick="openSpellScry()">🔮 Scry</button>
       <button class="btn btn-sm" onclick="showLibrarySearchModal('spells')">📚 Library</button>
       <button class="btn btn-primary btn-sm" onclick="addSpell()">+ Add Spell</button>
     </div>
@@ -1096,6 +1134,7 @@ body {
     <div class="section-header-row" style="margin-top:24px;">
       <div class="section-title" style="margin:0;">Items</div>
       <div class="section-header-actions">
+        <button class="btn btn-sm" onclick="openItemScry()">🔮 Scry</button>
         <button class="btn btn-sm" onclick="showLibrarySearchModal('equipment')">📚 Library</button>
         <button class="btn btn-primary btn-sm" onclick="addItem()">+ Add Item</button>
       </div>
@@ -1585,7 +1624,14 @@ function openSpellModal(i) {
   const isCantrip = activeSpellLevel === 'cantrips';
   const overlay = document.getElementById('modal-overlay');
   overlay.innerHTML = `<div class="modal-box">
-    <div class="modal-title gold">✦ ${isNew ? 'New Spell' : 'Edit Spell'}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div class="modal-title gold" style="margin:0;border:none;padding:0;">✦ ${isNew ? 'New Spell' : 'Edit Spell'}</div>
+      <button class="json-toggle-btn" id="json-toggle-btn" onclick="toggleJsonEditor(
+        () => collectSpellModalData(${i}),
+        (parsed) => { char.spells[activeSpellLevel][${i}] = parsed; openSpellModal(${i}); }
+      )">{ } JSON</button>
+    </div>
+    <div id="modal-form-area">
     <div class="form-row cols-2">
       <div class="form-group">
         <label>Spell Name</label>
@@ -1626,17 +1672,19 @@ function openSpellModal(i) {
     </div>
     <div class="form-group">
       <label>Description</label>
-      <textarea id="sm_description" style="min-height:80px;">${esc(sp.description||'')}</textarea>
+      <textarea id="sm_description" style="min-height:120px;">${esc(sp.description||'')}</textarea>
     </div>
     <div class="form-group" style="margin-top:8px;">
       <label>${isCantrip ? 'Cantrip Upgrade' : 'At Higher Levels'}</label>
-      <textarea id="sm_upgrade" style="min-height:40px;">${esc(isCantrip ? (sp.cantripUpgrade||'') : (sp.higherLevel||sp.atHigherLevels||''))}</textarea>
+      <textarea id="sm_upgrade" style="min-height:60px;">${esc(isCantrip ? (sp.cantripUpgrade||'') : (sp.higherLevel||sp.atHigherLevels||''))}</textarea>
     </div>
     <div class="form-group" style="margin-top:8px;">
       <label style="display:flex;align-items:center;gap:8px;">
         <input type="checkbox" id="sm_prepared" ${sp.prepared?'checked':''}> Prepared
       </label>
     </div>
+    </div>
+    <textarea class="json-editor-area" id="modal-json-area"></textarea>
     <div class="modal-footer-split">
       <button class="btn btn-danger btn-sm" onclick="removeSpell(${i})">Delete</button>
       <div style="display:flex;gap:8px;">
@@ -1648,21 +1696,34 @@ function openSpellModal(i) {
   overlay.classList.add('open');
 }
 
-function saveSpellModal(i) {
+function collectSpellModalData(i) {
   const sp = char.spells[activeSpellLevel][i];
   const isCantrip = activeSpellLevel === 'cantrips';
-  sp.name = document.getElementById('sm_name').value;
-  sp.level = document.getElementById('sm_level').value;
-  sp.castingTime = document.getElementById('sm_castingTime').value;
-  sp.range = document.getElementById('sm_range').value;
-  sp.duration = document.getElementById('sm_duration').value;
-  sp.components = document.getElementById('sm_components').value;
-  sp.classes = document.getElementById('sm_classes').value;
-  sp.source = document.getElementById('sm_source').value;
-  sp.description = document.getElementById('sm_description').value;
-  sp.prepared = document.getElementById('sm_prepared').checked;
-  if (isCantrip) sp.cantripUpgrade = document.getElementById('sm_upgrade').value;
-  else sp.higherLevel = document.getElementById('sm_upgrade').value;
+  const out = { ...sp };
+  out.name = document.getElementById('sm_name').value;
+  out.level = document.getElementById('sm_level').value;
+  out.castingTime = document.getElementById('sm_castingTime').value;
+  out.range = document.getElementById('sm_range').value;
+  out.duration = document.getElementById('sm_duration').value;
+  out.components = document.getElementById('sm_components').value;
+  out.classes = document.getElementById('sm_classes').value;
+  out.source = document.getElementById('sm_source').value;
+  out.description = document.getElementById('sm_description').value;
+  out.prepared = document.getElementById('sm_prepared').checked;
+  if (isCantrip) out.cantripUpgrade = document.getElementById('sm_upgrade').value;
+  else out.higherLevel = document.getElementById('sm_upgrade').value;
+  return out;
+}
+
+function saveSpellModal(i) {
+  const jsonArea = document.getElementById('modal-json-area');
+  if (jsonArea.classList.contains('open')) {
+    try {
+      char.spells[activeSpellLevel][i] = JSON.parse(jsonArea.value);
+    } catch(e) { alert('Invalid JSON: ' + e.message); return; }
+  } else {
+    char.spells[activeSpellLevel][i] = collectSpellModalData(i);
+  }
   closeModal();
   renderSpellsList();
   updateSpellLevelCounts();
@@ -1716,7 +1777,14 @@ function openFeatureModal(i) {
   const stOpts = SOURCE_TYPES.map(st => `<option value="${st}" ${feat.sourceType===st?'selected':''}>${SOURCE_TYPE_LABELS[st]}</option>`).join('');
   const overlay = document.getElementById('modal-overlay');
   overlay.innerHTML = `<div class="modal-box">
-    <div class="modal-title">✦ ${isNew ? 'New Feature' : 'Edit Feature'}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div class="modal-title" style="margin:0;border:none;padding:0;">✦ ${isNew ? 'New Feature' : 'Edit Feature'}</div>
+      <button class="json-toggle-btn" id="json-toggle-btn" onclick="toggleJsonEditor(
+        () => collectFeatureModalData(${i}),
+        (parsed) => { char.features[${i}] = parsed; openFeatureModal(${i}); }
+      )">{ } JSON</button>
+    </div>
+    <div id="modal-form-area">
     <div class="form-row cols-2">
       <div class="form-group">
         <label>Feature Name</label>
@@ -1770,8 +1838,10 @@ function openFeatureModal(i) {
     </div>
     <div class="form-group">
       <label>Description</label>
-      <textarea id="fm_description" style="min-height:100px;">${esc(feat.description||'')}</textarea>
+      <textarea id="fm_description" style="min-height:140px;">${esc(feat.description||'')}</textarea>
     </div>
+    </div>
+    <textarea class="json-editor-area" id="modal-json-area"></textarea>
     <div class="modal-footer-split">
       <button class="btn btn-danger btn-sm" onclick="removeFeature(${i})">Delete</button>
       <div style="display:flex;gap:8px;">
@@ -1783,18 +1853,31 @@ function openFeatureModal(i) {
   overlay.classList.add('open');
 }
 
-function saveFeatureModal(i) {
+function collectFeatureModalData(i) {
   const f = char.features[i];
-  f.name = document.getElementById('fm_name').value;
-  f.type = document.getElementById('fm_type').value;
-  f.sourceType = document.getElementById('fm_sourceType').value;
-  f.source = document.getElementById('fm_source').value;
-  f.actionType = document.getElementById('fm_actionType').value || null;
-  f.resourceCost = document.getElementById('fm_resourceCost').value || null;
-  f.requirements = document.getElementById('fm_requirements').value;
-  f.isMovement = document.getElementById('fm_isMovement').checked;
-  f.movementCost = parseInt(document.getElementById('fm_movementCost').value) || 0;
-  f.description = document.getElementById('fm_description').value;
+  return {
+    ...f,
+    name: document.getElementById('fm_name').value,
+    type: document.getElementById('fm_type').value,
+    sourceType: document.getElementById('fm_sourceType').value,
+    source: document.getElementById('fm_source').value,
+    actionType: document.getElementById('fm_actionType').value || null,
+    resourceCost: document.getElementById('fm_resourceCost').value || null,
+    requirements: document.getElementById('fm_requirements').value,
+    isMovement: document.getElementById('fm_isMovement').checked,
+    movementCost: parseInt(document.getElementById('fm_movementCost').value) || 0,
+    description: document.getElementById('fm_description').value
+  };
+}
+
+function saveFeatureModal(i) {
+  const jsonArea = document.getElementById('modal-json-area');
+  if (jsonArea.classList.contains('open')) {
+    try { char.features[i] = JSON.parse(jsonArea.value); }
+    catch(e) { alert('Invalid JSON: ' + e.message); return; }
+  } else {
+    char.features[i] = collectFeatureModalData(i);
+  }
   closeModal();
   renderFeaturesList();
   scheduleCharSave();
@@ -1835,7 +1918,14 @@ function openResourceModal(i) {
   const stOpts = SOURCE_TYPES.map(st => `<option value="${st}" ${res.sourceType===st?'selected':''}>${SOURCE_TYPE_LABELS[st]}</option>`).join('');
   const overlay = document.getElementById('modal-overlay');
   overlay.innerHTML = `<div class="modal-box">
-    <div class="modal-title gold">◈ ${isNew ? 'New Resource' : 'Edit Resource'}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div class="modal-title gold" style="margin:0;border:none;padding:0;">◈ ${isNew ? 'New Resource' : 'Edit Resource'}</div>
+      <button class="json-toggle-btn" id="json-toggle-btn" onclick="toggleJsonEditor(
+        () => collectResourceModalData(${i}),
+        (parsed) => { char.resources[${i}] = parsed; openResourceModal(${i}); }
+      )">{ } JSON</button>
+    </div>
+    <div id="modal-form-area">
     <div class="form-row cols-2">
       <div class="form-group">
         <label>Resource Name</label>
@@ -1862,8 +1952,10 @@ function openResourceModal(i) {
     </div>
     <div class="form-group">
       <label>Description</label>
-      <textarea id="rm_description" style="min-height:80px;">${esc(res.description||'')}</textarea>
+      <textarea id="rm_description" style="min-height:100px;">${esc(res.description||'')}</textarea>
     </div>
+    </div>
+    <textarea class="json-editor-area" id="modal-json-area"></textarea>
     <div class="modal-footer-split">
       <button class="btn btn-danger btn-sm" onclick="removeResource(${i})">Delete</button>
       <div style="display:flex;gap:8px;">
@@ -1875,14 +1967,27 @@ function openResourceModal(i) {
   overlay.classList.add('open');
 }
 
-function saveResourceModal(i) {
+function collectResourceModalData(i) {
   const r = char.resources[i];
-  r.name = document.getElementById('rm_name').value;
-  r.sourceType = document.getElementById('rm_sourceType').value;
-  r.source = document.getElementById('rm_source').value;
-  r.maximum = parseInt(document.getElementById('rm_maximum').value) || 0;
-  r.current = parseInt(document.getElementById('rm_current').value) || 0;
-  r.description = document.getElementById('rm_description').value;
+  return {
+    ...r,
+    name: document.getElementById('rm_name').value,
+    sourceType: document.getElementById('rm_sourceType').value,
+    source: document.getElementById('rm_source').value,
+    maximum: parseInt(document.getElementById('rm_maximum').value) || 0,
+    current: parseInt(document.getElementById('rm_current').value) || 0,
+    description: document.getElementById('rm_description').value
+  };
+}
+
+function saveResourceModal(i) {
+  const jsonArea = document.getElementById('modal-json-area');
+  if (jsonArea.classList.contains('open')) {
+    try { char.resources[i] = JSON.parse(jsonArea.value); }
+    catch(e) { alert('Invalid JSON: ' + e.message); return; }
+  } else {
+    char.resources[i] = collectResourceModalData(i);
+  }
   closeModal();
   renderResourcesList();
   scheduleCharSave();
@@ -1893,6 +1998,39 @@ function closeModal() {
   const overlay = document.getElementById('modal-overlay');
   overlay.classList.remove('open');
   overlay.innerHTML = '';
+}
+
+// ─── JSON TOGGLE ───
+let _jsonToggleCallback = null; // fn(parsedObj) called when switching back to form
+
+function toggleJsonEditor(dataFn, applyFn) {
+  const formArea = document.getElementById('modal-form-area');
+  const jsonArea = document.getElementById('modal-json-area');
+  const btn = document.getElementById('json-toggle-btn');
+  const isJsonOpen = jsonArea.classList.contains('open');
+
+  if (!isJsonOpen) {
+    // Switch to JSON: collect current form data into object, show textarea
+    const obj = dataFn();
+    jsonArea.value = JSON.stringify(obj, null, 2);
+    formArea.classList.add('hidden');
+    jsonArea.classList.add('open');
+    btn.classList.add('active');
+    btn.textContent = '{ } Form';
+  } else {
+    // Switch back to form: parse JSON, apply to object, re-render form
+    try {
+      const parsed = JSON.parse(jsonArea.value);
+      applyFn(parsed);
+    } catch (e) {
+      alert('Invalid JSON: ' + e.message);
+      return;
+    }
+    formArea.classList.remove('hidden');
+    jsonArea.classList.remove('open');
+    btn.classList.remove('active');
+    btn.textContent = '{ } JSON';
+  }
 }
 
 // ─── ITEMS LIST ───
@@ -1929,7 +2067,14 @@ function openItemModal(i) {
   const item = char.equipment.items[i];
   const overlay = document.getElementById('modal-overlay');
   overlay.innerHTML = `<div class="modal-box">
-    <div class="modal-title gold">⚔ ${isNew ? 'New Item' : 'Edit Item'}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div class="modal-title gold" style="margin:0;border:none;padding:0;">⚔ ${isNew ? 'New Item' : 'Edit Item'}</div>
+      <button class="json-toggle-btn" id="json-toggle-btn" onclick="toggleJsonEditor(
+        () => collectItemModalData(${i}),
+        (parsed) => { char.equipment.items[${i}] = parsed; openItemModal(${i}); }
+      )">{ } JSON</button>
+    </div>
+    <div id="modal-form-area">
     <div class="form-row cols-2">
       <div class="form-group">
         <label>Item Name</label>
@@ -1942,7 +2087,7 @@ function openItemModal(i) {
         </select>
       </div>
     </div>
-    <div class="form-row cols-2">
+    <div class="form-row cols-4">
       <div class="form-group">
         <label>Quantity</label>
         <input type="number" id="im_quantity" min="1" value="${item.quantity}">
@@ -1951,27 +2096,27 @@ function openItemModal(i) {
         <label>Weight (lbs)</label>
         <input type="number" id="im_weight" min="0" step="0.1" value="${item.weight}">
       </div>
-    </div>
-    <div class="form-row cols-2" style="margin-top:4px;">
-      <div class="form-group">
-        <label style="display:flex;align-items:center;gap:8px;">
+      <div class="form-group" style="justify-content:flex-end;">
+        <label style="display:flex;align-items:center;gap:8px;margin-top:auto;">
           <input type="checkbox" id="im_equipped" ${item.equipped?'checked':''}> Equipped
         </label>
       </div>
-      <div class="form-group">
-        <label style="display:flex;align-items:center;gap:8px;">
+      <div class="form-group" style="justify-content:flex-end;">
+        <label style="display:flex;align-items:center;gap:8px;margin-top:auto;">
           <input type="checkbox" id="im_consumable" ${item.consumable?'checked':''}> Consumable
         </label>
       </div>
     </div>
     <div class="form-group">
       <label>Description</label>
-      <textarea id="im_description" style="min-height:80px;">${esc(item.description||'')}</textarea>
+      <textarea id="im_description" style="min-height:100px;">${esc(item.description||'')}</textarea>
     </div>
     <div class="form-group">
       <label>Notes</label>
       <input type="text" id="im_notes" value="${esc(item.notes||'')}" placeholder="Additional notes">
     </div>
+    </div>
+    <textarea class="json-editor-area" id="modal-json-area"></textarea>
     <div class="modal-footer-split">
       <button class="btn btn-danger btn-sm" onclick="removeItem(${i})">Delete</button>
       <div style="display:flex;gap:8px;">
@@ -1983,16 +2128,29 @@ function openItemModal(i) {
   overlay.classList.add('open');
 }
 
-function saveItemModal(i) {
+function collectItemModalData(i) {
   const item = char.equipment.items[i];
-  item.name = document.getElementById('im_name').value;
-  item.rarity = document.getElementById('im_rarity').value;
-  item.quantity = parseInt(document.getElementById('im_quantity').value) || 1;
-  item.weight = parseFloat(document.getElementById('im_weight').value) || 0;
-  item.equipped = document.getElementById('im_equipped').checked;
-  item.consumable = document.getElementById('im_consumable').checked;
-  item.description = document.getElementById('im_description').value;
-  item.notes = document.getElementById('im_notes').value;
+  return {
+    ...item,
+    name: document.getElementById('im_name').value,
+    rarity: document.getElementById('im_rarity').value,
+    quantity: parseInt(document.getElementById('im_quantity').value) || 1,
+    weight: parseFloat(document.getElementById('im_weight').value) || 0,
+    equipped: document.getElementById('im_equipped').checked,
+    consumable: document.getElementById('im_consumable').checked,
+    description: document.getElementById('im_description').value,
+    notes: document.getElementById('im_notes').value
+  };
+}
+
+function saveItemModal(i) {
+  const jsonArea = document.getElementById('modal-json-area');
+  if (jsonArea.classList.contains('open')) {
+    try { char.equipment.items[i] = JSON.parse(jsonArea.value); }
+    catch(e) { alert('Invalid JSON: ' + e.message); return; }
+  } else {
+    char.equipment.items[i] = collectItemModalData(i);
+  }
   closeModal();
   renderItemsList();
   scheduleCharSave();
@@ -2240,8 +2398,8 @@ let _libraryData = null;
 
 async function _ensureLibLoaded() {
   if (_libraryData) return _libraryData;
-  if (!window.LIBRARY_DATA) throw new Error('library.js not loaded');
-  _libraryData = window.LIBRARY_DATA;
+  if (!window.SPELL_DATA) throw new Error('spells.js not loaded');
+  _libraryData = { spells: window.SPELL_DATA, features: window.FEATURE_DATA || [], resources: window.RESOURCE_DATA || [], equipment: window.EQUIPMENT_DATA || [] };
   return _libraryData;
 }
 
@@ -2545,6 +2703,58 @@ function scheduleCharSave() {
 initEditors();
 document.querySelector('.creator-container').addEventListener('input', scheduleCharSave);
 document.querySelector('.creator-container').addEventListener('change', scheduleCharSave);
+
+// ─── Scryscraper handlers ────────────────────────────────────────────────────
+function openSpellScry() {
+  Scryscraper.openModal({
+    type: 'spells',
+    loadBtnText: 'Add to Sheet',
+    onLoad(spell) {
+      const key = spell.level === 0 ? 'cantrips' : `level${spell.level}`;
+      switchSpellLevel(key);
+      const entry = {
+        name: spell.name,
+        level: spell.level === 0 ? 'Cantrip' : `Level ${spell.level} ${spell.school}`,
+        castingTime: spell.castingTime,
+        range: spell.range,
+        components: spell.components,
+        duration: spell.duration,
+        classes: spell.classes,
+        source: spell.source,
+        description: spell.description,
+        prepared: false,
+      };
+      if (spell.level === 0) entry.cantripUpgrade = spell.cantripUpgrade || '';
+      else                   entry.higherLevel    = spell.atHigherLevels  || '';
+      char.spells[key].push(entry);
+      renderSpellsList();
+      scheduleCharSave();
+    }
+  });
+}
+
+function openItemScry() {
+  Scryscraper.openModal({
+    type: 'items',
+    loadBtnText: 'Add to Sheet',
+    onLoad(item) {
+      char.equipment.items.push({
+        name: item.name,
+        weight: 0,
+        quantity: 1,
+        equipped: false,
+        consumable: false,
+        rarity: item.rarity || 'Common',
+        description: item.description,
+        notes: [item.category, item.requiresAttunement ? 'requires attunement' : '', item.source]
+                 .filter(Boolean).join(' · '),
+      });
+      renderItemsList();
+      scheduleCharSave();
+    }
+  });
+}
 </script>
+<script src="../data/scryscraper.js"></script>
 </body>
 </html>

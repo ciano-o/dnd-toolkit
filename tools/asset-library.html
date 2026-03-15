@@ -10,7 +10,10 @@
 <link rel="manifest" href="../manifest.json">
 <title>Asset Library — D&D 5e Toolkit</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet">
-<script src="../data/library.js"></script>
+<script src="../data/spells.js"></script>
+<script src="../data/features.js"></script>
+<script src="../data/resources.js"></script>
+<script src="../data/equipment.js"></script>
 <style>
 :root {
   --parchment: #f5f0e1;
@@ -521,8 +524,8 @@ const SOURCE_LABELS = { species:'Species', background:'Background', class:'Class
 
 async function ensureLibLoaded() {
   if (_lib) return _lib;
-  if (!window.LIBRARY_DATA) throw new Error('library.js not loaded');
-  _lib = window.LIBRARY_DATA;
+  if (!window.SPELL_DATA) throw new Error('spells.js not loaded');
+  _lib = { spells: window.SPELL_DATA, features: window.FEATURE_DATA || [], resources: window.RESOURCE_DATA || [], equipment: window.EQUIPMENT_DATA || [] };
   return _lib;
 }
 

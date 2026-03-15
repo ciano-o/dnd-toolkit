@@ -222,6 +222,7 @@ body{background:#1e1a14;font-family:'Alegreya',Georgia,serif;color:var(--ink);he
       <div class="rc"><span class="rl">Round</span><button onclick="chRound(-1)">−</button><span class="rv" id="rV">1</span><button onclick="chRound(1)">+</button></div>
     </div>
     <div class="top-actions">
+      <button class="btn btn-sm" onclick="openMonsterScry()">🔮 Scry</button>
       <button class="btn btn-sm" onclick="showLibrary()">📚 Library</button>
       <label class="btn">🐉 Monsters<input type="file" class="hi" id="lm" accept=".json" multiple></label>
       <label class="btn">🛡 Players<input type="file" class="hi" id="lp" accept=".json" multiple></label>
@@ -539,6 +540,20 @@ document.addEventListener('keydown',e=>{
 });
 
 loadCombatState();render();renderPrev();
+
+// ─── Scryscraper handler ─────────────────────────────────────────────────────
+function openMonsterScry() {
+  Scryscraper.openModal({
+    type: 'monsters',
+    loadBtnText: 'Add to Combat',
+    onLoad(data) {
+      addJSON(data, 'monster');
+      render();
+      toast(`Added ${data.name}`);
+    }
+  });
+}
 </script>
+<script src="../data/scryscraper.js"></script>
 </body>
 </html>
