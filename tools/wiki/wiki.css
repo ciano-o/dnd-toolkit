@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Alegreya:ital,wght@0,400;0,700;1,400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #f5f0e4;
+  color: #1a1410;
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.75;
+  padding: 0 1rem 4rem;
+}
+
+/* ── NAV BAR ── */
+.site-nav {
+  background: #2c2418;
+  padding: 9px 20px;
+  margin: 0 -1rem 2.5rem;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+  border-bottom: 2px solid #b8860b;
+}
+.site-nav a { color: #d4a940; text-decoration: none; }
+.site-nav a:hover { text-decoration: underline; }
+.site-nav .nav-title { color: #f5f0e4; font-weight: 700; letter-spacing: 1px; margin-left: auto; font-size: 12px; opacity: 0.7; }
+
+/* ── ARTICLE ── */
+article {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #8b1a1a;
+  line-height: 1.2;
+  margin-bottom: 0.2em;
+}
+
+.type-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  color: #6b5d4d;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  margin-bottom: 1.1rem;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #d4c5a9;
+  margin: 0.8rem 0 1.6rem;
+}
+
+p { margin-bottom: 1em; }
+p:last-child { margin-bottom: 0; }
+
+/* ── LINKS ── */
+a {
+  color: #8b1a1a;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(184,134,11,0.4);
+  transition: border-color 0.1s;
+}
+a:hover { border-bottom-color: #8b1a1a; }
+
+/* ── SEE ALSO ── */
+.see-also {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #d4c5a9;
+}
+.see-also h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6b5d4d;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.6rem;
+}
+.see-also ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em 0;
+  flex-direction: column;
+}
+.see-also li::before { content: '→  '; color: #b8860b; font-family: serif; }
+
+/* ── INDEX PAGE ── */
+.wiki-intro {
+  font-style: italic;
+  color: #6b5d4d;
+  margin-bottom: 2rem;
+  font-size: 15px;
+}
+
+.wiki-section { margin-top: 1.8rem; }
+.wiki-section h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #4a3a1a;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #d4c5a9;
+  margin-bottom: 0.5rem;
+}
+.wiki-section ul { list-style: none; padding: 0; margin-left: 0.4rem; }
+.wiki-section li { margin: 0.25em 0; }
+.wiki-section li::before { content: '· '; color: #b8860b; }
+
+/* ── INFOBOX ── */
+.infobox {
+  float: right;
+  clear: right;
+  margin: 0 0 1.5rem 2rem;
+  padding: 0.8rem 1rem;
+  background: #ede6d6;
+  border: 1px solid #c8b89a;
+  border-top: 3px solid #8b1a1a;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  min-width: 210px;
+  max-width: 240px;
+}
+.infobox caption, .infobox .infobox-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #8b1a1a;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #c8b89a;
+}
+.infobox table { width: 100%; border-collapse: collapse; }
+.infobox td { padding: 0.15rem 0; vertical-align: top; }
+.infobox td:first-child {
+  font-weight: 700;
+  color: #4a3a1a;
+  padding-right: 0.5rem;
+  white-space: nowrap;
+}
+
+/* ── HEADINGS IN ARTICLE ── */
+article h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4a3a1a;
+  margin: 1.8rem 0 0.5rem;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #d4c5a9;
+}
+article h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #6b5d4d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 1.2rem 0 0.4rem;
+}
+article ul {
+  padding-left: 1.2rem;
+  margin-bottom: 1em;
+}
+article ul li { margin: 0.25em 0; }
+
+@media (max-width: 600px) {
+  h1 { font-size: 1.5rem; }
+  body { font-size: 16px; }
+  .infobox { float: none; margin: 0 0 1.5rem 0; max-width: 100%; }
+}

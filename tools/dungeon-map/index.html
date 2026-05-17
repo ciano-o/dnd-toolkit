@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dungeon Map — DnD Toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+SC:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="dungeon-map.css" />
+</head>
+<body>
+
+<!-- Player view badge (only visible in player windows) -->
+<div class="player-badge" id="player-badge">● Player View — Read Only</div>
+
+<!-- ── Header ─────────────────────────────────────────────────────────────── -->
+<header>
+  <a class="back-link" href="../../index.html">← Back</a>
+  <h1>⚔ Dungeon Map</h1>
+
+  <button class="hbtn dm-only" id="btn-overview" title="Toggle Dungeon Overview">🗺 Overview</button>
+  <button class="hbtn dm-only" id="btn-open-player" title="Open Player View in a new window">
+    Player View ↗
+  </button>
+  <button class="hbtn dm-only" id="btn-save">Save</button>
+  <label class="hbtn dm-only" style="position:relative;overflow:hidden;cursor:pointer">
+    Load
+    <input type="file" id="inp-load" accept=".json"
+           style="position:absolute;inset:0;opacity:0;cursor:pointer" />
+  </label>
+  <button class="hbtn dm-only" id="btn-export-png">Export PNG</button>
+</header>
+
+<!-- ── Main ──────────────────────────────────────────────────────────────── -->
+<div class="main">
+
+  <!-- Toolbar (left strip) -->
+  <div id="toolbar" class="dm-only">
+    <button class="tool-btn active" data-tool="move"  title="Select &amp; Move (V)">✥<span class="tool-key">V</span></button>
+    <div class="toolbar-sep"></div>
+    <button class="tool-btn" data-tool="paint" title="Paint Tile (T)">🖌<span class="tool-key">T</span></button>
+    <button class="tool-btn" data-tool="erase" title="Erase Tile (E)">⬜<span class="tool-key">E</span></button>
+    <div class="toolbar-sep"></div>
+    <button class="tool-btn" data-tool="token" title="Place Token (P)">🧙<span class="tool-key">P</span></button>
+    <div class="toolbar-sep"></div>
+    <button class="tool-btn" data-tool="aoe"   title="AoE Shape (A)">💥<span class="tool-key">A</span></button>
+    <button class="tool-btn" data-tool="draw"  title="Draw / Annotate (D)">✏<span class="tool-key">D</span></button>
+    <button class="tool-btn" data-tool="ruler" title="Ruler (R)">📏<span class="tool-key">R</span></button>
+    <div class="toolbar-sep"></div>
+    <button class="tool-btn" id="btn-clear-aoe" title="Clear all AoE shapes" style="font-size:0.55rem;line-height:1.2">
+      ✕<br>AoE
+    </button>
+    <button class="tool-btn" id="btn-clear-ann" title="Clear annotations" style="font-size:0.55rem;line-height:1.2">
+      ✕<br>Draw
+    </button>
+  </div>
+
+  <!-- Tile Palette (slides out beside toolbar when Paint/Erase active) -->
+  <div id="tile-palette"></div>
+
+  <!-- AoE options panel -->
+  <div id="aoe-panel">
+    <div class="opt-row">
+      <span class="opt-label">Shape</span>
+      <select class="opt-ctrl" id="aoe-shape-type">
+        <option value="circle">Circle</option>
+        <option value="cone">Cone (60°)</option>
+        <option value="line">Line</option>
+        <option value="square">Square</option>
+      </select>
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">Element</span>
+      <div class="color-presets" id="aoe-color-presets"></div>
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">Label</span>
+      <input type="text" class="opt-ctrl" id="aoe-label" placeholder="Fireball…" />
+    </div>
+  </div>
+
+  <!-- Draw / annotation options panel -->
+  <div id="draw-panel">
+    <div class="opt-row">
+      <span class="opt-label">Color</span>
+      <input type="color" id="draw-color" value="#ff3333"
+             style="width:40px;height:26px;padding:2px;border:1px solid #3a3228;border-radius:3px;background:transparent;cursor:pointer" />
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">Width</span>
+      <input type="range" class="opt-ctrl set-range" id="draw-width" min="1" max="14" value="3"
+             style="border:none;background:transparent" />
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">DM Only</span>
+      <input type="checkbox" id="draw-dm-only" style="accent-color:var(--accent-gold);width:14px;height:14px;cursor:pointer" />
+    </div>
+  </div>
+
+  <!-- Canvas -->
+  <div id="canvas-wrap" data-tool="move">
+    <canvas id="map-canvas" tabindex="0"></canvas>
+    <div id="tok-hover"></div>
+  </div>
+
+  <!-- Sidebar (right panel) -->
+  <div id="sidebar" class="dm-only">
+
+    <!-- ── Combat panel (top) ─────────────────────────────────────────────── -->
+    <div id="combat-panel">
+      <div id="combat-header">
+        <span id="combat-round-label">Round <span id="round-display">1</span></span>
+        <div id="combat-header-btns">
+          <button class="cb-hbtn" id="btn-sort-init" title="Sort by initiative">↓ Sort</button>
+          <button class="cb-hbtn" id="btn-prev-turn" title="Previous turn">◀</button>
+          <button class="cb-hbtn primary" id="btn-next-turn" title="Next turn (N)">▶ Next</button>
+          <button class="cb-hbtn danger"  id="btn-reset-combat" title="Reset combat">✕</button>
+        </div>
+      </div>
+
+      <div id="combatant-list"></div>
+
+      <div id="combat-add-bar">
+        <button class="cb-add-btn" id="btn-quick-add">+ Quick Add</button>
+        <label class="cb-add-btn" title="Import monster JSON files">
+          Monsters
+          <input type="file" id="inp-monsters" multiple accept=".json" style="display:none" />
+        </label>
+        <label class="cb-add-btn" title="Import player JSON files">
+          Players
+          <input type="file" id="inp-players" multiple accept=".json" style="display:none" />
+        </label>
+      </div>
+
+      <div id="combat-actions"></div>
+    </div>
+
+    <div class="sb-divider"></div>
+
+    <!-- ── Map panel (tabs, bottom) ──────────────────────────────────────── -->
+    <div id="map-panel">
+      <div class="sb-tabs">
+        <button class="sb-tab active" data-tab="tokens">Tokens</button>
+        <button class="sb-tab"        data-tab="rooms">Rooms</button>
+        <button class="sb-tab"        data-tab="map">Map</button>
+      </div>
+
+      <!-- Tokens tab -->
+      <div class="sb-body sb-panel active" id="tab-tokens">
+        <div class="token-list" id="token-list"></div>
+        <button class="add-tok-btn" id="btn-add-token">+ Add Token</button>
+      </div>
+
+      <!-- Rooms tab -->
+      <div class="sb-body sb-panel" id="tab-rooms">
+        <div class="chamber-list" id="chamber-list"></div>
+        <button class="add-tok-btn" id="btn-new-chamber">+ New Chamber</button>
+        <div style="font-size:0.57rem;color:var(--ink-faded);margin-top:10px;line-height:1.5;font-style:italic">
+          Each chamber is an independent scene with its own tiles, background image, and tokens. Click to switch.
+        </div>
+      </div>
+
+      <!-- Map settings tab -->
+      <div class="sb-body sb-panel" id="tab-map">
+        <div class="set-row">
+          <span class="set-label">Columns</span>
+          <input type="number" class="set-input" id="map-cols" value="30" min="5" max="200" />
+        </div>
+        <div class="set-row">
+          <span class="set-label">Rows</span>
+          <input type="number" class="set-input" id="map-rows" value="20" min="5" max="200" />
+        </div>
+        <div class="set-row">
+          <span class="set-label">Cell size</span>
+          <input type="range" class="set-range" id="map-cell-size" min="20" max="120" value="60" />
+        </div>
+        <div class="set-row">
+          <span class="set-label">Show grid</span>
+          <input type="checkbox" class="set-check" id="map-show-grid" checked />
+        </div>
+        <div class="set-row">
+          <span class="set-label">Background</span>
+          <label class="set-btn" style="cursor:pointer">
+            Upload image
+            <input type="file" id="inp-bg" accept="image/*" style="display:none" />
+          </label>
+        </div>
+        <div class="set-row">
+          <span class="set-label"></span>
+          <button class="set-btn" id="btn-clear-bg">Clear BG</button>
+        </div>
+        <div class="set-row" style="margin-top:12px;flex-direction:column;align-items:stretch;gap:6px">
+          <span class="set-label" style="font-size:0.58rem;color:rgba(100,80,60,0.6)">Scale: 1 cell = 5 ft</span>
+          <span class="set-label" style="font-size:0.58rem;color:rgba(100,80,60,0.6)">
+            Tip: Open <b style="color:var(--accent-gold-lt)">Player View ↗</b> in the header to launch the player window.
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- .main -->
+
+<!-- ── Token dialog ───────────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="token-modal">
+  <div class="modal">
+    <h2 id="token-modal-title">Add Token</h2>
+    <div class="form-row">
+      <label>Name</label>
+      <input type="text" id="tok-name" placeholder="Goblin, Aragorn…" />
+    </div>
+    <div class="form-row">
+      <label>Type</label>
+      <select id="tok-type">
+        <option value="monster">Monster / Enemy</option>
+        <option value="player">Player Character</option>
+        <option value="npc">NPC / Neutral</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Size</label>
+      <select id="tok-size">
+        <option value="1">Medium (1×1)</option>
+        <option value="2">Large (2×2)</option>
+        <option value="3">Huge (3×3)</option>
+        <option value="4">Gargantuan (4×4)</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Ring color</label>
+      <input type="color" id="tok-color" value="#8b1a1a" />
+    </div>
+    <div class="form-row">
+      <label>Height (ft)</label>
+      <input type="number" id="tok-height" value="0" step="5" />
+    </div>
+    <div class="form-row">
+      <label>Portrait (optional)</label>
+      <input type="file" id="tok-image" accept="image/*" />
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-danger"  id="tok-del"    style="display:none;margin-right:auto">Delete</button>
+      <button class="btn btn-ghost"   id="tok-cancel">Cancel</button>
+      <button class="btn btn-primary" id="tok-save">Save Token</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Context menu ───────────────────────────────────────────────────────── -->
+<div id="ctx-menu">
+  <div class="ctx-item" id="ctx-hide">🙈 Toggle Hidden</div>
+  <div class="ctx-item" id="ctx-invisible">👁 Toggle Invisible</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="ctx-edit">✏ Edit Token</div>
+  <div class="ctx-item danger" id="ctx-delete">🗑 Remove Token</div>
+</div>
+
+<!-- ── Toast container ────────────────────────────────────────────────────── -->
+<div id="toasts"></div>
+
+<!-- Entry point (imports all other modules) -->
+<script type="module" src="ui.js"></script>
+
+</body>
+</html>

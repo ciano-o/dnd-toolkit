@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dnd-toolkit-v3.3.4';
+const CACHE_NAME = 'dnd-toolkit-v3.3.5';
 const ASSETS = [
   './',
   './index.html',
@@ -47,7 +47,9 @@ const ASSETS = [
   './data/players/Ofis_Altamont.json',
   './data/players/Pagliasferraglia.json',
   './data/players/Zara.json',
-  './data/players/Selene.json'
+  './data/players/Selene.json',
+  './tools/campaign-wiki.html',
+  './data/wiki/index.js'
 
 ];
 

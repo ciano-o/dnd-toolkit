@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(py -c \":*)"
+      "Bash(py -c \":*)",
+      "Bash(wc -l /c/Users/matte/OneDrive/Desktop/DND/dnd-toolkit/tools/*.html)"
     ]
   }
 }

@@ -26,7 +26,7 @@ function injectThemePicker() {
     { id: '',           label: 'Vanilla',   dot: '#c4a87d' },
     //{ id: 'draconic',  label: 'Draconic',  dot: '#7a2000' },
     //{ id: 'abyss',     label: 'Abyss',     dot: '#4a28a0' },
-    //{ id: 'fairy',     label: 'Fairy',     dot: '#c880b0' },
+    { id: 'fairy',     label: 'Fairy',     dot: '#c880b0' },
     { id: 'underdark', label: 'Underdark',  dot: '#3a9e8e' },
   ];
   const current = getCurrentTheme();

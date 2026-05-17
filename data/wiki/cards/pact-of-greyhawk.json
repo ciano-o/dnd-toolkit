@@ -1,0 +1,11 @@
+{
+  "id": "pact-of-greyhawk",
+  "title": "Pact of Greyhawk",
+  "type": "Event",
+  "content": "The treaty signed in 584 CY that formally ended the Greyhawk Wars. Representatives from dozens of nations gathered in the Free City to negotiate new borders and acknowledge the realities carved out by two years of devastating war.\n\nIuz the Old One refused to participate and was not bound by the agreement. The Pact recognized significant territorial losses for many nations and left deep resentments that persist for decades afterward. The Free City of Greyhawk gained considerable prestige as the neutral ground where peace was forged.",
+  "links": ["the-greyhawk-wars", "free-city-of-greyhawk", "iuz"],
+  "dates": [
+    { "label": "Signed", "year": 584, "era": "CY" }
+  ],
+  "arcId": "the-greyhawk-wars"
+}
