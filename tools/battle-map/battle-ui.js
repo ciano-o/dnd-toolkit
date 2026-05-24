@@ -620,6 +620,7 @@ function _endPan() {
 
 function _handleWheel(e) {
   e.preventDefault();
+  if (activeView !== 'overview' && currentTool !== 'move') return;
   const { sx, sy } = _xy(e);
   if (activeView === 'overview') { ovWheel(sx, sy, e.deltaY); _renderOverview(); return; }
   const factor = e.deltaY < 0 ? 1.1 : 0.91;
@@ -636,12 +637,12 @@ function _handleWheel(e) {
 // ─── Pointer down ─────────────────────────────────────────────────────────────
 
 function _handleDown(e) {
-  // Two-finger: enter pinch mode
+  // Two-finger: enter pinch mode only when move tool is active
   if (_ptrs.size >= 2) {
     _cancelLP();
     dragToken = null; overlay.dragToken = null;
     isPainting = false;
-    _pinchDist = _pinchCalcDist();
+    if (currentTool === 'move' || activeView === 'overview') _pinchDist = _pinchCalcDist();
     return;
   }
 
@@ -657,8 +658,11 @@ function _handleDown(e) {
     return;
   }
 
-  // Middle mouse / alt = pan
-  if (e.button === 1 || (e.button === 0 && e.altKey)) { _startPan(e); return; }
+  // Middle mouse / alt = pan (only in move tool)
+  if (e.button === 1 || (e.button === 0 && e.altKey)) {
+    if (currentTool === 'move') _startPan(e);
+    return;
+  }
   if (e.button !== 0) return;
 
   _closeTap();
@@ -740,8 +744,11 @@ function _handleMove(e) {
     if (Math.hypot(e.clientX - _tapDownX, e.clientY - _tapDownY) > TAP_THRESHOLD) _tapMoved = true;
   }
 
-  // Two-finger pinch
-  if (_ptrs.size >= 2) { _doPinch(); return; }
+  // Two-finger pinch — only in move tool; other tools: skip non-primary pointer
+  if (_ptrs.size >= 2) {
+    if (currentTool === 'move' || activeView === 'overview') { _doPinch(); return; }
+    if (!e.isPrimary) return;
+  }
 
   const { sx, sy } = _xy(e);
 
