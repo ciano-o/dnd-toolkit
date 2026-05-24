@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(py -c \":*)",
-      "Bash(wc -l /c/Users/matte/OneDrive/Desktop/DND/dnd-toolkit/tools/*.html)"
+      "Bash(wc -l /c/Users/matte/OneDrive/Desktop/DND/dnd-toolkit/tools/*.html)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\matte\\\\OneDrive\\\\Desktop\\\\DND\\\\dnd-toolkit\" -Recurse -Force)",
+      "Bash(Select-Object FullName)"
     ]
   }
 }

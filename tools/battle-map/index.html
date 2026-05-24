@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Battle Map — DnD Toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="battle-map.css" />
+</head>
+<body>
+
+  <!-- ─── Header ──────────────────────────────────────────────────────────── -->
+  <header id="bm-header">
+    <button id="btn-hamburger" title="Menu">☰</button>
+    <span id="bm-title">Battle Map</span>
+    <div id="bm-tools">
+      <button class="bm-tool-btn active" data-tool="move"  title="Move">✥</button>
+      <button class="bm-tool-btn"        data-tool="paint" title="Paint">🖌</button>
+      <button class="bm-tool-btn"        data-tool="erase" title="Erase">⬜</button>
+      <button class="bm-tool-btn"        data-tool="token" title="Add Token">🧙</button>
+      <button class="bm-tool-btn"        data-tool="aoe"   title="AoE">💥</button>
+      <button class="bm-tool-btn"        data-tool="draw"  title="Draw">✏</button>
+      <button class="bm-tool-btn"        data-tool="ruler" title="Ruler">📏</button>
+    </div>
+  </header>
+
+  <!-- ─── Main layout: canvas + sidebar ──────────────────────────────────── -->
+  <div id="main-layout">
+
+    <!-- Canvas area -->
+    <div id="canvas-wrap" data-tool="move">
+      <canvas id="map-canvas" tabindex="0"></canvas>
+      <div id="hp-bars-layer"></div>
+      <div id="tok-hover"></div>
+    </div>
+
+
+  </div><!-- /#main-layout -->
+
+  <!-- ─── Initiative overlay (left side floating strip) ───────────────────── -->
+  <div id="init-overlay">
+    <div id="io-header">
+      <span id="io-round">R.1</span>
+      <button class="io-hbtn" id="io-sort"  title="Sort by initiative">↕</button>
+      <button class="io-hbtn" id="io-next"  title="Next turn">▶</button>
+      <button class="io-hbtn" id="io-add"   title="Add combatant">+</button>
+      <button class="io-hbtn" id="io-reset" title="Reset combat">✕</button>
+    </div>
+    <div id="io-list"></div>
+  </div>
+
+  <!-- ─── Hamburger popup menu ────────────────────────────────────────────── -->
+  <div id="hamburger-menu" hidden>
+    <button class="menu-item" id="hmenu-save">💾 Save to File</button>
+    <label  class="menu-item" id="hmenu-load-label">
+      📂 Load from File
+      <input type="file" id="inp-load" accept=".json" style="display:none" />
+    </label>
+    <button class="menu-item" id="hmenu-export-png">🖼 Export PNG</button>
+    <button class="menu-item" id="hmenu-overview">🗺 Overview</button>
+    <button class="menu-item" id="hmenu-open-player">👁 Player View ↗</button>
+    <div class="menu-sep"></div>
+    <button class="menu-item" id="hmenu-settings">⚙ Map Settings ›</button>
+    <div id="map-settings-panel" hidden>
+      <div class="set-row">
+        <span class="set-label">Columns</span>
+        <input type="number" class="set-input" id="map-cols" min="5" max="200" />
+      </div>
+      <div class="set-row">
+        <span class="set-label">Rows</span>
+        <input type="number" class="set-input" id="map-rows" min="5" max="200" />
+      </div>
+      <div class="set-row">
+        <span class="set-label">Cell size</span>
+        <input type="range" class="set-range" id="map-cell-size" min="20" max="120" />
+      </div>
+      <div class="set-row">
+        <span class="set-label">Show grid</span>
+        <input type="checkbox" class="set-check" id="map-show-grid" />
+      </div>
+      <div class="set-row">
+        <span class="set-label">Background</span>
+        <label class="set-btn">
+          Upload
+          <input type="file" id="inp-bg" accept="image/*" style="display:none" />
+        </label>
+        <button class="set-btn danger" id="btn-clear-bg">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Character sheet overlay (tap token / tap combatant row) ──────────── -->
+  <div id="char-overlay">
+    <div id="co-box">
+      <div id="co-header">
+        <span id="co-name"></span>
+        <span id="co-type-badge" class="co-badge"></span>
+        <button id="co-close">✕</button>
+      </div>
+      <div id="co-hp-row">
+        <div id="co-hp-bar-wrap"><div id="co-hp-bar"></div></div>
+        <span id="co-hp-label"></span>
+        <input type="number" id="co-amt" min="0" value="5" placeholder="amt" />
+        <button id="co-heal">+ Heal</button>
+        <button id="co-dmg">− Dmg</button>
+      </div>
+      <div id="co-tmp-row">
+        <span id="co-tmp-label">Temp HP</span>
+        <input type="number" id="co-tmp" min="0" value="0" placeholder="0" />
+        <button id="co-set-tmp">Set</button>
+      </div>
+      <div id="co-conds"></div>
+      <div id="co-body"></div>
+    </div>
+  </div>
+
+  <!-- ─── Battle-add modal (unified token + combatant creation) ───────────── -->
+  <div id="battle-add-modal" hidden>
+    <div id="bam-box">
+      <div id="bam-tabs">
+        <button class="bam-tab active" data-mode="library">Library</button>
+        <button class="bam-tab"        data-mode="file">File</button>
+        <button class="bam-tab"        data-mode="manual">Manual</button>
+      </div>
+      <div id="bam-always-top" class="bam-section">
+        <div class="bam-row"><label>Name</label><input type="text" id="bam-name" placeholder="Goblin…" autocomplete="off" /></div>
+      </div>
+      <div id="bam-body">
+        <div id="bam-library">
+          <input type="search" id="bam-search" placeholder="Search library…" />
+          <div id="bam-list"></div>
+        </div>
+        <div id="bam-file" hidden>
+          <label class="bam-file-label">
+            Choose JSON file
+            <input type="file" id="bam-file-inp" accept=".json" style="display:none" />
+          </label>
+          <div id="bam-file-info"></div>
+        </div>
+        <div id="bam-manual" hidden></div>
+      </div>
+      <div id="bam-always-bottom" class="bam-section">
+        <div class="bam-row"><label>Type</label>
+          <select id="bam-type">
+            <option value="monster">Monster</option>
+            <option value="player">Player</option>
+            <option value="npc">NPC</option>
+          </select>
+        </div>
+        <div class="bam-row"><label>Max HP</label><input type="number" id="bam-hp" value="10" min="1" /></div>
+        <div class="bam-row"><label>AC</label><input type="number" id="bam-ac" value="10" min="1" /></div>
+        <div class="bam-row"><label>Initiative</label><input type="number" id="bam-init" value="0" /></div>
+        <div class="bam-row"><label>Size</label>
+          <select id="bam-size">
+            <option value="1">Medium (1×1)</option>
+            <option value="2">Large (2×2)</option>
+            <option value="3">Huge (3×3)</option>
+            <option value="4">Gargantuan (4×4)</option>
+          </select>
+        </div>
+        <div class="bam-row"><label>Ring color</label><input type="color" id="bam-color" value="#8b1a1a" /></div>
+      </div>
+      <div id="bam-foot">
+        <button class="btn btn-ghost"   id="bam-cancel">Cancel</button>
+        <button class="btn btn-primary" id="bam-confirm">Add to Battle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Token action popup (long-press / right-click) ───────────────────── -->
+  <div id="token-action-popup" hidden>
+    <button class="tap-item" id="tap-hide">🙈 Hide / Show</button>
+    <button class="tap-item" id="tap-invisible">👁 Invisible</button>
+    <button class="tap-item" id="tap-edit">✏ Edit</button>
+    <button class="tap-item danger" id="tap-delete">🗑 Remove</button>
+  </div>
+
+  <!-- ─── Tile palette bottom sheet ───────────────────────────────────────── -->
+  <div id="tile-palette" class="bottom-sheet" hidden>
+    <div id="tile-palette-grid"></div>
+  </div>
+
+  <!-- ─── AoE config bottom sheet ─────────────────────────────────────────── -->
+  <div id="aoe-panel" class="bottom-sheet" hidden>
+    <div class="opt-row">
+      <span class="opt-label">Shape</span>
+      <select class="opt-ctrl" id="aoe-shape-type">
+        <option value="circle">Circle</option>
+        <option value="cone">Cone (60°)</option>
+        <option value="line">Line</option>
+        <option value="square">Square</option>
+      </select>
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">Element</span>
+      <div id="aoe-color-presets"></div>
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">Label</span>
+      <input type="text" class="opt-ctrl" id="aoe-label" placeholder="Fireball…" />
+    </div>
+    <div class="opt-row">
+      <button class="set-btn danger" id="btn-clear-aoe">Clear All AoE</button>
+    </div>
+  </div>
+
+  <!-- ─── Draw config bottom sheet ────────────────────────────────────────── -->
+  <div id="draw-panel" class="bottom-sheet" hidden>
+    <div class="opt-row">
+      <span class="opt-label">Color</span>
+      <input type="color" id="draw-color" value="#ff3333" />
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">Width</span>
+      <input type="range" class="set-range" id="draw-width" min="1" max="14" value="3" style="flex:1" />
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">DM Only</span>
+      <input type="checkbox" class="set-check" id="draw-dm-only" />
+    </div>
+    <div class="opt-row">
+      <button class="set-btn danger" id="btn-clear-ann">Clear Annotations</button>
+    </div>
+  </div>
+
+  <!-- ─── Token dialog modal (must match element IDs used by tokens.js) ────── -->
+  <div class="modal-overlay" id="token-modal">
+    <div class="modal">
+      <h2 id="token-modal-title">Add Token</h2>
+      <div class="form-row">
+        <label>Name</label>
+        <input type="text" id="tok-name" placeholder="Goblin…" autocomplete="off" />
+      </div>
+      <div class="form-row">
+        <label>Type</label>
+        <select id="tok-type">
+          <option value="monster">Monster / Enemy</option>
+          <option value="player">Player Character</option>
+          <option value="npc">NPC / Neutral</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Size</label>
+        <select id="tok-size">
+          <option value="1">Medium (1×1)</option>
+          <option value="2">Large (2×2)</option>
+          <option value="3">Huge (3×3)</option>
+          <option value="4">Gargantuan (4×4)</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Ring color</label>
+        <input type="color" id="tok-color" value="#8b1a1a" />
+      </div>
+      <div class="form-row">
+        <label>Height (ft)</label>
+        <input type="number" id="tok-height" value="0" step="5" />
+      </div>
+      <div class="form-row">
+        <label>Portrait</label>
+        <input type="file" id="tok-image" accept="image/*" />
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-danger" id="tok-del" style="display:none;margin-right:auto">Delete</button>
+        <button class="btn btn-ghost"   id="tok-cancel">Cancel</button>
+        <button class="btn btn-primary" id="tok-save">Save Token</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Generic dialog for showForm/showPrompt (dialog.js) ──────────────── -->
+  <div id="modal-overlay">
+    <div id="modal-box">
+      <h2 id="modal-title"></h2>
+      <div id="modal-body"></div>
+      <div class="modal-btns" id="modal-btns"></div>
+    </div>
+  </div>
+
+  <!-- ─── Compatibility stub for tokens.js:renderTokenList ────────────────── -->
+  <div id="token-list" hidden></div>
+
+  <!-- ─── Toast container ─────────────────────────────────────────────────── -->
+  <div id="toasts"></div>
+
+  <script type="module" src="battle-ui.js"></script>
+</body>
+</html>

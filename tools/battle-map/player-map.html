@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="bm-view" content="player" />
+  <title>Battle Map — Player View</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="battle-map.css" />
+  <style>
+    /* Player view overrides: no controls */
+    #hamburger-menu,
+    #init-overlay,
+    #battle-add-modal,
+    #token-action-popup,
+    #tile-palette,
+    #aoe-panel,
+    #draw-panel,
+    #token-modal,
+    #modal-overlay,
+    #token-list { display: none !important; }
+
+    #main-layout { display: block; height: calc(100dvh - var(--header-h)); }
+    #canvas-wrap { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Header ──────────────────────────────────────────────────────────── -->
+  <header id="bm-header">
+    <span id="bm-title">Battle Map</span>
+    <span class="player-badge-inline">● Live</span>
+  </header>
+
+  <!-- ─── Main layout ─────────────────────────────────────────────────────── -->
+  <div id="main-layout">
+    <div id="canvas-wrap" data-tool="move">
+      <canvas id="map-canvas" tabindex="0"></canvas>
+      <div id="tok-hover"></div>
+    </div>
+  </div>
+
+  <!-- ─── Stubs required by shared modules ────────────────────────────────── -->
+  <!-- tokens.js:renderTokenList writes to this element -->
+  <div id="token-list" hidden></div>
+
+  <!-- ─── Toast container ─────────────────────────────────────────────────── -->
+  <div id="toasts"></div>
+
+  <script type="module" src="battle-ui.js"></script>
+</body>
+</html>
