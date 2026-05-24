@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     _setupKeyboard();
   }
 
+  _preventBrowserZoom();
   _setupCanvas(canvas);
   render();
 });
@@ -439,6 +440,19 @@ function _closeTap() {
 
 // ─── Keyboard shortcuts ───────────────────────────────────────────────────────
 
+// Prevent browser-level pinch-zoom (iOS Safari gesture events + trackpad ctrl+wheel)
+function _preventBrowserZoom() {
+  document.addEventListener('gesturestart',  e => e.preventDefault(), { passive: false });
+  document.addEventListener('gesturechange', e => e.preventDefault(), { passive: false });
+  document.addEventListener('gestureend',    e => e.preventDefault(), { passive: false });
+  document.addEventListener('touchstart', e => {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('wheel', e => {
+    if (e.ctrlKey) e.preventDefault();
+  }, { passive: false });
+}
+
 function _setupKeyboard() {
   document.addEventListener('keydown', e => {
     if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
@@ -665,7 +679,7 @@ function _handleDown(e) {
     }, LP_MS);
   }
 
-  if (VIEW_MODE !== 'dm') return;
+  if (VIEW_MODE !== 'dm') { _startPan(e); return; }
 
   switch (currentTool) {
     case 'move': {
@@ -683,9 +697,10 @@ function _handleDown(e) {
       if (tileKey === 'door-closed' || tileKey === 'door-open') {
         setTile(cell.col, cell.row, toggleDoor(tileKey));
       } else {
-        overlay.selectedId = null; render();
+        overlay.selectedId = null;
+        _startPan(e);
       }
-      break;
+      render(); break;
     }
     case 'paint':
       isPainting = true; setTile(cell.col, cell.row, _activePaintKey()); break;
@@ -902,6 +917,44 @@ function _setupInitOverlay() {
     const wrap = document.getElementById('canvas-wrap');
     const cell = screenToCell(wrap.offsetWidth / 2, wrap.offsetHeight / 2);
     _openBattleAddDialog(cell.col, cell.row);
+  });
+
+  // Collapse toggle
+  const collapseBtn = document.getElementById('io-collapse');
+  const panel       = document.getElementById('init-overlay');
+  collapseBtn?.addEventListener('click', () => {
+    const collapsed = panel.classList.toggle('collapsed');
+    collapseBtn.textContent = collapsed ? '▾' : '▴';
+    collapseBtn.title = collapsed ? 'Expand panel' : 'Collapse panel';
+  });
+
+  // Drag from header
+  const header = document.getElementById('io-header');
+  let _dragActive = false, _dragStartX = 0, _dragStartY = 0, _panelLeft = 0, _panelTop = 0;
+
+  header?.addEventListener('pointerdown', e => {
+    if (e.target.closest('button')) return;
+    _dragActive = true;
+    header.setPointerCapture(e.pointerId);
+    const rect = panel.getBoundingClientRect();
+    _dragStartX = e.clientX;
+    _dragStartY = e.clientY;
+    _panelLeft  = rect.left;
+    _panelTop   = rect.top;
+    header.style.cursor = 'grabbing';
+  });
+
+  header?.addEventListener('pointermove', e => {
+    if (!_dragActive) return;
+    const newLeft = Math.max(0, Math.min(window.innerWidth  - panel.offsetWidth,  _panelLeft + e.clientX - _dragStartX));
+    const newTop  = Math.max(0, Math.min(window.innerHeight - panel.offsetHeight, _panelTop  + e.clientY - _dragStartY));
+    panel.style.left = `${newLeft}px`;
+    panel.style.top  = `${newTop}px`;
+  });
+
+  header?.addEventListener('pointerup', () => {
+    _dragActive = false;
+    header.style.cursor = '';
   });
 }
 

@@ -1019,7 +1019,12 @@ body {
   background: rgba(0,0,0,0.18);
   border-bottom: 1px solid var(--panel-border);
   flex-shrink: 0;
+  cursor: grab;
 }
+#io-header:active { cursor: grabbing; }
+#io-header button { cursor: pointer; }
+#init-overlay.collapsed #io-list { display: none; }
+#init-overlay.collapsed { border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
 #io-round {
   font-family: 'Cinzel', serif;
   font-size: 0.72rem;
